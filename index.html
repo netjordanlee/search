@@ -1,0 +1,89 @@
+<!doctype html>
+<!--[if !IE]><!--><html class="no-js" lang=""><!--<![endif]-->
+<!--[if IE]><!--><html class="ie no-js" lang=""><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<title>[ HCIS-Search ]</title>
+
+<meta name="author" content="Laith Serhan, @laithserhan">
+<meta name="contributor" content="Jordan Lee">
+<meta name="version" content="20161101.3">
+<meta name="description" content="Built for use by CSO Staff at WSLHD-HCIS">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA1BMVEUAAACnej3aAAAADElEQVR4AWNAAaMAAAEQAAEkQk9fAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" />
+<link rel="stylesheet" href="./style.css" />
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" crossorigin></script>
+</head>
+<body>
+<!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <strong><a href="http://browsehappy.com/">upgrade your browser</a></strong> to improve your experience and security.</p>
+<![endif]-->
+<noscript>
+    <div id="nojs">
+        <div>Failed to load web app, JavaScript disabled or unsupported.</div>
+    </div>
+</noscript>
+
+<div id="body" class="page table-w-100">
+    <table id="table-header" class="head table-w-100">
+        <tbody>
+            <tr class="header">
+                <td class="break" colspan="6" >
+                    <input type="text" class="search" placeholder="Search" autocomplete="off" value="" autofocus/>
+                </td>
+            </tr>
+
+            <tr class="options-bar">
+                <td class="table-w-33 break" colspan="2">
+                    <input id="chk-match-phrase" type="checkbox"/>
+                    <label for="chk-match-phrase">Match Phrase</label>
+                </td>
+                <td class="table-w-33 break" colspan="4">
+                    <input id="chk-match-all" type="checkbox" checked="checked"/>
+                    <label for="chk-match-all">Match All Keywords</label>
+                </td>
+            </tr>
+
+            <tr class="pagination">
+                <td colspan='1'>
+                    <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);">Prev</button>
+                </td>
+                <td colspan='4' class='table-w-100'>
+                    <div>
+                        <select id="combo-pages" onchange="displayResults(document.getElementById('combo-pages').value);">
+                        </select>
+                    </div>
+                </td>
+                <td colspan='1'>
+                    <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);">Next</button>
+                </td>
+            </tr>
+
+            <tr class="">
+                <td colspan="6" class="break"><hr class="hr-styling"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="content">
+        <div id="loading" class="loading-overlay">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="output" class="output">
+
+        </div>
+    </div> <!-- end of .content -->
+</div> <!-- end of .page -->
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" crossorigin></script>
+<script type="text/javascript" src="./plugins.js"></script>
+<script type="text/javascript" src="./main.js"></script>
+</body>
+</html>
