@@ -1,6 +1,4 @@
-var version = 'v20170215.2'
-
-importScripts('./cache-polyfill.js');
+var version = 'v20170215.3'
 
 self.addEventListener('install', e => {
   e.waitUntil(
