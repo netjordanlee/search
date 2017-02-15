@@ -86,14 +86,17 @@
 <script type="text/javascript" src="./plugins.js"></script>
 <script type="text/javascript" src="./main.js"></script>
 <script>
-if('serviceWorker' in navigator) {
+// ServiceWorker is a progressive technology. Ignore unsupported browsers
+if ('serviceWorker' in navigator) {
+    console.log('CLIENT: service worker registration in progress.');
     navigator.serviceWorker.register('./sw.js', { scope: './' })
-        .then(function(registration) {
-            console.log('Service Worker Registered');
+    .then(function() {
+        console.log('CLIENT: service worker registration complete.');
+    }, function() {
+        console.log('CLIENT: service worker registration failure.');
     });
-    navigator.serviceWorker.ready.then(function(registration) {
-        console.log('Service Worker Ready');
-    });
+} else {
+    console.log('CLIENT: service worker is not supported.');
 }
 </script>
 </body>
