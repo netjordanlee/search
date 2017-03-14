@@ -292,11 +292,11 @@ function displayResults(fromPage) {
         htmlResultCard += String.format('<tr class="{1}"><td>Description:</td><td>{0}</td></tr>',       db[k].Description.replace(/\n/g, "<br />"),      (db[k].Description.isNullOrEmpty()) ? "hide" : "show");
         htmlResultCard += String.format('<tr class="{1}"><td>AddressLocation:</td><td>{0}</td></tr>',   db[k].AddressLocation.replace(/\n/g, "<br />"),  (db[k].AddressLocation.isNullOrEmpty()) ? "hide" : "show");
         htmlResultCard += String.format('<tr class="{1}"><td>PhoneNumber:</td><td>{0}</td></tr>',       db[k].PhoneNumber.replace(/\n/g, "<br />"),      (db[k].PhoneNumber.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1} hidden"><td>Sector:</td><td>{0}</td></tr>',            db[k].Sector.replace(/\n/g, "<br />"),           (db[k].Sector.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1} hidden"><td>ORG:</td><td>{0}</td></tr>',               db[k].ORG.replace(/\n/g, "<br />"),              (db[k].ORG.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1} hidden"><td>CostCentreCode:</td><td>{0}</td></tr>',    db[k].CostCentreCode.replace(/\n/g, "<br />"),   (db[k].CostCentreCode.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1} hidden"><td>EntityCode:</td><td>{0}</td></tr>',        db[k].EntityCode.replace(/\n/g, "<br />"),       (db[k].EntityCode.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1} hidden"><td>INST:</td><td>{0}</td></tr>',              db[k].INST.replace(/\n/g, "<br />"),             (db[k].INST.isNullOrEmpty()) ? "hide" : "show");
+        htmlResultCard += String.format('<tr class="{1}"><td>Sector:</td><td>{0}</td></tr>',            db[k].Sector.replace(/\n/g, "<br />"),           (db[k].Sector.isNullOrEmpty()) ? "hide" : "hide");
+        htmlResultCard += String.format('<tr class="{1}"><td>ORG:</td><td>{0}</td></tr>',               db[k].ORG.replace(/\n/g, "<br />"),              (db[k].ORG.isNullOrEmpty()) ? "hide" : "hide");
+        htmlResultCard += String.format('<tr class="{1}"><td>CostCentreCode:</td><td>{0}</td></tr>',    db[k].CostCentreCode.replace(/\n/g, "<br />"),   (db[k].CostCentreCode.isNullOrEmpty()) ? "hide" : "hide");
+        htmlResultCard += String.format('<tr class="{1}"><td>EntityCode:</td><td>{0}</td></tr>',        db[k].EntityCode.replace(/\n/g, "<br />"),       (db[k].EntityCode.isNullOrEmpty()) ? "hide" : "hide");
+        htmlResultCard += String.format('<tr class="{1}"><td>INST:</td><td>{0}</td></tr>',              db[k].INST.replace(/\n/g, "<br />"),             (db[k].INST.isNullOrEmpty()) ? "hide" : "hide");
         htmlResultCard += String.format('<tr class="{1}"><td>Other:</td><td>{0}</td></tr>',             db[k].Other.replace(/\n/g, "<br />"),            (db[k].Other.isNullOrEmpty()) ? "hide" : "show");
 
         //Close Card
