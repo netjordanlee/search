@@ -340,6 +340,8 @@ function displayLoading(toggle) {
     }
 
     if(toggle) {
+        $(".content").after("<div id='loading' class='loading-overlay' style='height: 100%; opacity: 0; pointer-events: none;'><div class='spinner'></div></div>");
+        
         $("#loading").css("height", "100%").css("opacity", "1").css("pointer-events", "auto");
     }
     if(!toggle) {
@@ -350,6 +352,8 @@ function displayLoading(toggle) {
                 $("#loading").css("height", "0"); // Hack for IE10 pointer-events issue
             }
         });
+        
+        $("#loading").remove();
     }
 }
 
