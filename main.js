@@ -165,7 +165,8 @@ function boyer_moore_horspool(haystack, needle) {
 
 
 function search(query) {
-    displayLoading(true);
+    display
+    (true);
     clearResults();
 
     var keyword = document.getElementById("chk-match-phrase").checked ? [query.trim()] : query.trim().split(" ");
@@ -338,6 +339,8 @@ function displayLoading(toggle) {
     if (menuHeight > "160px") {
         $(".content").css("top", menuHeight);
     }
+    
+    $("#loading").remove();
 
     if(toggle) {
         $(".content").after("<div id='loading' class='loading-overlay' style='height: 100%; opacity: 0; pointer-events: none;'><div class='spinner'></div></div>");
