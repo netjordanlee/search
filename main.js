@@ -342,7 +342,7 @@ function displayLoading(toggle) {
     $("#loading").remove();
 
     if(toggle) {
-        $(".content").before("<div id='loading' class='loading-overlay' style='height: 100%; opacity: 1; pointer-events: auto;'><div class='spinner'></div></div>");
+        $(".content").append("<div id='loading' class='loading-overlay' style='height: 100%; opacity: 1; pointer-events: auto;'><div class='spinner'></div></div>");
         
         $("#loading").css("height", "100%").css("opacity", "1").css("pointer-events", "auto");
     }
