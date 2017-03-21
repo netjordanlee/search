@@ -93,19 +93,21 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" crossorigin></script>
 <script type="text/javascript" src="./plugins.js"></script>
 <script type="text/javascript" src="./main.js"></script>
+<script src="./upup.min.js"></script>
+<script src="./upup.sw.min.js"></script>
 <script>
-// ServiceWorker is a progressive technology. Ignore unsupported browsers
-if ('serviceWorker' in navigator) {
-    console.log('CLIENT: service worker registration in progress.');
-    navigator.serviceWorker.register('./sw.js', { scope: './' })
-    .then(function() {
-        console.log('CLIENT: service worker registration complete.');
-    }, function() {
-        console.log('CLIENT: service worker registration failure.');
-    });
-} else {
-    console.log('CLIENT: service worker is not supported.');
-}
+UpUp.start({
+  'cache-version': 'v20170321.1',
+  'content-url': './index.html',
+  'assets': [
+    './',
+    './index.html',
+    './style.css',
+    './plugins.js',
+    './main.js',
+    './db.xml'
+  ]
+});
 </script>
 </body>
 </html>
