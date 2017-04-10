@@ -98,8 +98,9 @@
 <script type="text/javascript" src="./upup.min.js"></script>
 <script type="text/javascript" src="./upup.sw.min.js"></script>
 <script type="text/javascript">
+try {
 UpUp.start({
-  'cache-version': 'v20170330.1',
+  'cache-version': 'v20170410.1',
   'content-url': './index.html',
   'assets': [
     './',
@@ -113,6 +114,10 @@ UpUp.start({
     './jquery.min.js'
   ]
 });
+}
+catch(err) {
+// do nothing
+}
 </script>
 </body>
 </html>
