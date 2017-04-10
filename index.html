@@ -98,25 +98,24 @@
 <script type="text/javascript" src="./upup.min.js"></script>
 <script type="text/javascript" src="./upup.sw.min.js"></script>
 <script type="text/javascript">
-try {
-UpUp.start({
-  'cache-version': 'v20170410.1',
-  'content-url': './index.html',
-  'assets': [
-    './',
-    './index.html',
-    './tachyons.min.css',
-    './style.css',
-    './plugins.js',
-    './main.js',
-    './db.xml',
-    './modernizr.min.js',
-    './jquery.min.js'
-  ]
-});
-}
-catch(err) {
-// do nothing
+try  {
+    UpUp.start({
+        'cache-version': 'v20170410.2',
+        'content-url': './index.html',
+        'assets': [
+            './',
+            './index.html',
+            './tachyons.min.css',
+            './style.css',
+            './plugins.js',
+            './main.js',
+            './db.xml',
+            './modernizr.min.js',
+            './jquery.min.js'
+        ]
+    });
+} catch (err) {
+    // do nothing
 }
 </script>
 </body>
