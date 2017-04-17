@@ -66,16 +66,16 @@
 
             <tr class="pagination">
                 <td colspan='1'>
-                    <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);">Prev</button>
+                    <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);" disabled="true">Prev</button>
                 </td>
                 <td colspan='4' class='table-w-100'>
                     <div>
-                        <select id="combo-pages" onchange="displayResults(document.getElementById('combo-pages').value);">
+                        <select id="combo-pages" onchange="displayResults(document.getElementById('combo-pages').value);" disabled="true">
                         </select>
                     </div>
                 </td>
                 <td colspan='1'>
-                    <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);">Next</button>
+                    <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);" disabled="true">Next</button>
                 </td>
             </tr>
 

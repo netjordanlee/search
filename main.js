@@ -59,7 +59,7 @@ $(document).ready(function() {
             clearResults();
         } else if ($('.search').val().length > 1) {
             displayLoading(true);
-            timer = setTimeout("search($('.search').val())", 800);
+            timer = setTimeout("search($('.search').val())", 666);
         } else {
             clearResults();
         }
@@ -69,7 +69,7 @@ $(document).ready(function() {
         clearTimeout(timer);
 
         if ($('.search').val().length > 1) {
-            timer = setTimeout("search($('.search').val())", 800);
+            timer = setTimeout("search($('.search').val())", 666);
         } else {
             clearResults();
         }
@@ -124,6 +124,7 @@ function fetchDatabase() {
     xhttp.open("GET", "./db.xml", true);
     xhttp.send();
 }
+
 
 function boyer_moore_horspool(haystack, needle) {
     haystack = haystack.toUpperCase();
@@ -196,12 +197,10 @@ function search(query) {
             score = boyer_moore_horspool(db[i].INST, keyword[j]) > -1 ? (score+keyword.length) : (score);
             score = boyer_moore_horspool(db[i].Other, keyword[j]) > -1 ? (score+keyword.length) : (score);
 
-
             if (score == oldScore && document.getElementById("chk-match-all").checked) { //If match all, on the first keyword miss...
                 score = 0; break; //Guarantee item won't be added to results and don't check any more keywords
             }
         }
-
 
         if(score>0) { //One or more matches
             results.push([i,score]); //Add to results (i = db id)
@@ -222,8 +221,8 @@ function search(query) {
 
 
 function displayResults(fromPage) {
-    if (typeof(fromPage) === "undefined") { fromPage = 0 } else { fromPage;} //By default display page "0"
-    //if (typeof(currentPage) === "undefined") { currentPage = 0 } else { currentPage;}
+    if (typeof(fromPage) === "undefined") { fromPage = 0 } else { fromPage; } //By default display page "0"
+    // if (typeof(currentPage) === "undefined") { currentPage = 0 } else { currentPage; }
 
     displayLoading(false);
 
@@ -265,13 +264,38 @@ function displayResults(fromPage) {
     var comboPages = document.getElementById("combo-pages");
     comboPages.innerHTML = "";
 
-
     for (var p=0; p<totalPages; p++) {
         var comboPagesOption = document.createElement("option");
         comboPagesOption.text = String.format("- Page {0} of {1} -", p+1, totalPages);
         comboPagesOption.value = p;
         if(currentPage == p) { comboPagesOption.selected = true; }
         comboPages.add(comboPagesOption);
+    }
+
+    // visually enable/disable pagination based on number of pages for accessibility
+    var btnPrev = document.getElementById("btn-prev");
+    var btnNext = document.getElementById("btn-next");
+
+    if(currentPage == 0 && totalPages>1) {
+        console.log("first page");
+        btnPrev.setAttribute("disabled", "true");
+        comboPages.removeAttribute("disabled");
+        btnNext.removeAttribute("disabled");
+    } else if(currentPage == totalPages-1 && totalPages>1) {
+        console.log("last page");
+        btnPrev.removeAttribute("disabled");
+        comboPages.removeAttribute("disabled");
+        btnNext.setAttribute("disabled", "true");
+    } else if(currentPage == 0 && totalPages == 1) {
+        console.log("first page is also last page");
+        btnPrev.setAttribute("disabled", "true");
+        comboPages.setAttribute("disabled", "true");
+        btnNext.setAttribute("disabled", "true");
+    } else {
+        console.log("inbetween pages");
+        btnPrev.removeAttribute("disabled");
+        comboPages.removeAttribute("disabled");
+        btnNext.removeAttribute("disabled");
     }
 
     // RESULT CARDS ///////////////////////////////////////////////////////////////////////////////
@@ -286,18 +310,18 @@ function displayResults(fromPage) {
         htmlResultCard = "<li><table><tbody>";
 
         // If entry is null/empty/whitespace add hide class, else add show class (show is an empty class)
-        htmlResultCard += String.format('<tr class="{1}"><td>LHD:</td><td>{0}</td></tr>',               db[k].LHD.replace(/\n/g, "<br />"),              (db[k].LHD.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1}"><td>Cerner:</td><td>{0}</td></tr>',            db[k].Cerner.replace(/\n/g, "<br />"),           (db[k].Cerner.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1}"><td>LocationCode:</td><td>{0}</td></tr>',      db[k].LocationCode.replace(/\n/g, "<br />"),     (db[k].LocationCode.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1}"><td>Description:</td><td>{0}</td></tr>',       db[k].Description.replace(/\n/g, "<br />"),      (db[k].Description.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1}"><td>AddressLocation:</td><td>{0}</td></tr>',   db[k].AddressLocation.replace(/\n/g, "<br />"),  (db[k].AddressLocation.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1}"><td>PhoneNumber:</td><td>{0}</td></tr>',       db[k].PhoneNumber.replace(/\n/g, "<br />"),      (db[k].PhoneNumber.isNullOrEmpty()) ? "hide" : "show");
+        htmlResultCard += String.format('<tr class="{1}"><td>LHD:</td><td>{0}</td></tr>',                      db[k].LHD.replace(/\n/g, "<br />"),              (db[k].LHD.isNullOrEmpty()) ? "hide" : "show");
+        htmlResultCard += String.format('<tr class="{1}"><td>Cerner:</td><td>{0}</td></tr>',                   db[k].Cerner.replace(/\n/g, "<br />"),           (db[k].Cerner.isNullOrEmpty()) ? "hide" : "show");
+        htmlResultCard += String.format('<tr class="{1}"><td>LocationCode:</td><td>{0}</td></tr>',             db[k].LocationCode.replace(/\n/g, "<br />"),     (db[k].LocationCode.isNullOrEmpty()) ? "hide" : "show");
+        htmlResultCard += String.format('<tr class="{1}"><td>Description:</td><td>{0}</td></tr>',              db[k].Description.replace(/\n/g, "<br />"),      (db[k].Description.isNullOrEmpty()) ? "hide" : "show");
+        htmlResultCard += String.format('<tr class="{1}"><td>AddressLocation:</td><td>{0}</td></tr>',          db[k].AddressLocation.replace(/\n/g, "<br />"),  (db[k].AddressLocation.isNullOrEmpty()) ? "hide" : "show");
+        htmlResultCard += String.format('<tr class="{1}"><td>PhoneNumber:</td><td>{0}</td></tr>',              db[k].PhoneNumber.replace(/\n/g, "<br />"),      (db[k].PhoneNumber.isNullOrEmpty()) ? "hide" : "show");
         htmlResultCard += String.format('<tr class="{1} hidden"><td>Sector:</td><td>{0}</td></tr>',            db[k].Sector.replace(/\n/g, "<br />"),           (db[k].Sector.isNullOrEmpty()) ? "hide" : "show");
         htmlResultCard += String.format('<tr class="{1} hidden"><td>ORG:</td><td>{0}</td></tr>',               db[k].ORG.replace(/\n/g, "<br />"),              (db[k].ORG.isNullOrEmpty()) ? "hide" : "show");
         htmlResultCard += String.format('<tr class="{1} hidden"><td>CostCentreCode:</td><td>{0}</td></tr>',    db[k].CostCentreCode.replace(/\n/g, "<br />"),   (db[k].CostCentreCode.isNullOrEmpty()) ? "hide" : "show");
         htmlResultCard += String.format('<tr class="{1} hidden"><td>EntityCode:</td><td>{0}</td></tr>',        db[k].EntityCode.replace(/\n/g, "<br />"),       (db[k].EntityCode.isNullOrEmpty()) ? "hide" : "show");
         htmlResultCard += String.format('<tr class="{1} hidden"><td>INST:</td><td>{0}</td></tr>',              db[k].INST.replace(/\n/g, "<br />"),             (db[k].INST.isNullOrEmpty()) ? "hide" : "show");
-        htmlResultCard += String.format('<tr class="{1}"><td>Other:</td><td>{0}</td></tr>',             db[k].Other.replace(/\n/g, "<br />"),            (db[k].Other.isNullOrEmpty()) ? "hide" : "show");
+        htmlResultCard += String.format('<tr class="{1}"><td>Other:</td><td>{0}</td></tr>',                    db[k].Other.replace(/\n/g, "<br />"),            (db[k].Other.isNullOrEmpty()) ? "hide" : "show");
 
         //Close Card
         htmlResultCard += '<tr><td></td><td>'
@@ -361,7 +385,7 @@ function displayLoading(toggle) {
 
 
 function SendTroubleTicket(id) {
-    var mail_to = "jordan.lee@health.nsw.gov.au;laith.serhan@health.nsw.gov.au";
+    var mail_to = "laith.serhan@health.nsw.gov.au";
     var mail_subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), id);
     var mail_body = String.format(
         '-----// In This Field, Make The Appropriate Changes To The Record. //-----%0a%0a'
@@ -400,8 +424,9 @@ function SendTroubleTicket(id) {
     window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", mail_to, mail_subject, mail_body));
 }
 
+
 function SendMissingEntry() {
-    var mail_to = "jordan.lee@health.nsw.gov.au;laith.serhan@health.nsw.gov.au";
+    var mail_to = "laith.serhan@health.nsw.gov.au";
     var mail_subject = String.format("Trouble Ticket - {0}:NEW", (new Date()).yymmdd());
     var mail_body = String.format(
         '-----// In This Field, Fill Out What You Know About The Missing Record //-----%0a%0a'
