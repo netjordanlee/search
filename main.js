@@ -276,6 +276,10 @@ function displayResults(fromPage) {
     var btnPrev = document.getElementById("btn-prev");
     var btnNext = document.getElementById("btn-next");
 
+    btnPrev.setAttribute("disabled", "true");
+    comboPages.setAttribute("disabled", "true");
+    btnNext.setAttribute("disabled", "true");
+
     if(currentPage == 0 && totalPages>1) {
         console.log("first page");
         btnPrev.setAttribute("disabled", "true");
