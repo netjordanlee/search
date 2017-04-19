@@ -4,19 +4,19 @@ self.addEventListener('install', e => {
   e.waitUntil(
     caches.open('hcis-search').then(cache => {
       return cache.addAll([
-        './',
-        './index.html',
-        './style.css',
-        './plugins.js',
-        './main.js',
-        './db.xml'
-      ])
-      .then(() => self.skipWaiting());
+          './',
+          './index.html',
+          './style.css',
+          './plugins.js',
+          './main.js',
+          './db.xml'
+        ])
+        .then(() => self.skipWaiting());
     })
   )
 });
 
-self.addEventListener('activate',  event => {
+self.addEventListener('activate', event => {
   event.waitUntil(self.clients.claim());
 });
 

@@ -1,6 +1,11 @@
 <!doctype html>
-<!--[if !IE]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<!--[if IE]><!--><html class="ie no-js" lang="en"><!--<![endif]-->
+<!--[if !IE]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<!--[if IE]><!-->
+<html class="ie no-js" lang="en">
+<!--<![endif]-->
+
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -22,75 +27,92 @@
 <meta name="version" content="20170302.1" />
 <meta name="description" content="[ HCIS-Search ]" />
 
-<link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA1BMVEUAAACnej3aAAAADElEQVR4AWNAAaMAAAEQAAEkQk9fAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+<link rel="apple-touch-icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA1BMVEUAAACnej3aAAAADElEQVR4AWNAAaMAAAEQAAEkQk9fAAAAAElFTkSuQmCC" />
 
 <link rel="stylesheet" type="text/css" href="./tachyons.min.css" />
 <link rel="stylesheet" href="./style.css" />
 
 <!--<base target="_top" />-->
 
-<script type="text/javascript">(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+<script type="text/javascript">
+(function(a, b, c) {
+  if (c in b && b[c]) {
+    var d, e = a.location,
+      f = /^(a|html)$/i;
+    a.addEventListener("click", function(a) {
+      d = a.target;
+      while (!f.test(d.nodeName)) d = d.parentNode;
+      "href" in d && (d.href.indexOf("http") || ~d.href.indexOf(e.host)) && (a.preventDefault(), e.href = d.href)
+    }, !1)
+  }
+})(document, window.navigator, "standalone")
+</script>
 <script type="text/javascript" src="./modernizr.min.js" crossorigin></script>
 
 <!-- http://halistechnology.com/2015/05/28/use-javascript-to-export-your-data-as-csv/ -->
 </head>
+
 <body class="">
 <!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <strong><a href="http://browsehappy.com/">upgrade your browser</a></strong> to improve your experience and security.</p>
+  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <strong><a href="http://browsehappy.com/">upgrade your browser</a></strong> to improve your experience and security.</p>
 <![endif]-->
 <noscript>
-    <div id="nojs">
-        <div>Failed to load web app, JavaScript disabled or unsupported.</div>
-    </div>
+  <div id="nojs">
+    <div>Failed to load web app, JavaScript disabled or unsupported.</div>
+  </div>
 </noscript>
 
 <div id="body" class="page table-w-100">
-    <table id="table-header" class="head table-w-100">
-        <tbody>
-            <tr class="header">
-                <td class="break" colspan="6" >
-                    <input type="text" class="search" placeholder="Search" autocomplete="off" value="" autofocus/>
-                </td>
-            </tr>
+  <table id="table-header" class="head table-w-100">
+    <tbody>
+      <tr class="header">
+        <td class="break" colspan="6">
+          <input type="text" class="search" placeholder="Search" autocomplete="off" value="" autofocus/>
+        </td>
+      </tr>
 
-            <tr class="options-bar">
-                <td class="table-w-33 break" colspan="2">
-                    <input id="chk-match-phrase" type="checkbox"/>
-                    <label for="chk-match-phrase">Match Phrase</label>
-                </td>
-                <td class="table-w-33 break" colspan="4">
-                    <input id="chk-match-all" type="checkbox" checked="checked"/>
-                    <label for="chk-match-all">Match All Keywords</label>
-                </td>
-            </tr>
+      <tr class="options-bar">
+        <td class="table-w-33 break" colspan="2">
+          <input id="chk-match-phrase" type="checkbox" />
+          <label for="chk-match-phrase">Match Phrase</label>
+        </td>
+        <td class="table-w-33 break" colspan="4">
+          <input id="chk-match-all" type="checkbox" checked="checked" />
+          <label for="chk-match-all">Match All Keywords</label>
+        </td>
+      </tr>
 
-            <tr class="pagination">
-                <td colspan='1'>
-                    <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);" disabled="true">Prev</button>
-                </td>
-                <td colspan='4' class='table-w-100'>
-                    <div>
-                        <select id="combo-pages" onchange="displayResults(document.getElementById('combo-pages').value);" disabled="true">
-                        </select>
-                    </div>
-                </td>
-                <td colspan='1'>
-                    <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);" disabled="true">Next</button>
-                </td>
-            </tr>
+      <tr class="pagination">
+        <td colspan='1'>
+          <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);" disabled="true">Prev</button>
+        </td>
+        <td colspan='4' class='table-w-100'>
+          <div>
+            <select id="combo-pages" onchange="displayResults(document.getElementById('combo-pages').value);" disabled="true">
+            </select>
+          </div>
+        </td>
+        <td colspan='1'>
+          <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);" disabled="true">Next</button>
+        </td>
+      </tr>
 
-            <tr class="">
-                <td colspan="6" class="break"><hr class="hr-styling"></td>
-            </tr>
-        </tbody>
-    </table>
+      <tr class="">
+        <td colspan="6" class="break">
+          <hr class="hr-styling">
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <div class="content">
-        <div id="output" class="output">
-            
-        </div>
-    </div> <!-- end of .content -->
-</div> <!-- end of .page -->
+  <div class="content">
+    <div id="output" class="output">
+
+    </div>
+  </div>
+  <!-- end of .content -->
+</div>
+<!-- end of .page -->
 
 <script type="text/javascript" src="./jquery.min.js" crossorigin></script>
 <script type="text/javascript" src="./plugins.js"></script>
@@ -98,25 +120,33 @@
 <script type="text/javascript" src="./upup.min.js"></script>
 <script type="text/javascript" src="./upup.sw.min.js"></script>
 <script type="text/javascript">
-try  {
-    UpUp.start({
-        'cache-version': 'v20170418.1',
-        'content-url': './index.html',
-        'assets': [
-            './',
-            './index.html',
-            './tachyons.min.css',
-            './style.css',
-            './plugins.js',
-            './main.js',
-            './db.xml',
-            './modernizr.min.js',
-            './jquery.min.js'
-        ]
-    });
+try {
+  UpUp.start({
+    'cache-version': 'v20170419.1',
+    'content-url': './index.html',
+    'assets': [
+      './',
+      './README.md',
+      './db.xml',
+      './index.html',
+      './jquery.min.js',
+      './main.js',
+      './manifest.json',
+      './modernizr.min.js',
+      './plugins.js',
+      './style.css',
+      './sw.js',
+      './tachyons.min.css',
+      './upup.min.js',
+      './upup.min.js.map',
+      './upup.sw.min.js',
+      './upup.sw.min.js.map'
+    ]
+  });
 } catch (err) {
-    // do nothing
+  // do nothing
 }
 </script>
 </body>
+
 </html>
