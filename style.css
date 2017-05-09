@@ -10,15 +10,21 @@ html {
     height: 100%;
 }
 body {
+    display: none;
     margin: auto;
-    color: #444;
+    /*color: #444;*/
     font-family: Verdana;
     overflow-y: scroll;
     width: 100%;
     height: 100%;
 }
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
 #body {
-    display: none;
+    /*display: none;*/
+    min-height:  100%;
 }
 #nojs {
     display: flex;              /* establish flex container */
@@ -30,21 +36,22 @@ body {
 /* More Global Defaults //////////////////////////////////////////////////////////////////////////////////////////////////// */
 * {
     text-transform: capitalize;
-    text-align: left;
+    /*text-align: left;*/
     margin: 0;
     padding: 0;
     list-style: none;
     font-size: 1em;
     line-height: 1.4;
+    border-radius: 0;
 }
 
 /* Simple Resets //////////////////////////////////////////////////////////////////////////////////////////////////// */
 ::-moz-selection {
-    background: #b3d4fc;
+    background: rgba(0, 0, 0, 0.5);
     text-shadow: none;
 }
 ::selection {
-    background: #b3d4fc;
+    background: rgba(0, 0, 0, 0.5);
     text-shadow: none;
 }
 audio, canvas, iframe, img, svg, video {
@@ -76,8 +83,13 @@ textarea {
 }
 
 /* Page aka the Canvas //////////////////////////////////////////////////////////////////////////////////////////////////// */
-.page {
+.page,
+footer {
     margin: auto;
+    background-color: inherit;
+}
+footer {
+    margin: 4em 0 0 0;
 }
 
 /* Head block //////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -86,7 +98,7 @@ table.head {
     margin: auto;
     position: relative;
     z-index: 999;
-    background: #fff;
+    background-color: inherit;
 }
 .table-w-100 {
     width: 100%;
@@ -128,16 +140,17 @@ table.head {
 .search {
     margin: auto;
     width: 100%;
+    height: 64px;
     padding: 1em;
     text-transform: uppercase;
-    background: #efefef;
+    /*background: #efefef;*/
     border: none;
     outline: 0;
-    margin-top: -3px;
+    /*margin-top: -3px;*/
 }
 
 /* Options block //////////////////////////////////////////////////////////////////////////////////////////////////// */
-.options-bar {
+.options-bar td {
 
     /*display: flex;*/
 
@@ -152,6 +165,9 @@ table.head {
     /*z-index: 4;*/
 
     /*background: #fff;*/
+    width: 100%;
+    height: 2em;
+    text-align: center;
 }
 .options {
 
@@ -163,26 +179,93 @@ table.head {
 }
 
 /* Pagination ////////////////////////////////////////////////////////////////////////////////////// */
+
+button { outline: none; border: none; }
+
 .pagination {
     display: table-row;
-    !important;
+    height: 32px;
 }
 .pagination > * {
     width: 100%;
 }
 .pagination-btn {
     width: 100%;
+    height: 32px;
     text-align: center;
+    /*height: 1.4em;*/
 }
 #combo-pages {
     width: 100%;
+    height: 32px;
+    /*height: 1.4em;*/
+
     text-align: center;
+    text-align: -webkit-center;
+
     text-align-last: center;
+    text-align-last: -webkit-center;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 0;
+}
+
+button:link,
+input:link {
+  opacity: 1;
+  -webkit-transition: opacity .15s ease-out;
+  transition: opacity .15s ease-out;
+  text-decoration: none
+}
+
+button:hover,
+input:hover {
+  opacity: .5;
+  -webkit-transition: opacity .15s ease-out;
+  transition: opacity .15s ease-out
+}
+
+button:active,
+input:active {
+  opacity: .7;
+  -webkit-transition: opacity .15s ease-out;
+  transition: opacity .15s ease-out
+}
+
+button:focus,
+input:focus {
+  opacity: .7;
+  -webkit-transition: opacity .16s ease-out;
+  transition: opacity .16s ease-out
 }
 
 /* Filter type toggle styling //////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-/*label { margin: 0 1em 0 0; }*/
+label,
+button,
+select {
+    /*margin: 0 1em 0 0;*/
+    cursor: pointer;
+}
+
+#chk-match-phrase,
+#chk-match-all { display: none; }
+
+#chk-match-phrase ~ label,
+#chk-match-all ~ label { width: 100%; }
+
+#chk-match-phrase ~ label:before { content: "Phrase" }
+#chk-match-all ~ label:before { content: "Keys" }
+
+#chk-match-phrase:checked ~ label,
+#chk-match-all:checked ~ label { background: rgba(0, 0, 0, 0.333); color: #fff; }
 
 /* Loading Overlay /////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
@@ -195,7 +278,7 @@ table.head {
     height: 100%;
     background: rgba(255, 255, 255, 0.5);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.333s;
     pointer-events: none;
     z-index: 999;
 }
@@ -206,7 +289,7 @@ table.head {
     border: 3px solid #ccc;
     border-top: 3px solid #000;
     border-radius: 12px;
-    animation: spin 0.6s infinite linear;
+    animation: spin 0.666s infinite linear;
     z-index: 999;
 }
 @keyframes spin {
@@ -221,7 +304,7 @@ table.head {
 /* Content block //////////////////////////////////////////////////////////////////////////////////////////////////// */
 .content {
     position: relative;    /*width: 66.666%;*/
-    height: 100vh;    /*top: 166.666px;*/
+    /*height: 100vh;    top: 166.666px;*/
     top: 0;
     z-index: 2;
     width: 90%;
@@ -233,13 +316,18 @@ table.head {
 
 /*.output { padding-top: 8em; width: 66%; max-width: 800px; margin: 0 auto;}*/
 .output {
-    padding: 2em 0 8em 0;
+    padding: 2em 0 2em 0;
+}
+.output li {
+    margin: 0 0 2em 0;
+    padding: 1em;
 }
 .no-results, .no-results > p {
     text-align: center;
 }
 
 /* Table default styling //////////////////////////////////////////////////////////////////////////////////////////////////// */
+
 .content tbody tr td {
     line-height: 1.8;
 }
@@ -250,12 +338,18 @@ table.head {
 .content tbody tr td:nth-child(2) {
     width: 66.666%;
 }
-.content tr:nth-child(even) {
-    background: #f6f6f6;
+
+x.darken .content tr:nth-child(even),
+x.darken .content tr:nth-child(odd) {
+    /*background: #f6f6f6;*/
+    background: rgba(0, 0, 0, 0.333); /*color: #fff;*/ }
 }
-.content tr:nth-child(odd) {
-    background: #fff;
+x.lighten .content tr:nth-child(even),
+x.lighten .content tr:nth-child(odd) {
+    /*background: #fff;*/
+    background: rgba(255, 255, 255, 0.666); /*color: #000;*/ }
 }
+
 .show {
 }
 .hide {
@@ -264,20 +358,20 @@ table.head {
 
 /* Table extras styling //////////////////////////////////////////////////////////////////////////////////////////////////// */
 .extra-item {
-    padding: 0 2em 0 0;
-    font-weight: 700;
-    color: #666;
+    padding: 0.3em .6em 0.3em .6em;
+    /*font-weight: 700;*/
+    /*color: #666;*/
 }
-.extra-item:before {
+x.extra-item:before {
 
-    /*content: "";*/
+    content: "[-]";
     display: block;
     width: 20px;
     height: 20px;
     float: left;
     margin: 0 6px 0 0;
 }
-.raise-ticket {
+x.raise-ticket {
     float: right;
 }
 
@@ -286,7 +380,7 @@ p {
     word-wrap: pre;
 }
 b {
-    color: red;
+    /*color: red;*/
     background: yellow;
     text-transform: uppercase;
 }
@@ -296,14 +390,43 @@ hr.hr-styling {
     width: 100%;
     height: 1px;
     border: 0;
-    background-image: -webkit-linear-gradient(left, #fff, #9f9f9f, #fff);
-    background-image: -moz-linear-gradient(left, #fff, #9f9f9f, #fff);
-    background-image: -ms-linear-gradient(left, #fff, #9f9f9f, #fff);
-    background-image: -o-linear-gradient(left, #fff, #9f9f9f, #fff);
+    background-image: -webkit-linear-gradient(left, inherit, #9f9f9f, inherit);
+    background-image: -moz-linear-gradient(left, inherit, #9f9f9f, inherit);
+    background-image: -ms-linear-gradient(left, inherit, #9f9f9f, inherit);
+    background-image: -o-linear-gradient(left, inherit, #9f9f9f, #fff);
 }
 .break {
-    height: 2em;
+    height: 64px;
 }
+
+#combo-pages::-ms-expand { display: none; }
+
+.darken .shade { background: rgba(0, 0, 0, 0.333); color: #fff; }
+
+.darken .pagination-btn,
+.darken #combo-pages { background: rgba(0, 0, 0, 0.666); color: #fff; }
+
+.lighten .pagination-btn:disabled,
+.lighten #combo-pages:disabled { background: rgba(0, 0, 0, 0.666); color: #444; }
+
+
+.lighten .shade { background: rgba(255, 255, 255, 0.666); color: #000; }
+
+.lighten .pagination-btn,
+.lighten #combo-pages { background: rgba(255, 255, 255, 0.333); color: #000; }
+
+.darken .pagination-btn:disabled,
+.darken #combo-pages:disabled { background: rgba(255, 255, 255, 0.333); color: #444; }
+
+.darken .shade::-webkit-input-placeholder { color: #fff; }
+.darken .shade::-moz-placeholder { color: #fff; }
+.darken .shade:-ms-input-placeholder { color: #fff; }
+.darken .shade:-moz-placeholder { color: #fff; }
+
+.lighten .shade::-webkit-input-placeholder { color: #000; }
+.lighten .shade::-moz-placeholder { color: #000; }
+.lighten .shade:-ms-input-placeholder { color: #000; }
+.lighten .shade:-moz-placeholder { color: #000; }
 
 /* Media Queries //////////////////////////////////////////////////////////////////////////////////////////////////// */
 @media screen and (min-width:48em) {
@@ -315,10 +438,10 @@ hr.hr-styling {
         position: fixed;
     }
     .search {
-        padding: 2em;
+        padding: 1.3em 2.3em;
     }
     .content {
-        top: 160px;
+        top: 96px;
         width: 100%;
     }
     .content tbody tr td:nth-child(1) {
@@ -328,6 +451,8 @@ hr.hr-styling {
 @media screen and (min-width:48em) and (max-width:64em) {
 }
 @media screen and (min-width:64em) {
+    #chk-match-phrase ~ label:before { content: "Match Phrase" }
+    #chk-match-all ~ label:before { content: "All Keywords" }
 }
 
 /* WIP Bits-N-Bobs for accessability, etc //////////////////////////////////////////////////////////////////////////////////////////////////// */

@@ -54,7 +54,7 @@ $(document).ready(function() {
 
   fetchDatabase();
 
-  $("#body").delay(666).fadeIn(333);
+  $("body").delay(666).fadeIn(333);
 
   $('.search').on('keyup', function(e) {
     clearTimeout(timer);
@@ -248,7 +248,7 @@ function displayResults(fromPage) {
     } else {
       htmlOutput += '<p>We couldn\'t find what you are looking for.</p>';
     }
-    htmlOutput += '<br/><p>If you think we\'re missing something, you can submit a <a href="#" style="color: #c00; font-weight: bold;" onclick="SendMissingEntry()">missing entry report...</a></p></li>';
+    htmlOutput += '<br/><p>If you think we\'re missing something, you can submit a <a href="#0" class="shade extra-item" onclick="SendMissingEntry()">missing entry report...</a></p></li>';
 
     $("#output").html(htmlOutput);
     return;
@@ -316,15 +316,17 @@ function displayResults(fromPage) {
     var k = results[i][0];
 
     //Open Card
-    htmlResultCard = "<li><table><tbody>";
+    htmlResultCard = '<li class="shade">' +
+                     '<table>' +
+                     '<tbody>';
 
     // If entry is null/empty/whitespace add hide class, else add show class (show is an empty class)
     htmlResultCard += String.format('<tr class="{1}"><td>LHD:</td><td>{0}</td></tr>', db[k].LHD.replace(/\n/g, "<br />"), (db[k].LHD.isNullOrEmpty()) ? "hide" : "show");
     htmlResultCard += String.format('<tr class="{1}"><td>Cerner:</td><td>{0}</td></tr>', db[k].Cerner.replace(/\n/g, "<br />"), (db[k].Cerner.isNullOrEmpty()) ? "hide" : "show");
-    htmlResultCard += String.format('<tr class="{1}"><td>LocationCode:</td><td>{0}</td></tr>', db[k].LocationCode.replace(/\n/g, "<br />"), (db[k].LocationCode.isNullOrEmpty()) ? "hide" : "show");
+    htmlResultCard += String.format('<tr class="{1}"><td>Code:</td><td>{0}</td></tr>', db[k].LocationCode.replace(/\n/g, "<br />"), (db[k].LocationCode.isNullOrEmpty()) ? "hide" : "show");
     htmlResultCard += String.format('<tr class="{1}"><td>Description:</td><td>{0}</td></tr>', db[k].Description.replace(/\n/g, "<br />"), (db[k].Description.isNullOrEmpty()) ? "hide" : "show");
-    htmlResultCard += String.format('<tr class="{1}"><td>AddressLocation:</td><td>{0}</td></tr>', db[k].AddressLocation.replace(/\n/g, "<br />"), (db[k].AddressLocation.isNullOrEmpty()) ? "hide" : "show");
-    htmlResultCard += String.format('<tr class="{1}"><td>PhoneNumber:</td><td>{0}</td></tr>', db[k].PhoneNumber.replace(/\n/g, "<br />"), (db[k].PhoneNumber.isNullOrEmpty()) ? "hide" : "show");
+    htmlResultCard += String.format('<tr class="{1}"><td>Address:</td><td>{0}</td></tr>', db[k].AddressLocation.replace(/\n/g, "<br />"), (db[k].AddressLocation.isNullOrEmpty()) ? "hide" : "show");
+    htmlResultCard += String.format('<tr class="{1}"><td>Contact:</td><td>{0}</td></tr>', db[k].PhoneNumber.replace(/\n/g, "<br />"), (db[k].PhoneNumber.isNullOrEmpty()) ? "hide" : "show");
     htmlResultCard += String.format('<tr class="{1} hidden"><td>Sector:</td><td>{0}</td></tr>', db[k].Sector.replace(/\n/g, "<br />"), (db[k].Sector.isNullOrEmpty()) ? "hide" : "show");
     htmlResultCard += String.format('<tr class="{1} hidden"><td>ORG:</td><td>{0}</td></tr>', db[k].ORG.replace(/\n/g, "<br />"), (db[k].ORG.isNullOrEmpty()) ? "hide" : "show");
     htmlResultCard += String.format('<tr class="{1} hidden"><td>CostCentreCode:</td><td>{0}</td></tr>', db[k].CostCentreCode.replace(/\n/g, "<br />"), (db[k].CostCentreCode.isNullOrEmpty()) ? "hide" : "show");
@@ -333,7 +335,17 @@ function displayResults(fromPage) {
     htmlResultCard += String.format('<tr class="{1}"><td>Other:</td><td>{0}</td></tr>', db[k].Other.replace(/\n/g, "<br />"), (db[k].Other.isNullOrEmpty()) ? "hide" : "show");
 
     //Close Card
-    htmlResultCard += '<tr><td></td><td>' + '<a class="extra-item search-description" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">Search More...</a>' + '<a class="extra-item map-address" title="Search Address in Google Maps..." href=\"http:\/\/maps.google.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">Open Map...</a>' + '<a class="extra-item raise-ticket" title="Report a Problem or Request to Update Entries For This Contact..." href=\"#\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details...</a>' + '</td></tr>' + '</tbody>' + '</table>' + '</li>' + '<br \/><hr class="hr-styling"\/><br \/>';
+    // htmlResultCard += '<tr><td></td><td>' + '<a class="extra-item search-description" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">Search More...</a>' + '<a class="extra-item map-address" title="Search Address in Google Maps..." href=\"http:\/\/maps.google.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">Open Map...</a>' + '<a class="extra-item raise-ticket" title="Report a Problem or Request to Update Entries For This Contact..." href=\"#0\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details...</a>' + '</td></tr>' + '</tbody>' + '</table>' + '</li>' + '<br \/><hr class="hr-styling"\/><br \/>';
+
+    htmlResultCard += '<tr><td></td><td>' +
+                      '<br/>' +
+                      '<a class="extra-item search-description shade" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">Show More</a>' +
+                      '<a class="extra-item map-address shade" title="Search Address in Google Maps..." href=\"http:\/\/maps.apple.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">View Map</a>' +
+                      '<a class="extra-item raise-ticket shade" title="Report a Problem or Request to Update Entries For This Contact..." href=\"#\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details</a>' +
+                      '</td></tr>' +
+                      '</tbody>' +
+                      '</table>' +
+                      '</li>';
 
     // htmlResultCard.replace("hide", "show"); //Easily disable hiding empty elements
 
