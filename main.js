@@ -125,7 +125,7 @@ function fetchDatabase() {
     }
   };
 
-  xhttp.open("GET", "./db.xml", true);
+  xhttp.open("GET", "./db.min.xml", true);
   xhttp.send();
 }
 
