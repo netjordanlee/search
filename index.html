@@ -1,0 +1,195 @@
+<!doctype html>
+<!--[if !IE]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<!--[if IE]><!-->
+<html class="ie no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+<title>[ HCIS-Search ]</title>
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="mobile-web-app-status-bar-style" content="black" />
+<meta name="apple-mobile-web-app-title" content="[ HCIS-Search ]" />
+<meta name="mobile-web-app-title" content="[ HCIS-Search ]" />
+
+<link rel="manifest" href="./manifest.json" />
+
+<meta name="author" content="Laith Serhan, @laithserhan" />
+<meta name="contributor" content="Jordan Lee" />
+<meta name="version" content="20170302.1" />
+<meta name="description" content="[ HCIS-Search ]" />
+
+<link rel="apple-touch-icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA1BMVEUAAACnej3aAAAADElEQVR4AWNAAaMAAAEQAAEkQk9fAAAAAElFTkSuQmCC" />
+
+<link rel="stylesheet" type="text/css" href="./tachyons.min.css" />
+<link rel="stylesheet" href="./style.css" />
+<link rel="stylesheet" href="./colors.min.css" />
+
+<!--<base target="_top" />-->
+
+<script type="text/javascript">
+(function(a, b, c) {
+  if (c in b && b[c]) {
+    var d, e = a.location,
+      f = /^(a|html)$/i;
+    a.addEventListener("click", function(a) {
+      d = a.target;
+      while (!f.test(d.nodeName)) d = d.parentNode;
+      "href" in d && (d.href.indexOf("http") || ~d.href.indexOf(e.host)) && (a.preventDefault(), e.href = d.href)
+    }, !1)
+  }
+})(document, window.navigator, "standalone")
+</script>
+<script type="text/javascript" src="./modernizr.min.js" crossorigin></script>
+
+<!-- http://halistechnology.com/2015/05/28/use-javascript-to-export-your-data-as-csv/ -->
+</head>
+
+<body class="a11y">
+<!--[if lte IE 9]>
+  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <strong><a href="http://browsehappy.com/">upgrade your browser</a></strong> to improve your experience and security.</p>
+<![endif]-->
+<noscript>
+  <div id="nojs">
+    <div>Failed to load web app, JavaScript disabled or unsupported.</div>
+  </div>
+</noscript>
+
+<div id="body" class="page table-w-100">
+  <table id="table-header" class="head table-w-100">
+    <tbody>
+      <tr class="header">
+        <td class="break" colspan="4">
+          <input type="text" class="search shade" placeholder="Search" autocomplete="off" value="" autofocus/>
+        </td>
+
+        <td class="break shade ta-c" colspan="1">
+          <input id="chk-match-phrase" type="checkbox" />
+          <label class="extra-item" for="chk-match-phrase"></label>
+          <!-- <label for="chk-match-phrase"></label> -->
+        </td>
+        <td class="break shade ta-c" colspan="1">
+          <input id="chk-match-all" type="checkbox" checked="checked" />
+          <label class="extra-item" for="chk-match-all"></label>
+          <!-- <label for="chk-match-all"></label> -->
+        </td>
+      </tr>
+
+      <!-- <tr class="options-bar shade">
+        <td class="break shade" colspan="1">
+          <input id="chk-match-phrase" type="checkbox" />
+          <label for="chk-match-phrase">Match Phrase</label>
+        </td>
+        <td class="break shade" colspan="1">
+          <input id="chk-match-all" type="checkbox" checked="checked" />
+          <label for="chk-match-all">Match All Keywords</label>
+        </td>
+      </tr> -->
+
+      <tr class="pagination">
+        <td colspan='2'>
+          <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);" disabled="true">< Previous</button>
+        </td>
+        <td colspan='2' class='table-w-100'>
+          <div>
+            <select id="combo-pages" class="shade" onchange="displayResults(document.getElementById('combo-pages').value);" disabled="true">
+            </select>
+          </div>
+        </td>
+        <td colspan='2'>
+          <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);" disabled="true">Next ></button>
+        </td>
+      </tr>
+
+      <!-- <tr class="">
+        <td colspan="6" class="break">
+          <hr class="hr-styling">
+        </td>
+      </tr> -->
+    </tbody>
+  </table>
+
+  <div class="content">
+    <div id="output" class="output">
+
+    </div>
+  </div>
+  <!-- end of .content -->
+</div>
+<!-- end of .page -->
+
+<footer class="fl w-100 ptx pbx site-footer bg-silver">
+  <div class="center phm black mw-64">
+    <h2 class="f6 navy pls thin mbn title">Made by <a href="https://laithserhan.github.io/" class="lnk navy">Laith Serhan</a></h2>
+    <small class="f6 navy pls thin mbn">Contributions by <a href="#0" class="lnk navy">Jordan Lee</a></small>
+    <h2 class="navy pls thin mbn f3 mtl">Some other tools</h2>
+    <ul class="list f5 pln mln mtn" >
+      <li class="list-item pln mtm"><a class="bold f2 black lnk pas" href="https://laithserhan.github.io/hcis-search">HCIS-Search</a></li>
+      <li class="list-item pln mtm"><a class="bold f2 black lnk pas" href="https://laithserhan.github.io/hcis-tim-via-email">HCIS-TIM-via-Email</a></li>
+      <li class="list-item pln mtm"><a class="bold f2 black lnk pas" href="https://laithserhan.github.io/hcis-tim-auto-login">HCIS-TIM-auto-Email</a></li>
+
+    </ul>
+    <ul class="list f5 pln mln ptl mtx" style="border-top:1px solid
+      rgba(0,0,0,0.25);">
+      <li class="list-item pln mtm"><a class="black lnk pas" href="https://laithserhan.github.io/hcis-blog">HCIS-Blog</a></li>
+    </ul>
+    <br />
+    <br />
+    <small class="mtl pls bold navy">v20170503.1</small>
+    <small class="small pls title black" style="font-size: 12px;">
+      Projects and tools for use by staff at
+      <a href="https://www.wslhd.health.nsw.gov.au/Health-Care-Interpreter-Service-"
+       class="lnk black bold mtm"
+        title="blarg">WSLHD-HCIS
+      </a>.
+    </small>
+  </div>
+</footer>
+
+<script type="text/javascript" src="./jquery.min.js" crossorigin></script>
+<script type="text/javascript" src="./plugins.js"></script>
+<script type="text/javascript" src="./main.js"></script>
+<script type="text/javascript" src="./a11y-cl.js"></script>
+<script type="text/javascript" src="./upup.min.js"></script>
+<script type="text/javascript" src="./upup.sw.min.js"></script>
+<script type="text/javascript">
+try {
+  UpUp.start({
+    'cache-version': 'v20170509.2',
+    'content-url': './index.html',
+    'assets': [
+      './',
+      './a11y-cl.js',
+      './colors.min.css',
+      './db.xml',
+      './index.html',
+      './jquery.min.js',
+      './main.js',
+      './manifest.json',
+      './modernizr.min.js',
+      './plugins.js',
+      './README.md',
+      './style.css',
+      './sw.js',
+      './tachyons.min.css',
+      './upup.min.js',
+      './upup.min.js.map',
+      './upup.sw.min.js',
+      './upup.sw.min.js.map'
+    ]
+  });
+} catch (err) {
+  // do nothing
+}
+</script>
+</body>
+
+</html>
