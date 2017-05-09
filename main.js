@@ -173,6 +173,7 @@ function search(query) {
   clearResults();
 
   var keyword = document.getElementById("chk-match-phrase").checked ? [query.trim()] : query.trim().split(" ");
+  // keyword.push(query.trim());
 
   if (keyword.length > 5) {
     $("#output").html("<div class='infobar'><div /> Please use a maximum of 5 keywords!</div>");
@@ -339,7 +340,7 @@ function displayResults(fromPage) {
 
     htmlResultCard += '<tr><td></td><td>' +
                       '<br/>' +
-                      '<a class="extra-item search-description shade" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">Show More</a>' +
+                      '<a class="extra-item search-description shade" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">More Info</a>' +
                       '<a class="extra-item map-address shade" title="Search Address in Google Maps..." href=\"http:\/\/maps.apple.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">View Map</a>' +
                       '<a class="extra-item raise-ticket shade" title="Report a Problem or Request to Update Entries For This Contact..." href=\"#0\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details</a>' +
                       '</td></tr>' +
