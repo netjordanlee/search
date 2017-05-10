@@ -30,6 +30,7 @@ $(document).keyup(function(e) {
     e.preventDefault();
 
     $('.search').val('');
+    window.history.pushState( {} , '', '?&find=');
     clearResults();
 
     $('.search').focus();
@@ -366,6 +367,7 @@ function clearResults() {
   comboPages.innerHTML = "";
   $('#output').empty();
   displayLoading(false);
+  window.history.pushState( {} , '', '?&find=');
 }
 
 
