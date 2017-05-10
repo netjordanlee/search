@@ -64,6 +64,7 @@ $(document).ready(function() {
     } else if ($('.search').val().length > 1) {
       displayLoading(true);
       timer = setTimeout("search($('.search').val())", 666);
+      window.history.pushState( {} , '', '?&find=' + $('.search').val());
     } else {
       clearResults();
     }
@@ -74,6 +75,7 @@ $(document).ready(function() {
 
     if ($('.search').val().length > 1) {
       timer = setTimeout("search($('.search').val())", 666);
+      window.history.pushState( {} , '', '?&find=' + $('.search').val());
     } else {
       clearResults();
     }
