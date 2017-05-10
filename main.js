@@ -4,6 +4,7 @@ var results = [];
 var timer;
 var currentPage = 0;
 var ctrlDown = false; //To enable keyboard shortcuts for copying
+var qs;
 
 // keep focus on search box when typing
 $(document).keydown(function(e) {
@@ -13,6 +14,17 @@ $(document).keydown(function(e) {
   if (ctrlDown && e.keyCode == 67 || ctrlDown && e.keyCode == 86 || ctrlDown && e.keyCode == 88) {
     return; }
 
+  // esc code to clear search and focus on search box
+  if (e.keyCode == 27) { // escape key maps to keycode `27`
+    e.preventDefault();
+
+    $('.search').val('');
+    searchIsEmpty();
+    clearResults();
+
+    $('.search').focus();
+  }
+
   $('.search').focus();
 
   $('html, body').animate({
@@ -20,27 +32,11 @@ $(document).keydown(function(e) {
   }, 333);
 });
 
-// esc code to clear search and focus on search box
-$(document).keyup(function(e) {
-
-  if (e.keyCode == 17) { ctrlDown = false;
-    return; }
-
-  if (e.keyCode == 27) { // escape key maps to keycode `27`
-    e.preventDefault();
-
-    $('.search').val('');
-    window.history.pushState( {} , '', '?&find=');
-    clearResults();
-
-    $('.search').focus();
-  }
-});
 
 // grave accent / ñ (~/`) to focus on search box
-$(document).keyup(function(e) {
+$(document).keydown(function(e) {
 
-  if (e.keyCode == 17) { ctrlDown = false;
+  if (e.keyCode == 17) { ctrlDown = true;
     return; }
 
   if (e.keyCode == 192) { // grave accent / ñ (~/`) key maps to keycode `192`
@@ -50,27 +46,35 @@ $(document).keyup(function(e) {
   }
 });
 
+
+$(document).keyup(function(e) {
+  if (e.keyCode == 17) { ctrlDown = false;
+    return; }
+});
+
+
 $(document).ready(function() {
   displayLoading(true);
 
   fetchDatabase();
-  readURLFind();
-  
+  readURL();
+
   $("body").delay(666).fadeIn(333);
 
   $('.search').on('keyup', function(e) {
     clearTimeout(timer);
 
     if (e.keyCode == 27) { // escape key maps to keycode `27` - code to clear search
+      e.preventDefault();
       clearResults();
-      window.history.pushState( {} , '', '?&find=');
+      searchIsEmpty();
     } else if ($('.search').val().length > 1) {
       displayLoading(true);
       timer = setTimeout("search($('.search').val())", 666);
-      window.history.pushState( {} , '', '?&find=' + $('.search').val());
+      searchIsFull();
     } else {
       clearResults();
-      window.history.pushState( {} , '', '?&find=');
+      searchIsEmpty();
     }
   });
 
@@ -79,16 +83,48 @@ $(document).ready(function() {
 
     if ($('.search').val().length > 1) {
       timer = setTimeout("search($('.search').val())", 666);
-      window.history.pushState( {} , '', '?&find=' + $('.search').val());
+      searchIsFull();
     } else {
       clearResults();
-      window.history.pushState( {} , '', '?&find=');
+      searchIsEmpty();
     }
   });
   displayLoading(false);
 });
 
-function readURLFind() {
+
+function searchIsFull() {
+  if (document.getElementById("chk-match-all").checked && document.getElementById("chk-match-phrase").checked) {
+    window.history.pushState( {} , '', '?p=1&k=1&q=' + $('.search').val());
+  } else if (document.getElementById("chk-match-all").checked) {
+    window.history.pushState( {} , '', '?p=0&k=1&q=' + $('.search').val());
+  } else if (document.getElementById("chk-match-phrase").checked) {
+    window.history.pushState( {} , '', '?p=1&k=0&q=' + $('.search').val());
+  } else {
+    window.history.pushState( {} , '', '?p=0&k=0&q=' + $('.search').val());
+  }
+}
+
+
+function searchIsEmpty() {
+  if (document.getElementById("chk-match-all").checked && document.getElementById("chk-match-phrase").checked) {
+    window.history.pushState( {} , '', '?p=1&k=1&q=0');
+  } else if (document.getElementById("chk-match-all").checked) {
+    window.history.pushState( {} , '', '?p=0&k=1&q=0');
+  } else if (document.getElementById("chk-match-phrase").checked) {
+    window.history.pushState( {} , '', '?p=1&k=0&q=0');
+  } else {
+    window.history.pushState( {} , '', '?p=0&k=0&q=0');
+  }
+}
+
+
+function trim(x) {
+  return x.replace(/^\s+|\s+$/gm, '');
+}
+
+
+function readURL() {
   var qs = (function(a) {
     if (a == "") return {};
     var b = {};
@@ -103,11 +139,36 @@ function readURLFind() {
     return b;
   })(window.location.search.substr(1).split('&'));
 
-  if (qs["find"]) {
+
+  if (!qs["q"]) {
+    $('.search').val("");
+    displayLoading(false);
+  } else if (qs["q"] && qs["q"] != "0") {
     clearTimeout(timer);
-    $('.search').val(qs["find"]);
+    $('.search').val(qs["q"]);
+    $('.search').val(qs["q"]);
     displayLoading(true);
     timer = setTimeout("search($('.search').val())", 666);
+  } else {
+    $('.search').val("");
+    displayLoading(false);
+  }
+
+
+  if (!qs["k"]) {
+    //
+    } else if (qs["k"] && qs["k"] == "1") {
+      document.getElementById("chk-match-all").checked = true;
+    } else if (qs["k"] && qs["k"] == "0") {
+      document.getElementById("chk-match-all").checked = false;
+  }
+
+  if (!qs["p"]) {
+    //
+    } else if (qs["p"] && qs["p"] == "1") {
+      document.getElementById("chk-match-phrase").checked = true;
+    } else if (qs["p"] && qs["p"] == "0") {
+      document.getElementById("chk-match-phrase").checked = false;
   }
 };
 
@@ -363,15 +424,17 @@ function displayResults(fromPage) {
     htmlResultCard += String.format('<tr class="{1} hidden"><td>EntityCode:</td><td>{0}</td></tr>', db[k].EntityCode.replace(/\n/g, "<br />"), (db[k].EntityCode.isNullOrEmpty()) ? "hide" : "show");
     htmlResultCard += String.format('<tr class="{1} hidden"><td>INST:</td><td>{0}</td></tr>', db[k].INST.replace(/\n/g, "<br />"), (db[k].INST.isNullOrEmpty()) ? "hide" : "show");
     htmlResultCard += String.format('<tr class="{1}"><td>Other:</td><td>{0}</td></tr>', db[k].Other.replace(/\n/g, "<br />"), (db[k].Other.isNullOrEmpty()) ? "hide" : "show");
+    // htmlResultCard += String.format('<tr class="{1}"><td>Score:</td><td>{0}</td></tr>', db[k].score.replace(/\n/g, "<br />"), (db[k].score.isNullOrEmpty()) ? "hide" : "show");
 
     //Close Card
     // htmlResultCard += '<tr><td></td><td>' + '<a class="extra-item search-description" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">Search More...</a>' + '<a class="extra-item map-address" title="Search Address in Google Maps..." href=\"http:\/\/maps.google.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">Open Map...</a>' + '<a class="extra-item raise-ticket" title="Report a Problem or Request to Update Entries For This Contact..." href=\"#0\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details...</a>' + '</td></tr>' + '</tbody>' + '</table>' + '</li>' + '<br \/><hr class="hr-styling"\/><br \/>';
 
     htmlResultCard += '<tr><td></td><td>' +
                       '<br/>' +
-                      '<a class="extra-item search-description shade" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">More Info</a>' +
-                      '<a class="extra-item map-address shade" title="Search Address in Google Maps..." href=\"http:\/\/maps.apple.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">View Map</a>' +
-                      '<a class="extra-item raise-ticket shade" title="Report a Problem or Request to Update Entries For This Contact..." href=\"#0\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details</a>' +
+                      '<a class="extra-item search-description shade" title="Search Description on the Wold Wide Web..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">More Info</a>' +
+                      '<a class="extra-item map-address shade" title="Open Address in Maps..." href=\"http:\/\/maps.apple.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">View Map</a>' +
+                      '<a class="extra-item raise-ticket shade" title="Share this Contact Card by Email..." href=\"#0\" onclick=\"emailURLLink(' + k + ')\">Share Card</a>' +
+                      '<a class="extra-item raise-ticket shade" title="Report a Problem or Request to Update Entries For This Contact Card..." href=\"#0\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details</a>' +
                       '</td></tr>' +
                       '</tbody>' +
                       '</table>' +
@@ -425,11 +488,37 @@ function displayLoading(toggle) {
 }
 
 
+function emailURLLink(id) {
+    // console.log(db[id]);
+
+    var shareSubject = encodeURIComponent(document.title) + " > " + encodeURIComponent($('.search').val()) + " > " + encodeURIComponent(db[id].Description);
+    var destinationShareSubject = ("?subject=" + shareSubject);
+    // var shareMessage = encodeURIComponent(location.href);
+
+    var shareMessage = String.format(
+      'Hello,%0D%0A%0D%0A' +
+      '%09{3} is located at {4}.%0D%0A' +
+      '%09You can contact {3} on {5}.%0D%0A' +
+      '%09Their {1} Cerner Code is {2} and they are part of the {0}.%0D%0A' +
+      '%09Notes: {11}%0D%0A%0D%0A' +
+      'Source: ' + encodeURIComponent(location.href) + '%0D%0A',
+      encodeURIComponent(db[id].LHD), encodeURIComponent(db[id].Cerner), encodeURIComponent(db[id].LocationCode), encodeURIComponent(db[id].Description),
+      encodeURIComponent(db[id].AddressLocation), encodeURIComponent(db[id].PhoneNumber), encodeURIComponent(db[id].Sector), encodeURIComponent(db[id].ORG),
+      encodeURIComponent(db[id].CostCentreCode), encodeURIComponent(db[id].EntityCode), encodeURIComponent(db[id].INST), encodeURIComponent(db[id].Other)
+    );
+
+    var destinationShareMessage = ("&body=" + shareMessage + "%0D%0A");
+
+    var emailString = ("mailto:" + destinationShareSubject + destinationShareMessage);
+    window.location.href = emailString
+};
+
+
 function SendTroubleTicket(id) {
   var mail_to = "laith.serhan@health.nsw.gov.au";
   var mail_subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), id);
   var mail_body = String.format(
-    '-----// In This Field, Make The Appropriate Changes To The Record. //-----%0a%0a' + 'LHD: {0}%0A' + 'Cerner: {1}%0A' + 'LocationCode: {2}%0A' + 'Description: {3}%0A' + 'AddressLocation: {4}%0A' + 'PhoneNumber: {5}%0A' + 'Sector: {6}%0A' + 'ORG: {7}%0A' + 'CostCentreCode: {8}%0A' + 'EntityCode: {9}%0A' + 'INST: {10}%0A' + 'Other: {11}%0A%0A' + 'Comments: Your comments here...%0A%0A%0A' + '-----// DO NOT EDIT BELOW THIS LINE //-----%0A%0A' + 'LHD: {0}%0A' + 'Cerner: {1}%0A' + 'LocationCode: {2}%0A' + 'Description: {3}%0A' + 'AddressLocation: {4}%0A' + 'PhoneNumber: {5}%0A' + 'Sector: {6}%0A' + 'ORG: {7}%0A' + 'CostCentreCode: {8}%0A' + 'EntityCode: {9}%0A' + 'INST: {10}%0A' + 'Other: {11}%0A%0A',
+    '-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' + 'LHD: {0}%0D%0A' + 'Cerner: {1}%0D%0A' + 'LocationCode: {2}%0D%0A' + 'Description: {3}%0D%0A' + 'AddressLocation: {4}%0D%0A' + 'PhoneNumber: {5}%0D%0A' + 'Sector: {6}%0D%0A' + 'ORG: {7}%0D%0A' + 'CostCentreCode: {8}%0D%0A' + 'EntityCode: {9}%0D%0A' + 'INST: {10}%0D%0A' + 'Other: {11}%0D%0A%0D%0A' + 'Comments: Your comments here...%0D%0A%0D%0A%0D%0A' + '-----// DO NOT EDIT BELOW THIS LINE //-----%0D%0A%0D%0A' + 'LHD: {0}%0D%0A' + 'Cerner: {1}%0D%0A' + 'LocationCode: {2}%0D%0A' + 'Description: {3}%0D%0A' + 'AddressLocation: {4}%0D%0A' + 'PhoneNumber: {5}%0D%0A' + 'Sector: {6}%0D%0A' + 'ORG: {7}%0D%0A' + 'CostCentreCode: {8}%0D%0A' + 'EntityCode: {9}%0D%0A' + 'INST: {10}%0D%0A' + 'Other: {11}%0D%0A%0D%0A',
     encodeURIComponent(db[id].LHD), encodeURIComponent(db[id].Cerner), encodeURIComponent(db[id].LocationCode), encodeURIComponent(db[id].Description),
     encodeURIComponent(db[id].AddressLocation), encodeURIComponent(db[id].PhoneNumber), encodeURIComponent(db[id].Sector), encodeURIComponent(db[id].ORG),
     encodeURIComponent(db[id].CostCentreCode), encodeURIComponent(db[id].EntityCode), encodeURIComponent(db[id].INST), encodeURIComponent(db[id].Other));
@@ -439,12 +528,11 @@ function SendTroubleTicket(id) {
   window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", mail_to, mail_subject, mail_body));
 }
 
-
 function SendMissingEntry() {
   var mail_to = "laith.serhan@health.nsw.gov.au";
   var mail_subject = String.format("Trouble Ticket - {0}:NEW", (new Date()).yymmdd());
   var mail_body = String.format(
-    '-----// In This Field, Fill Out What You Know About The Missing Record //-----%0a%0a' + 'LHD: %0A' + 'Description: %0A' + 'AddressLocation: %0A' + 'PhoneNumber: %0A' + 'Sector: %0A' + 'ORG: %0A' + 'Comments: %0A%0A');
+    '-----// In This Field, Fill Out What You Know About The Missing Record //-----%0D%0A%0D%0A' + 'LHD: %0D%0A' + 'Description: %0D%0A' + 'AddressLocation: %0D%0A' + 'PhoneNumber: %0D%0A' + 'Sector: %0D%0A' + 'ORG: %0D%0A' + 'Comments: %0D%0A%0D%0A');
 
   // window.open(String.format("mailto:{0}?subject={1}&body={2}", mail_to, mail_subject, mail_body), "_blank");
   // window.location(String.format("mailto:{0}?subject={1}&body={2}", mail_to, mail_subject, mail_body));

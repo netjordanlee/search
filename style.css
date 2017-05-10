@@ -359,6 +359,7 @@ x.lighten .content tr:nth-child(odd) {
 /* Table extras styling //////////////////////////////////////////////////////////////////////////////////////////////////// */
 .extra-item {
     padding: 0.3em .6em 0.3em .6em;
+    display: inline-block;
     /*font-weight: 700;*/
     /*color: #666;*/
 }
@@ -377,7 +378,7 @@ x.raise-ticket {
 
 /* Misc styling //////////////////////////////////////////////////////////////////////////////////////////////////// */
 p {
-    word-wrap: pre;
+    word-wrap: break-word;
 }
 b {
     /*color: red;*/
