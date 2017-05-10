@@ -103,7 +103,7 @@ function readURLFind() {
     return b;
   })(window.location.search.substr(1).split('&'));
 
-  if (qs["find"] != null) {
+  if (qs["find"]) {
     clearTimeout(timer);
     $('.search').val(qs["find"]);
     displayLoading(true);
