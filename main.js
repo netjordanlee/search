@@ -30,7 +30,7 @@ $(document).keyup(function(e) {
     e.preventDefault();
 
     $('.search').val('');
-    window.history.pushState( {} , '', '?&');
+    window.history.pushState( {} , '', '?&find=');
     clearResults();
 
     $('.search').focus();
@@ -63,14 +63,14 @@ $(document).ready(function() {
 
     if (e.keyCode == 27) { // escape key maps to keycode `27` - code to clear search
       clearResults();
-      window.history.pushState( {} , '', '?&');
+      window.history.pushState( {} , '', '?&find=');
     } else if ($('.search').val().length > 1) {
       displayLoading(true);
       timer = setTimeout("search($('.search').val())", 666);
       window.history.pushState( {} , '', '?&find=' + $('.search').val());
     } else {
       clearResults();
-      window.history.pushState( {} , '', '?&');
+      window.history.pushState( {} , '', '?&find=');
     }
   });
 
@@ -82,7 +82,7 @@ $(document).ready(function() {
       window.history.pushState( {} , '', '?&find=' + $('.search').val());
     } else {
       clearResults();
-      window.history.pushState( {} , '', '?&');
+      window.history.pushState( {} , '', '?&find=');
     }
   });
   displayLoading(false);
