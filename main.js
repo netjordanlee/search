@@ -69,6 +69,7 @@ $(document).ready(function() {
       window.history.pushState( {} , '', '?&find=' + $('.search').val());
     } else {
       clearResults();
+      window.history.pushState( {} , '', '?&find=');
     }
   });
 
