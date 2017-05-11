@@ -1,0 +1,42 @@
+var ui = {
+	search : document.getElementById('search'),
+	results : document.getElementById('output'),
+	spinner : document.createElement('div'),
+	container : document.getElementById('content'),
+	nav : {
+		btn_prev : document.getElementById('btn-prev'),
+		btn_next : document.getElementById('btn-next'),
+		pages : document.getElementById('combo-pages')
+	}
+}
+
+ui.spinner.show = function () {
+	if(!ui.spinner.__self) {
+		ui.spinner.__self = ui.container.addChild(ui.spinner);
+	}
+};
+
+ui.spinner.hide = function () {
+	if(ui.spinner.__self) {
+		ui.spinner.__self.remove();
+	}
+};
+
+ui.nav.btn_prev.addEventListener("onclick", function(evt){
+	
+});
+
+ui.nav.btn_next.addEventListener("onclick", function(evt){
+	
+});
+
+ui.nav.pages.addEventListener("onchange", function(evt){
+	
+});
+
+document.addEventListener("keydown", function(evt){
+	if(evt.keyCode == 17) { ctrlDown = true; return; }
+	if(ctrlDown && [67,86,88].includes(evt.keyCode)) { return; } //Cut, Copy and Paste
+	ui.search.focus();
+
+});

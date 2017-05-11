@@ -68,7 +68,7 @@
     <tbody>
       <tr class="header">
         <td class="break" colspan="4">
-          <input type="text" class="search shade" placeholder="Search" autocomplete="off" value="" autofocus/>
+          <input id="search" type="search" class="search shade" placeholder="Search" autocomplete="off" value="" autofocus/>
         </td>
 
         <td class="break shade ta-c" colspan="1">
@@ -117,9 +117,13 @@
     </tbody>
   </table>
 
-  <div class="content">
+  <div id="content" class="content">
+    <div id='loading' class='loading-overlay' style='height: 100%; opacity: 1; pointer-events: auto;'><div class='spinner'></div></div>
     <div id="output" class="output">
-
+      <li id="error" class="no-results"><p style="transform: rotate(90deg); font-size: 8.333vw; font-family: Arial, sans-serif; pointer-events: none;">:(</p>
+        <p id="error-text"></p>
+        <br/><p>If you think we\'re missing something, you can submit a <a href="#0" class="shade extra-item" onclick="SendMissingEntry()">missing entry report...</a></p>
+      </li>
     </div>
   </div>
   <!-- end of .content -->
@@ -155,11 +159,19 @@
 </footer>
 
 <script type="text/javascript" src="./jquery.min.js" crossorigin></script>
-<script type="text/javascript" src="./plugins.js"></script>
-<script type="text/javascript" src="./main.js"></script>
-<script type="text/javascript" src="./a11y-cl.js"></script>
 <script type="text/javascript" src="./upup.min.js"></script>
 <script type="text/javascript" src="./upup.sw.min.js"></script>
+
+<script type="text/javascript" src="./signals.js"></script>
+<!-- <script type="text/javascript" src="./ui.js"></script> -->
+<!-- <script type="text/javascript" src="./db.js"></script> -->
+
+<script type="text/javascript" src="./plugins.js"></script>
+
+<script type="text/javascript" src="./main2.js"></script>
+
+<script type="text/javascript" src="./a11y-cl.js"></script>
+
 <script type="text/javascript">
 try {
   UpUp.start({
@@ -181,9 +193,9 @@ try {
       './sw.js',
       './tachyons.min.css',
       './upup.min.js',
-      './upup.min.js.map',
-      './upup.sw.min.js',
-      './upup.sw.min.js.map'
+      // './upup.min.js.map',
+      './upup.sw.min.js'
+      // './upup.sw.min.js.map'
     ]
   });
 } catch (err) {
