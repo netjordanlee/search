@@ -17,14 +17,13 @@ window.addEventListener("load", function(evt) {
 	
 	document.addEventListener("keydown", function(evt) {
 		if(evt.keyCode == 17) { ctrlDown = true; return; }
-		if(ctrlDown && [67,86,88].includes(evt.keyCode)) { return; } //Cut, Copy and Paste
 		ui.search.focus();
 		ui.search.show();
 		//TODO: Scroll to top
 	});
 
 	document.addEventListener("keyup", function(evt) {
-		if(evt.keyCode == 17) { ctrlDown = false; }
+		if(evt.keyCode == 17) { evt.preventDefault(); ctrlDown = false; }
 		if(evt.keyCode == 27) { evt.preventDefault(); ui.search.clear(); ui.search.focus(); ui.search.show(); } //ESC
 		if(evt.keyCode == 192) { evt.preventDefault(); ui.search.focus(); ui.search.show(); } //GRAVE/TILDE
 	});
@@ -180,6 +179,8 @@ ui.search.hide = function () {
 
 ui.search.addEventListener("keyup", function(evt) {
 	if(evt.keyCode == 27) { ui.search.clear(); }
+	if(ctrlDown || ctrlDown && [65,67,86,88].includes(evt.keyCode)) { return; } //Select All, Cut, Copy and Paste
+	//if(!ctrlDown) { ui.search.submit(); }
 	ui.search.submit();
 });
 
@@ -223,7 +224,7 @@ ui.results.show = function (page) {
 
 	for (var i = 0; i < db.query.results.length; i++) {
 		var index = db.query.results[i].index;
-		ui.results.appendChild(new ResultCard(db.record[index]));
+		ui.results.appendChild(new ResultCard(db.record[index]))
 	}
 
 	ui.results.onUpdate.dispatch();
@@ -352,6 +353,12 @@ db.query = function(query) {
 		keyword = [keyword[0]];
 	}
 
+	for (var i = 0; i < keyword.length; i++) {
+		if(keyword[i].length==1) {
+			keyword.splice(i, 1); //Remove single character keywords for performance
+		}
+	}
+
 	if(keyword.length > 9) {
 		throw "Maximum of 8 keywords";
 	}
@@ -382,7 +389,7 @@ db.query = function(query) {
 				hasMatchPhrase = true;
 			}
 
-			if(recordScore == newScore) {
+			if(k!=0 && recordScore == newScore) {
 				hasMatchAll = false;
 			}
 
