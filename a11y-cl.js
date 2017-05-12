@@ -45,7 +45,10 @@
 
     var elements = document.querySelectorAll(".a11y");
     for (var i = 0; i < elements.length; i++) {
-      elements[i].className += " " + classes[Math.floor(Math.random() * classes.length)];
+      var selectedClasses = classes[Math.floor(Math.random() * classes.length)].split(' ');
+      for (var c = 0; c < selectedClasses.length; c++) {
+        elements[i].classList.add(selectedClasses[c]); //Can only add one at a time!
+      }
     }
   });
 })();

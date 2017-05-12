@@ -153,8 +153,24 @@ table.head {
     border: none;
     outline: 0;
     /*margin-top: -3px;*/
+}
+.search::-ms-clear {
+    display: none;
+}
 
-    
+.btn-clear {
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: 0;
+    text-decoration: none;
+    font-size: 2em;
+    padding: 1em 0.5em;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-callout: none;
+    -webkit-touch-callout: none;
 }
 
 .collapse { 
@@ -411,6 +427,7 @@ hr.hr-styling {
 .break {
     height: 64px;
     display: flex; /* TODO: Make sure this doesn't "break" anything else*/
+    position: relative; /* Somehow fixes overflow hidden for absolute position children */
 }
 
 #combo-pages::-ms-expand { display: none; }

@@ -62,11 +62,12 @@
       <tr id="header" class="header">
         <td class="break" colspan="6">
           <input id="search" type="search" class="search shade" placeholder="Search" autocomplete="off" value="" autofocus/>
+          <a id="btn-clear" class="btn-clear hide">&#10006;</a>
         </td>
       </tr>
       <tr class="pagination">
         <td colspan='2'>
-          <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);" disabled="true">< Previous</button>
+          <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);" disabled="true">&#10094;</button>
         </td>
         <td colspan='2' class='table-w-100'>
           <div>
@@ -75,7 +76,7 @@
           </div>
         </td>
         <td colspan='2'>
-          <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);" disabled="true">Next ></button>
+          <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);" disabled="true">&#10095;</button>
         </td>
       </tr>
     </tbody>
@@ -136,7 +137,7 @@
 <script type="text/javascript">
 try {
   UpUp.start({
-    'cache-version': 'v20170512.4',
+    'cache-version': 'v20170512.5',
     'content-url': './index.html',
     'assets': [
       './',
