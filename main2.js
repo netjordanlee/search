@@ -409,8 +409,14 @@ db.query = function(query) {
 			return -1;
 		} else if(a.matchAll && !b.matchAll) { // If both do/don't matchPhrase but one also has matchAll, bump up
 			return -1;
-		} else if(a.score === b.score) return 0; // If both do/don't matchPhrase/matchAll, rank on score
-		return (a.score > b.score) ? -1 : 1;
+		} else if(a.score > b.score) {
+			return -1; // If both do/don't matchPhrase/matchAll, rank on score
+		} else if(a.score < b.score) {
+			return 1;
+		} else {
+			console.log([a,b]);
+			return (a.index > b.index) ? -1 : 1;
+		}
 	});
 
 
