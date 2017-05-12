@@ -36,7 +36,7 @@ $(document).keyup(function(e) {
   }
 });
 
-// grave accent / ñ (~/`) to focus on search box
+// grave accent / ñ (~/`) to focus on search 
 $(document).keyup(function(e) {
 
   if (e.keyCode == 17) { ctrlDown = false;
@@ -54,7 +54,7 @@ $(document).ready(function() {
 
   fetchDatabase();
 
-  $("body").delay(666).fadeIn(333);
+  $("#body").delay(666).fadeIn(333);
 
   $('.search').on('keyup', function(e) {
     clearTimeout(timer);
@@ -375,15 +375,15 @@ function displayLoading(toggle) {
     $(".content").css("top", menuHeight);
   }
 
-  $("#loading").remove();
+  //$("#loading").remove();
 
   if (toggle) {
-    $(".content").append("<div id='loading' class='loading-overlay' style='height: 100%; opacity: 1; pointer-events: auto;'><div class='spinner'></div></div>");
+    //$(".content").append("<div id='loading' class='loading-overlay' style='height: 100%; opacity: 1; pointer-events: auto;'><div class='spinner'></div></div>");
 
-    $("#loading").css("height", "100%").css("opacity", "1").css("pointer-events", "auto");
+    //$("#loading").css("height", "100%").css("opacity", "1").css("pointer-events", "auto");
   }
   if (!toggle) {
-    $("#loading").css("opacity", "0").css("pointer-events", "none");
+    //$("#loading").css("opacity", "0").css("pointer-events", "none");
 
     $("#loading").one("webkitTransitionEnd msTransitionEnd transitionend", function(e) {
       if ('ActiveXObject' in window) {
@@ -391,7 +391,7 @@ function displayLoading(toggle) {
       }
     });
 
-    $("#loading").remove();
+    //$("#loading").remove();
   }
 }
 
