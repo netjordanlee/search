@@ -24,7 +24,7 @@ doc.setAttribute('data-useragent', navigator.userAgent);
   }
 }());
 
-// Place any jQuery/helper plugins in here.
+// HERE BE POLYFILLS
 
 // Date formatting
 if (!Date.yymmdd) {
@@ -63,4 +63,13 @@ if (!String.isNullOrEmpty) {
       return false;
     }
   };
+}
+
+// Fuck IE.
+if (!('remove' in Element.prototype)) {
+    Element.prototype.remove = function() {
+        if (this.parentNode) {
+            this.parentNode.removeChild(this);
+        }
+    };
 }

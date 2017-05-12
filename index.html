@@ -1,16 +1,10 @@
 <!doctype html>
-<!--[if !IE]><!-->
-<html class="no-js" lang="en">
-<!--<![endif]-->
-<!--[if IE]><!-->
-<html class="ie no-js" lang="en">
-<!--<![endif]-->
 
 <head>
+<title>[ HCIS-Search ]</title>
+
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
-
-<title>[ HCIS-Search ]</title>
 
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
@@ -48,9 +42,7 @@
   }
 })(document, window.navigator, "standalone")
 </script>
-<script type="text/javascript" src="./modernizr.min.js" crossorigin></script>
 
-<!-- http://halistechnology.com/2015/05/28/use-javascript-to-export-your-data-as-csv/ -->
 </head>
 
 <body class="a11y">
@@ -64,36 +56,14 @@
 </noscript>
 
 <div id="body" class="page table-w-100">
+<!-- Table layout, what is this, 1999? -->
   <table id="table-header" class="head table-w-100">
     <tbody>
       <tr id="header" class="header">
         <td class="break" colspan="6">
           <input id="search" type="search" class="search shade" placeholder="Search" autocomplete="off" value="" autofocus/>
         </td>
-
-<!--         <td class="break shade ta-c" colspan="1">
-          <input id="chk-match-phrase" type="checkbox" />
-          <label class="extra-item" for="chk-match-phrase"></label>
-          <!-- <label for="chk-match-phrase"></label> ->
-        </td>
-        <td class="break shade ta-c" colspan="1">
-          <input id="chk-match-all" type="checkbox" checked="checked" />
-          <label class="extra-item" for="chk-match-all"></label>
-          <!-- <label for="chk-match-all"></label> ->
-        </td> -->
       </tr>
-
-      <!-- <tr class="options-bar shade">
-        <td class="break shade" colspan="1">
-          <input id="chk-match-phrase" type="checkbox" />
-          <label for="chk-match-phrase">Match Phrase</label>
-        </td>
-        <td class="break shade" colspan="1">
-          <input id="chk-match-all" type="checkbox" checked="checked" />
-          <label for="chk-match-all">Match All Keywords</label>
-        </td>
-      </tr> -->
-
       <tr class="pagination">
         <td colspan='2'>
           <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);" disabled="true">< Previous</button>
@@ -108,12 +78,6 @@
           <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);" disabled="true">Next ></button>
         </td>
       </tr>
-
-      <!-- <tr class="">
-        <td colspan="6" class="break">
-          <hr class="hr-styling">
-        </td>
-      </tr> -->
     </tbody>
   </table>
 
@@ -158,25 +122,21 @@
   </div>
 </footer>
 
-<!--<script type="text/javascript" src="./jquery.min.js" crossorigin></script>-->
 <script type="text/javascript" src="./upup.min.js"></script>
 <script type="text/javascript" src="./upup.sw.min.js"></script>
 
 <script type="text/javascript" src="./signals.js"></script>
 <script type="text/javascript" src="./classList.min.js"></script>
-<!-- <script type="text/javascript" src="./ui.js"></script> -->
-<!-- <script type="text/javascript" src="./db.js"></script> -->
+<script type="text/javascript" src="./a11y-cl.js"></script>
 
 <script type="text/javascript" src="./plugins.js"></script>
 
 <script type="text/javascript" src="./main2.js"></script>
 
-<script type="text/javascript" src="./a11y-cl.js"></script>
-
 <script type="text/javascript">
 try {
   UpUp.start({
-    'cache-version': 'v20170509.2',
+    'cache-version': 'v20170512.4',
     'content-url': './index.html',
     'assets': [
       './',

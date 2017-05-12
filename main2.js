@@ -19,23 +19,28 @@ window.addEventListener("load", function(evt) {
 		if(evt.keyCode == 17) { ctrlDown = true; return; }
 		if(ctrlDown && [67,86,88].includes(evt.keyCode)) { return; } //Cut, Copy and Paste
 		ui.search.focus();
+		ui.search.show();
 		//TODO: Scroll to top
 	});
 
 	document.addEventListener("keyup", function(evt) {
 		if(evt.keyCode == 17) { ctrlDown = false; }
-		if(evt.keyCode == 27) { evt.preventDefault(); ui.search.clear(); ui.search.focus(); } //ESC
-		if(evt.keyCode == 192) { evt.preventDefault(); ui.search.focus(); } //GRAVE/TILDE
+		if(evt.keyCode == 27) { evt.preventDefault(); ui.search.clear(); ui.search.focus(); ui.search.show(); } //ESC
+		if(evt.keyCode == 192) { evt.preventDefault(); ui.search.focus(); ui.search.show(); } //GRAVE/TILDE
 	});
 
 	window.addEventListener("scroll", function(evt){
 		if(!scrollManager.locked && scrollManager.lastPosition < window.scrollY) {
-			//Scrolled down the page
-			document.getElementById("header").classList.add("collapse");
+			// Scrolled down the page
+			ui.search.hide();
 			scrollManager.lock(333);
 		} else if(!scrollManager.locked) {
-			document.getElementById("header").classList.remove("collapse");
+			// Scrolled up the page
+			ui.search.show();
 			scrollManager.lock(333);
+		} else if(window.scrollY == 0) {
+			// Fallback to ensure that scrolling to the top always expands search
+			ui.search.show();
 		}
 		scrollManager.lastPosition = window.scrollY;
 	});
@@ -163,6 +168,14 @@ ui.search.clear = function () {
 	ui.search.submit;
 };
 
+ui.search.show = function () {
+	document.getElementById("header").classList.remove("collapse");
+}
+
+ui.search.hide = function () {
+	document.getElementById("header").classList.add("collapse");
+}
+
 ui.search.addEventListener("keyup", function(evt) {
 	if(evt.keyCode == 27) { ui.search.clear(); }
 	ui.search.submit();
@@ -183,6 +196,7 @@ ui.results.onError = new Signal();
 
 ui.results.show = function (page) {
 	if(typeof page === "undefined") page = 0;
+	window.scrollTo(0,0);
 
 	for (var i = 0; i < db.query.results.length; i++) {
 		var index = db.query.results[i].index;
