@@ -21,25 +21,29 @@ window.addEventListener("load", function(evt) {
 	db.onDownloadComplete.add(ui.spinner.hide);
 	db.onDownloadComplete.add(db.parse);
 
-	db.onQuery.add(ui.spinner.show);
 	db.onQuery.add(ui.results.clear);
+	db.onQuery.add(ui.spinner.show);
+	db.onQuery.add(ui.results.error.hide);
+
 	db.onQueryComplete.add(ui.results.show);
 
 	ui.search.onSubmit.add(search);
+	///ui.search.onUpdate.add(ui.results.clear); // Breaks spinner
 	ui.search.onUpdate.add(ui.spinner.show);
-	//ui.search.onUpdate.add(ui.results.clear); // Breaks spinner
+	
 
 	ui.results.onUpdate.add(ui.spinner.hide);
+	ui.results.onError.add(ui.spinner.hide);
 
 	db.download("./db.min.xml");
 });
 
 function search(query) {
-	// try {
+	//try {
 		db.query(query);
-	// } catch (error) {
-		// ui.results.error(error);
-	// }
+	//} catch (error) {
+		//ui.results.error(error);
+	//}
 }
 
 function bmh(haystack, needle) {
@@ -85,28 +89,11 @@ function bmh(haystack, needle) {
 var ui = {};
 
 ui.search = document.getElementById('search');
-ui.search.chk_match_all = document.getElementById('chk-match-all');
-ui.search.chk_match_phrase = document.getElementById('chk-match-phrase');
+// ui.search.chk_match_all = document.getElementById('chk-match-all');
+// ui.search.chk_match_phrase = document.getElementById('chk-match-phrase');
 
 ui.results = document.getElementById('output');
 ui.results.error_message = (function(){var a=document.getElementById('error');a.remove();return a;})();
-
-ui.results.error = function (message) {
-	ui.results.error.show();
-	document.getElementById("error-text").textContent = message;
-}
-
-ui.results.error.show = function () {
-	if(!ui.results.error_message.__self) {
-		ui.results.error_message.__self = ui.container.appendChild(ui.results.error_message);
-	}
-}
-
-ui.results.error.hide = function () {
-	if(ui.results.error_message.__self) {
-		ui.results.error_message.__self.remove();
-	}
-}
 
 ui.spinner = (function(){var a=document.getElementById('loading');a.remove();return a;})(); //It works, don't ask
 ui.container = document.getElementById('content');
@@ -158,22 +145,23 @@ ui.search.addEventListener("keyup", function(evt) {
 	ui.search.submit();
 });
 
-ui.search.chk_match_phrase.addEventListener("change", function(evt) {
-	ui.search.submit();
-});
+// ui.search.chk_match_phrase.addEventListener("change", function(evt) {
+// 	ui.search.submit();
+// });
 
-ui.search.chk_match_all.addEventListener("change", function(evt) {
-	ui.search.submit();
-});
+// ui.search.chk_match_all.addEventListener("change", function(evt) {
+// 	ui.search.submit();
+// });
 
 /**************************************************************/
 
 ui.results.onUpdate = new Signal();
+ui.results.onError = new Signal();
 
 ui.results.show = function (page) {
 	if(typeof page === "undefined") page = 0;
 
-	for (var i = 0; i < 10; i++) {
+	for (var i = 0; i < db.query.results.length; i++) {
 		var index = db.query.results[i].index;
 		ui.results.appendChild(new ResultCard(db.record[index]));
 	}
@@ -189,6 +177,25 @@ ui.results.clear = function () {
 
 	ui.results.onUpdate.dispatch();
 };
+
+ui.results.error = function (message) {
+	ui.results.error.show();
+	ui.results.error_message.textContent = message;
+
+	ui.results.onError.dispatch(message);
+}
+
+ui.results.error.show = function () {
+	if(!ui.results.error_message.__self) {
+		ui.results.error_message.__self = ui.container.appendChild(ui.results.error_message);
+	}
+}
+
+ui.results.error.hide = function () {
+	if(ui.results.error_message.__self) {
+		ui.results.error_message.__self.remove();
+	}
+}
 
 /**************************************************************/
 
@@ -242,7 +249,6 @@ db.download = function(url) {
 };
 
 db.parse = function(xmlData) {
-	console.log(xmlData);
 	var xmlDoc;
 	try {
 		var parser = new DOMParser();
@@ -276,50 +282,67 @@ db.query = function(query) {
 	db.onQuery.dispatch();
 
 	db.query.results = [];
-	var keyword = [query];
-	keyword.concat(query.trim().split(' '));
+	var keyword = [query.trim()];
+	keyword = keyword.concat(query.trim().split(' '));
 
-	if(keyword.length > 8) {
+	if(keyword.length == 2) {
+		/*	Performance hack: if keyword length is only 2...
+		 	then k0 and k1 will always be the same, so...
+		 	remove k1 to avoid searching same keyword twice */
+		keyword = [keyword[0]];
+	}
+
+	if(keyword.length > 9) {
 		throw "Maximum of 8 keywords";
 	}
 
 	for (var i = 0; i < db.record.length; i++) {
 		var recordScore = 0;
+		var hasMatchPhrase = false; 
+		var hasMatchAll = true; // True until proven false
+
 		for (var k = 0; k < keyword.length; k++) {
-			var keywordScore = recordScore;
+			var newScore = recordScore;
 
-			keywordScore = bmh(db.record[i].LHD, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].cerner, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].locationCode, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].description, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.5)) : (keywordScore);
-			keywordScore = bmh(db.record[i].addressLocation, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.7)) : (keywordScore);
-			keywordScore = bmh(db.record[i].phoneNumber, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].sector, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].ORG, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].costCentreCode, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].entityCode, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].INST, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.1)) : (keywordScore);
-			keywordScore = bmh(db.record[i].other, keyword[k]) > -1 ? (keywordScore + (keyword[k].length * 0.1)) : (keywordScore);
+			newScore = bmh(db.record[i].LHD, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			newScore = bmh(db.record[i].cerner, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			newScore = bmh(db.record[i].locationCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
+			newScore = bmh(db.record[i].description, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.5)) : (newScore);
+			newScore = bmh(db.record[i].addressLocation, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.7)) : (newScore);
+			newScore = bmh(db.record[i].phoneNumber, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
+			newScore = bmh(db.record[i].sector, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			newScore = bmh(db.record[i].ORG, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			newScore = bmh(db.record[i].costCentreCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
+			newScore = bmh(db.record[i].entityCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			newScore = bmh(db.record[i].INST, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			newScore = bmh(db.record[i].other, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
 
-			keywordScore = (k==0) ? keywordScore*10 : keywordScore; // If match phrase
-
-			if(keywordScore == recordScore && ui.search.chk_match_all.checked) {
-				keywordScore = 0;
-				break;
+			// Corner-case k0 is always the entire query
+			if(k==0 && newScore > recordScore){
+				hasMatchPhrase = true;
 			}
 
-			recordScore += keywordScore;
+			if(recordScore == newScore) {
+				hasMatchAll = false;
+			}
+
+			recordScore += newScore;
 		}
 
 		if(recordScore > 0) {
-			db.query.results.push({index:i, score:recordScore});
+			if(hasMatchAll) {console.log(db.record[i]);};
+			db.query.results.push({index:i, score:recordScore, matchPhrase:hasMatchPhrase, matchAll:hasMatchAll});
 		}
 	}
 
 	if(db.query.results.length == 0) throw "No results";
 
 	db.query.results.sort(function(a,b) {
-		if(a.score === b.score) return 0;
+		if(a.matchPhrase && !b.matchPhrase) { // If matchPhase bump up over all other results
+			return -1;
+		} else if(a.matchAll && !b.matchAll) { // If both do/don't matchPhrase but one also has matchAll, bump up
+			return -1;
+		} else if(a.score === b.score) return 0; // If both do/don't matchPhrase/matchAll, rank on score
 		return (a.score > b.score) ? -1 : 1;
 	});
 
