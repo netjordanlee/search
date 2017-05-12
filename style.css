@@ -123,7 +123,13 @@ table.head {
 }
 .header {
 
-    /*display: flex;*/
+    display: block;
+
+    transition: height 0.15s ease-out;
+
+    overflow: hidden;
+
+    height: 64px;
 
     /*position: fixed;*/
 
@@ -147,6 +153,13 @@ table.head {
     border: none;
     outline: 0;
     /*margin-top: -3px;*/
+
+    
+}
+
+.collapse { 
+    height: 0px !important;
+    overflow: hidden;
 }
 
 /* Options block //////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -183,7 +196,7 @@ table.head {
 button { outline: none; border: none; }
 
 .pagination {
-    display: table-row;
+    display: flex;
     height: 32px;
 }
 .pagination > * {
@@ -397,6 +410,7 @@ hr.hr-styling {
 }
 .break {
     height: 64px;
+    display: flex; /* TODO: Make sure this doesn't "break" anything else*/
 }
 
 #combo-pages::-ms-expand { display: none; }

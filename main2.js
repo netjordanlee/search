@@ -2,6 +2,17 @@ var Signal = signals.Signal;
 
 var ctrlDown = false; //TODO: Move to a better place
 
+var scrollManager = {
+	locked : false,
+	lastPosition : 0
+};
+
+scrollManager.lock = function(timer){
+	if(typeof timer !== "number"){ timer=1000; };
+	setTimeout("scrollManager.locked=false;", timer);
+	scrollManager.locked=true;
+};
+
 window.addEventListener("load", function(evt) {
 	
 	document.addEventListener("keydown", function(evt) {
@@ -15,6 +26,18 @@ window.addEventListener("load", function(evt) {
 		if(evt.keyCode == 17) { ctrlDown = false; }
 		if(evt.keyCode == 27) { evt.preventDefault(); ui.search.clear(); ui.search.focus(); } //ESC
 		if(evt.keyCode == 192) { evt.preventDefault(); ui.search.focus(); } //GRAVE/TILDE
+	});
+
+	window.addEventListener("scroll", function(evt){
+		if(!scrollManager.locked && scrollManager.lastPosition < window.scrollY) {
+			//Scrolled down the page
+			document.getElementById("header").classList.add("collapse");
+			scrollManager.lock(333);
+		} else if(!scrollManager.locked) {
+			document.getElementById("header").classList.remove("collapse");
+			scrollManager.lock(333);
+		}
+		scrollManager.lastPosition = window.scrollY;
 	});
 
 	db.onDownloadBegin.add(ui.spinner.show);
@@ -330,7 +353,7 @@ db.query = function(query) {
 		}
 
 		if(recordScore > 0) {
-			if(hasMatchAll) {console.log(db.record[i]);};
+			//if(hasMatchAll) {console.log(db.record[i]);};
 			db.query.results.push({index:i, score:recordScore, matchPhrase:hasMatchPhrase, matchAll:hasMatchAll});
 		}
 	}
