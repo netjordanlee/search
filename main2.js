@@ -399,19 +399,20 @@ db.query = function(query) {
 	if(db.query.results.length == 0) throw "No results";
 
 	db.query.results.sort(function(a,b) {
-		if(a.matchPhrase && !b.matchPhrase) { // If matchPhase bump up over all other results
-			return -1;
-		} else if(a.matchAll && !b.matchAll) { // If both do/don't matchPhrase but one also has matchAll, bump up
-			return -1;
-		} else if(a.score > b.score) {
-			return -1; // If both do/don't matchPhrase/matchAll, rank on score
-		} else if(a.score < b.score) {
-			return 1;
+		if(a.matchPhrase === b.matchPhrase) {
+			if(a.matchAll === b.matchAll) {
+				if(a.score === b.score) {
+					if(a.index > b.index) { return -1; } else { return 1; }
+				} else {
+					if(a.score > b.score) { return -1; } else { return 1; }
+				}
+			} else {
+				if(a.matchAll) { return -1; } else { return 1; }
+			}
 		} else {
-			return (a.index > b.index) ? -1 : 1;
+			if(a.matchPhrase) { return -1; } else { return 1; }
 		}
 	});
-
 
 	db.onQueryComplete.dispatch();
 };
