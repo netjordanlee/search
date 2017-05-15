@@ -70,7 +70,7 @@ function search(query) {
 	try {
 		db.query(query);
 	} catch (error) {
-		ui.results.error(error);
+		ui.results.error.show(error);
 	}
 }
 
@@ -122,7 +122,9 @@ ui.search.btn_clear = document.getElementById('btn-clear');
 // ui.search.chk_match_phrase = document.getElementById('chk-match-phrase');
 
 ui.results = document.getElementById('output');
-ui.results.error_message = (function(){var a=document.getElementById('error');a.remove();return a;})();
+
+ui.results.error = (function(){var a=document.getElementById('error');a.remove();return a;})();
+ui.results.error.message = (function(){var a=document.createElement('p');a.id='error-text';ui.results.error.insertBefore(a,ui.results.error.lastElementChild);return a;})();
 
 ui.spinner = (function(){var a=document.getElementById('loading');a.remove();return a;})(); //It works, don't ask
 ui.container = document.getElementById('content');
@@ -239,22 +241,20 @@ ui.results.clear = function () {
 	ui.results.onClear.dispatch();
 };
 
-ui.results.error = function (message) {
-	ui.results.error.show();
-	ui.results.error_message.textContent = message;
+ui.results.error.show = function (message) {
+	ui.results.error.message.innerHTML = message + "</br>";
+
+	if(!ui.results.error.__self) {
+		ui.results.error.__self = ui.container.appendChild(ui.results.error);
+	}
 
 	ui.results.onError.dispatch(message);
 }
 
-ui.results.error.show = function () {
-	if(!ui.results.error_message.__self) {
-		ui.results.error_message.__self = ui.container.appendChild(ui.results.error_message);
-	}
-}
-
 ui.results.error.hide = function () {
-	if(ui.results.error_message.__self) {
-		ui.results.error_message.__self.remove();
+	if(ui.results.error.__self) {
+		ui.results.error.__self.remove();
+		ui.results.error.__self = null;
 	}
 }
 
@@ -311,14 +311,9 @@ db.download = function(url) {
 
 db.parse = function(xmlData) {
 	var xmlDoc;
-	try {
-		var parser = new DOMParser();
-		xmlDoc = parser.parseFromString(xmlData.replace(/^\s+|\s+$/g, ''), "text/xml").getElementsByTagName('entry');
-		xmlData = null;
-	} catch (e) {
-		console.log(e);
-		return;
-	}
+	var parser = new DOMParser();
+	xmlDoc = parser.parseFromString(xmlData.replace(/^\s+|\s+$/g, ''), "text/xml").getElementsByTagName('entry');
+	xmlData = null;
 
 	for (var i = 0; i < xmlDoc.length; i++) {
 		db.record.push(new Record(
@@ -397,7 +392,6 @@ db.query = function(query) {
 		}
 
 		if(recordScore > 0) {
-			//if(hasMatchAll) {console.log(db.record[i]);};
 			db.query.results.push({index:i, score:recordScore, matchPhrase:hasMatchPhrase, matchAll:hasMatchAll});
 		}
 	}
@@ -414,7 +408,6 @@ db.query = function(query) {
 		} else if(a.score < b.score) {
 			return 1;
 		} else {
-			console.log([a,b]);
 			return (a.index > b.index) ? -1 : 1;
 		}
 	});
