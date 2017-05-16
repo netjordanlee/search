@@ -17,15 +17,16 @@ window.addEventListener("load", function(evt) {
 	
 	document.addEventListener("keydown", function(evt) {
 		if(evt.keyCode == 17) { ctrlDown = true; return; }
-		ui.search.focus();
-		ui.search.show();
-		//TODO: Scroll to top
+		if(!ctrlDown) {
+			ui.search.focus();
+			ui.search.show();
+		}
+		window.scrollTo(0,0);
 	});
 
 	document.addEventListener("keyup", function(evt) {
 		if(evt.keyCode == 17) { evt.preventDefault(); ctrlDown = false; }
 		if(evt.keyCode == 27) { evt.preventDefault(); ui.search.clear(); ui.search.focus(); ui.search.show(); } //ESC
-		if(evt.keyCode == 192) { evt.preventDefault(); ui.search.focus(); ui.search.show(); } //GRAVE/TILDE
 	});
 
 	window.addEventListener("scroll", function(evt){
@@ -49,9 +50,11 @@ window.addEventListener("load", function(evt) {
 	db.onDownloadComplete.add(db.parse);
 
 	ui.search.onSubmit.add(search);
-	ui.search.onUpdate.add(ui.results.clear);
+	//ui.search.onSubmit.add(ui.results.clear);
 	//ui.search.onSubmit.add(ui.spinner.show);
 	ui.search.onUpdate.add(ui.search.btn_clear.toggle);
+
+	ui.search.onClear.add(ui.spinner.hide);
 
 	db.onQuery.add(ui.results.clear);
 	db.onQuery.add(ui.spinner.show);
@@ -63,14 +66,37 @@ window.addEventListener("load", function(evt) {
 	ui.results.onClear.add(ui.spinner.hide);
 	ui.results.onError.add(ui.spinner.hide);
 
-	db.download("./db.min.xml");
+	try {
+		db.download("./db.min.xml");
+	} catch (err) {
+		switch(typeof(err)) {
+			case "XHRException":
+				ui.results.error.show(err.message);
+				console.log(err);
+				break;
+			case "XHRNotSupportedException":
+				ui.results.error.show(err.message);
+				console.log(err);
+				break;
+			default:
+				ui.results.error.show(err.message);
+				console.log(err);
+				break;
+			}
+	}
 });
 
 function search(query) {
 	try {
 		db.query(query);
 	} catch (error) {
-		ui.results.error.show(error);
+		if(error instanceof BadQueryException) {
+			ui.results.error.show("Please use a maximum of 8 keywords.");
+		} else if(error instanceof NullResultsException) {
+			ui.results.error.show("Unable to find what you're looking for, please check the spelling and try again.");
+		} else {
+			ui.results.error.show(error.message);
+		}
 	}
 }
 
@@ -154,12 +180,15 @@ ui.spinner.hide = function () {
 
 ui.search.onUpdate = new Signal();
 ui.search.onSubmit = new Signal();
+ui.search.onClear = new Signal();
 
 ui.search.submit = function () {
 	ui.search.cancel();
 	ui.search.onUpdate.dispatch(ui.search.value);
 	if(ui.search.value.length > 1) {
 		ui.search.timeout = setTimeout("ui.search.onSubmit.dispatch(ui.search.value);", 666);
+	} else if(ui.search.value.length == 0) {
+		ui.search.onClear.dispatch();
 	}
 };
 
@@ -167,6 +196,7 @@ ui.search.cancel = function () { clearTimeout(ui.search.timeout); };
 
 ui.search.clear = function () {
 	ui.search.value = "";
+	ui.search.onClear.dispatch();
 	ui.search.onUpdate.dispatch(ui.search.value);
 	//ui.search.submit;
 };
@@ -180,9 +210,8 @@ ui.search.hide = function () {
 }
 
 ui.search.addEventListener("keyup", function(evt) {
-	if(evt.keyCode == 27) { ui.search.clear(); }
 	if(ctrlDown || ctrlDown && [65,67,86,88].includes(evt.keyCode)) { return; } //Select All, Cut, Copy and Paste
-	//if(!ctrlDown) { ui.search.submit(); }
+	ui.spinner.show();
 	ui.search.submit();
 });
 
@@ -226,7 +255,11 @@ ui.results.show = function (page) {
 
 	for (var i = 0; i < db.query.results.length; i++) {
 		var index = db.query.results[i].index;
-		ui.results.appendChild(new ResultCard(db.record[index]))
+		var element = new ResultCard(db.record[index]);
+		var debugInfo = document.createElement("p");
+		debugInfo.textContent = JSON.stringify(db.query.results[i]);
+		element.appendChild(debugInfo);
+		ui.results.appendChild(element);
 	}
 
 	ui.results.onUpdate.dispatch();
@@ -291,16 +324,21 @@ db.download = function(url) {
 	} else if (window.XMLHttpRequest) {
 		xhttp = new XMLHttpRequest();
 	} else {
-		console.log("Browser does not support XMLHTTPRequest");
+		throw new XHRNotSupportedException();
 	}
 
 	xhttp.onreadystatechange = function () {
 		if(xhttp.readyState == 4) {
 			if(xhttp.status == 200 || xhttp.status == 0) {
 				//HTTP OK or 0 for local fs
-				db.onDownloadComplete.dispatch(xhttp.responseText);
+				if(xhttp.responseText.isNullOrEmpty()) {
+					throw new XHRException("The request returned an empty respose.");
+				} else {
+					db.onDownloadComplete.dispatch(xhttp.responseText);
+					return xhttp.responseText;
+				}
 			} else {
-				console.log("Unable to download data, returned status code " + xhttp.status);
+				throw new XHRException("The request returned failed with the stauts code " + xhttp.status);
 			}
 		}
 	}
@@ -355,7 +393,7 @@ db.query = function(query) {
 	}
 
 	if(keyword.length > 9) {
-		throw "Maximum of 8 keywords";
+		throw new BadQueryException("Maximum of 8 keywords");
 	}
 
 	for (var i = 0; i < db.record.length; i++) {
@@ -396,7 +434,9 @@ db.query = function(query) {
 		}
 	}
 
-	if(db.query.results.length == 0) throw "No results";
+	if(db.query.results.length == 0) {
+		throw new NullResultsException();
+	}
 
 	db.query.results.sort(function(a,b) {
 		if(a.matchPhrase === b.matchPhrase) {
