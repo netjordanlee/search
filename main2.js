@@ -150,7 +150,7 @@ ui.search.btn_clear = document.getElementById('btn-clear');
 ui.results = document.getElementById('output');
 
 ui.results.error = (function(){var a=document.getElementById('error');a.remove();return a;})();
-ui.results.error.message = (function(){var a=document.createElement('p');a.id='error-text';ui.results.error.insertBefore(a,ui.results.error.lastElementChild);return a;})();
+ui.results.error.message = (function(){var a=document.createElement('p');a.id='error-text';ui.results.error.insertBefore(a,ui.results.error.lastChild);return a;})();
 
 ui.spinner = (function(){var a=document.getElementById('loading');a.remove();return a;})(); //It works, don't ask
 ui.container = document.getElementById('content');

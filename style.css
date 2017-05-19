@@ -17,6 +17,8 @@ body {
     overflow-y: scroll;
     width: 100%;
     height: 100%;
+
+    animation: load-fade-in 0.5s linear 0s 1 normal;
 }
 table {
     border-spacing: 0;
@@ -31,6 +33,11 @@ table {
     justify-content: center;    /* center items vertically, in this case */
     align-items: center;        /* center items horizontally, in this case */
     height: 100%;
+}
+
+@keyframes load-fade-in {
+    from {opacity:0;}
+    to {opacity:1;}
 }
 
 /* More Global Defaults //////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -176,35 +183,6 @@ table.head {
 .collapse { 
     height: 0px !important;
     overflow: hidden;
-}
-
-/* Options block //////////////////////////////////////////////////////////////////////////////////////////////////// */
-.options-bar td {
-
-    /*display: flex;*/
-
-    /*position: fixed;*/
-
-    /*width: 66.666%;*/
-
-    /*height: 48px;*/
-
-    /*top: 110px;*/
-
-    /*z-index: 4;*/
-
-    /*background: #fff;*/
-    width: 100%;
-    height: 2em;
-    text-align: center;
-}
-.options {
-
-    /*margin: auto;*/
-
-    /*width: 100%;*/
-
-    /*padding: 0 2em;*/
 }
 
 /* Pagination ////////////////////////////////////////////////////////////////////////////////////// */
