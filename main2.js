@@ -16,8 +16,9 @@ scrollManager.lock = function(timer){
 window.addEventListener("load", function(evt) {
 	
 	document.addEventListener("keydown", function(evt) {
-		if(evt.keyCode == 17) { ctrlDown = true; return; }
-		if(!ctrlDown) {
+		//if(evt.keyCode == 17) { ctrlDown = true; return; }
+		if(evt.ctrlKey) { return; }
+		if(!evt.ctrlKey) {
 			ui.search.focus();
 			ui.search.show();
 		}
@@ -25,8 +26,14 @@ window.addEventListener("load", function(evt) {
 	});
 
 	document.addEventListener("keyup", function(evt) {
-		if(evt.keyCode == 17) { evt.preventDefault(); ctrlDown = false; }
-		if(evt.keyCode == 27) { evt.preventDefault(); ui.search.clear(); ui.search.focus(); ui.search.show(); } //ESC
+		//if(evt.keyCode == 17) { evt.preventDefault(); ctrlDown = false; }
+		//Escape
+		if(evt.keyCode == 27) {
+			evt.preventDefault();
+			ui.search.clear();
+			ui.search.focus();
+			ui.search.show();
+		}
 	});
 
 	window.addEventListener("scroll", function(evt){
@@ -63,6 +70,7 @@ window.addEventListener("load", function(evt) {
 	db.onQueryComplete.add(ui.results.show);
 
 	ui.results.onUpdate.add(ui.spinner.hide);
+	ui.results.onUpdate.add(ui.results.highlight);
 	ui.results.onClear.add(ui.spinner.hide);
 	ui.results.onError.add(ui.spinner.hide);
 
@@ -84,6 +92,11 @@ window.addEventListener("load", function(evt) {
 				break;
 			}
 	}
+
+	if(window.location.get['q']) {
+		ui.search.value = window.location.get['q'];
+		ui.search.submit();
+	}
 });
 
 function search(query) {
@@ -95,7 +108,8 @@ function search(query) {
 		} else if(error instanceof NullResultsException) {
 			ui.results.error.show("Unable to find what you're looking for, please check the spelling and try again.");
 		} else {
-			ui.results.error.show(error.message);
+			ui.results.error.show(error.stack);
+			console.log(error);
 		}
 	}
 }
@@ -210,7 +224,8 @@ ui.search.hide = function () {
 }
 
 ui.search.addEventListener("keyup", function(evt) {
-	if(ctrlDown || ctrlDown && [65,67,86,88].includes(evt.keyCode)) { return; } //Select All, Cut, Copy and Paste
+	//if(ctrlDown || ctrlDown && [65,67,86,88].includes(evt.keyCode)) { return; } //Select All, Cut, Copy and Paste
+	if(evt.ctrlKey) { return; } //Disable anything with ctrl pressed
 	ui.spinner.show();
 	ui.search.submit();
 });
@@ -256,9 +271,9 @@ ui.results.show = function (page) {
 	for (var i = 0; i < db.query.results.length; i++) {
 		var index = db.query.results[i].index;
 		var element = new ResultCard(db.record[index]);
-		var debugInfo = document.createElement("p");
-		debugInfo.textContent = JSON.stringify(db.query.results[i]);
-		element.appendChild(debugInfo);
+		// var debugInfo = document.createElement("p");
+		// debugInfo.textContent = JSON.stringify(db.query.results[i]);
+		// element.appendChild(debugInfo);
 		ui.results.appendChild(element);
 	}
 
@@ -273,6 +288,15 @@ ui.results.clear = function () {
 
 	ui.results.onClear.dispatch();
 };
+
+ui.results.highlight = function () {
+	var hash = window.location.get['r'] ? window.location.get['r'] : window.location.hash.replace('#', '');
+	var element = document.getElementById(hash);
+	if(element) {
+		window.scrollTo(0,element.offsetTop);
+	}
+	element.parentElement.parentElement.style = 'border: 5px solid white';
+}
 
 ui.results.error.show = function (message) {
 	ui.results.error.message.innerHTML = message + "</br>";
@@ -476,38 +500,39 @@ function Record(healthDistrict, cerner, locationCode, description, addressLocati
 };
 
 function ResultCard(record) {
-	var htmlResultCard;
-	htmlResultCard = '<table>' +
-                     '<tbody>';
+	var _element = template.load('result-card');
 
-    // If entry is null/empty/whitespace add hide class, else add show class (show is an empty class)
-    htmlResultCard += 	String.format('<tr class="{1}"><td>LHD:</td><td>{0}</td></tr>', 					record.LHD.replace(/\n/g, "<br />"), 				(record.LHD.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1}"><td>Cerner:</td><td>{0}</td></tr>', 					record.cerner.replace(/\n/g, "<br />"), 			(record.cerner.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1}"><td>Code:</td><td>{0}</td></tr>', 					record.locationCode.replace(/\n/g, "<br />"), 		(record.locationCode.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1}"><td>Description:</td><td>{0}</td></tr>', 			record.description.replace(/\n/g, "<br />"), 		(record.description.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1}"><td>Address:</td><td>{0}</td></tr>', 				record.addressLocation.replace(/\n/g, "<br />"), 	(record.addressLocation.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1}"><td>Contact:</td><td>{0}</td></tr>', 				record.phoneNumber.replace(/\n/g, "<br />"), 		(record.phoneNumber.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1} hidden"><td>Sector:</td><td>{0}</td></tr>', 			record.sector.replace(/\n/g, "<br />"), 			(record.sector.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1} hidden"><td>ORG:</td><td>{0}</td></tr>', 				record.ORG.replace(/\n/g, "<br />"), 				(record.ORG.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1} hidden"><td>CostCentreCode:</td><td>{0}</td></tr>', 	record.costCentreCode.replace(/\n/g, "<br />"), 	(record.costCentreCode.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1} hidden"><td>EntityCode:</td><td>{0}</td></tr>', 		record.entityCode.replace(/\n/g, "<br />"), 		(record.entityCode.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1} hidden"><td>INST:</td><td>{0}</td></tr>', 			record.INST.replace(/\n/g, "<br />"), 				(record.INST.isNullOrEmpty()) ? "hide" : "show") +
-    					String.format('<tr class="{1}"><td>Other:</td><td>{0}</td></tr>', 					record.other.replace(/\n/g, "<br />"), 				(record.other.isNullOrEmpty()) ? "hide" : "show");
+	var createField = function (query, recordField) {
+		var _export = _element.querySelector(query);
+		_export.content = _export.querySelector('span');
+		_export.content.innerHTML = recordField.replace(/\n/g, "<br />");
+		if(recordField.isNullOrEmpty()) {
+			_export.classList.add('hide');
+		}
+		return _export;
+	};
 
-    //Close Card
-    // htmlResultCard += '<tr><td></td><td>' + '<a class="extra-item search-description" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">Search More...</a>' + '<a class="extra-item map-address" title="Search Address in Google Maps..." href=\"http:\/\/maps.google.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">Open Map...</a>' + '<a class="extra-item raise-ticket" title="Report a Problem or Request to Update Entries For This Contact..." href=\"#0\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details...</a>' + '</td></tr>' + '</tbody>' + '</table>' + '</li>' + '<br \/><hr class="hr-styling"\/><br \/>';
+	this.lhd = 			createField('.lhd', record.LHD);
+	this.cerner = 		createField('.cerner', record.cerner);
+	this.code = 		createField('.locationCode', record.locationCode);
+	this.description = 	createField('.description', record.description);
+	this.address = 		createField('.addressLocation', record.addressLocation);
+	this.contact = 		createField('.phoneNumber', record.phoneNumber);
+	this.sector = 		createField('.sector', record.sector);
+	this.org =  		createField('.org', record.ORG);
+	this.costCode = 	createField('.costCentreCode', record.costCentreCode);
+	this.entityCode = 	createField('.entityCode', record.entityCode);
+	this.inst = 		createField('.inst', record.INST);
+	this.other = 		createField('.other', record.other);
 
-    htmlResultCard += '<tr><td></td><td>' +
-                      '<br/>' +
-                      // '<a class="extra-item search-description shade" title="Search Description in Google Search..." href=\"http:\/\/google.com/search?q=' + encodeURIComponent(db[k].Description) + '\" target=\"_blank\">More Info</a>' +
-                      // '<a class="extra-item map-address shade" title="Search Address in Google Maps..." href=\"http:\/\/maps.apple.com/maps?q=' + encodeURIComponent(db[k].AddressLocation) + '\" target=\"_blank\">View Map</a>' +
-                      // '<a class="extra-item raise-ticket shade" title="Report a Problem or Request to Update Entries For This Contact..." href=\"#0\" onclick=\"SendTroubleTicket(' + k + ')\">Update Details</a>' +
-                      '</td></tr>' +
-                      '</tbody>' +
-                      '</table>';
+	this.sector.classList.add('hide');
+	this.org.classList.add('hide');
+	this.costCode.classList.add('hide');
+	this.entityCode.classList.add('hide');
+	this.inst.classList.add('hide');
 
-    var resultCard = document.createElement("li");
-    resultCard.className = "shade";
-    resultCard.innerHTML = htmlResultCard;
-    return resultCard;
+	this.anchor	= _element.querySelector('a');
+	this.anchor.id = String.hashCode(record.locationCode);
+
+    return _element;
 }

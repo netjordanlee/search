@@ -65,6 +65,25 @@ if (!String.isNullOrEmpty) {
   };
 }
 
+if(!String.hashCode) {
+  String.prototype.hashCode = function() {
+    var hash = 5381;
+    for (i = 0; i < this.length; i++) {
+        char = this.charCodeAt(i);
+        hash = ((hash << 5) + hash) + char; /* hash * 33 + c */
+    }
+    return Math.abs(hash);
+  }
+  String.hashCode = function(str) {
+    var hash = 5381;
+    for (i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash << 5) + hash) + char; /* hash * 33 + c */
+    }
+    return Math.abs(hash);
+  }
+}
+
 // Fuck IE.
 if (!('remove' in Element.prototype)) {
     Element.prototype.remove = function() {
@@ -73,3 +92,17 @@ if (!('remove' in Element.prototype)) {
         }
     };
 }
+
+window.location.get = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=', 2);
+        if (p.length == 1)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+})(window.location.search.substr(1).split('&'));
