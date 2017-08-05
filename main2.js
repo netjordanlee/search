@@ -1,7 +1,5 @@
 var Signal = signals.Signal;
 
-var ctrlDown = false; //TODO: Move to a better place
-
 var scrollManager = {
 	locked : false,
 	lastPosition : 0
@@ -17,8 +15,8 @@ window.addEventListener("load", function(evt) {
 	
 	document.addEventListener("keydown", function(evt) {
 		//if(evt.keyCode == 17) { ctrlDown = true; return; }
-		if(evt.ctrlKey) { return; }
-		if(!evt.ctrlKey) {
+		if(evt.ctrlKey || evt.metaKey) { return; }
+		if(!evt.ctrlKey || !evt.metaKey) {
 			ui.search.focus();
 			ui.search.show();
 		}
@@ -225,9 +223,10 @@ ui.search.hide = function () {
 
 ui.search.addEventListener("keyup", function(evt) {
 	//if(ctrlDown || ctrlDown && [65,67,86,88].includes(evt.keyCode)) { return; } //Select All, Cut, Copy and Paste
-	if(evt.ctrlKey) { return; } //Disable anything with ctrl pressed
+	if(evt.ctrlKey || evt.metaKey) { return; } //Disable anything with ctrl pressed
 	ui.spinner.show();
 	ui.search.submit();
+	window.location.pathname
 });
 
 ui.search.btn_clear.toggle = function(value) {
@@ -294,8 +293,8 @@ ui.results.highlight = function () {
 	var element = document.getElementById(hash);
 	if(element) {
 		window.scrollTo(0,element.offsetTop);
+		element.parentElement.parentElement.style = 'border: 5px solid white';
 	}
-	element.parentElement.parentElement.style = 'border: 5px solid white';
 }
 
 ui.results.error.show = function (message) {
