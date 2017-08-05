@@ -152,6 +152,49 @@ function bmh(haystack, needle) {
 
 ////////////////////////////////
 
+var util = {};
+
+util.sendShareEmail = function (resultCard) {
+	// Would be better to pull record properties from the Record object instead of the RecordCard
+	// perhaps have RecordCard store a reference to pass on?
+	if(resultCard instanceof ResultCard) {
+		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}', (window.location.origin + window.location.pathname), ui.search.value, resultCard.anchor.id));
+	    var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), resultCard.description.content.innerText));
+	    var message = "";
+
+	    message += 'Hello,%0D%0A%0D%0A';
+	    message += String.format('%09{0} is located at {1}.%0D%0A', 
+	    	encodeURIComponent(resultCard.description.content.innerText), 
+	    	encodeURIComponent(resultCard.address.content.innerText));
+
+	    message += String.format('%09They can be contacted at {0}.%0D%0A', 
+	    	encodeURIComponent(resultCard.contact.content.innerText));
+
+	    message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A', 
+	    	encodeURIComponent(resultCard.cerner.content.innerText), 
+	    	encodeURIComponent(resultCard.code.content.innerText), 
+	    	encodeURIComponent(resultCard.lhd.content.innerText));
+
+		message += resultCard.other.content.innerText.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A', 
+			encodeURIComponent(resultCard.other.content.innerText));
+
+		message += String.format('%0D%0ASource: {0}%0D%0A', 
+			sourceUrl);
+
+	    window.location.href = String.format("mailto:?subject={0}&body={1}", subject, message);
+	}
+};
+
+util.raiseUpdateTicket = function () {
+	// TODO
+}
+
+util.raiseMissingTicket = function () {
+	// TODO
+}
+
+////////////////////////////////
+
 var ui = {};
 
 ui.search = document.getElementById('search');
@@ -499,6 +542,8 @@ function Record(healthDistrict, cerner, locationCode, description, addressLocati
 };
 
 function ResultCard(record) {
+	var _parent = this; // This makes me sad, but can't see a better way
+
 	var _element = template.load('result-card');
 
 	var createField = function (query, recordField) {
@@ -532,6 +577,20 @@ function ResultCard(record) {
 
 	this.anchor	= _element.querySelector('a');
 	this.anchor.id = String.hashCode(record.locationCode);
+
+	this.buttons = {};
+
+	this.buttons.search = _element.querySelector('.search-description');
+	this.buttons.search.href = String.format('http://google.com/search?q={0}', encodeURIComponent(record.description));
+
+	this.buttons.map = _element.querySelector('.map-address');
+	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.description));	
+
+	this.buttons.share = _element.querySelector('.share-card');
+	this.buttons.share.onclick = function () { util.sendShareEmail(_parent); };
+
+	this.buttons.report = _element.querySelector('.raise-ticket');
+	this.buttons.report.onclick = function () { util.raiseUpdateTicket(); };
 
     return _element;
 }
