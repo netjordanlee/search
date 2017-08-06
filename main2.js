@@ -13,6 +13,8 @@ scrollManager.lock = function(timer){
 
 window.addEventListener("load", function(evt) {
 	
+	util.parseUrlVariables();
+
 	document.addEventListener("keydown", function(evt) {
 		//if(evt.keyCode == 17) { ctrlDown = true; return; }
 		if(evt.ctrlKey || evt.metaKey) { return; }
@@ -55,9 +57,11 @@ window.addEventListener("load", function(evt) {
 	db.onDownloadComplete.add(db.parse);
 
 	ui.search.onSubmit.add(search);
+	ui.search.onSubmit.add(util.parseUrlVariables);
 	//ui.search.onSubmit.add(ui.results.clear);
 	//ui.search.onSubmit.add(ui.spinner.show);
 	ui.search.onUpdate.add(ui.search.btn_clear.toggle);
+	ui.search.onUpdate.add(util.updateUrl);
 
 	ui.search.onClear.add(ui.spinner.hide);
 
@@ -154,29 +158,29 @@ function bmh(haystack, needle) {
 
 var util = {};
 
-util.sendShareEmail = function (resultCard) {
+util.sendShareEmail = function (record) {
 	// Would be better to pull record properties from the Record object instead of the RecordCard
 	// perhaps have RecordCard store a reference to pass on?
-	if(resultCard instanceof ResultCard) {
-		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}', (window.location.origin + window.location.pathname), ui.search.value, resultCard.anchor.id));
-	    var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), resultCard.description.content.innerText));
+	if(record instanceof Record) {
+		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}', (window.location.origin + window.location.pathname), ui.search.value, record.locationCode.hashCode()));
+	    var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.description));
 	    var message = "";
 
 	    message += 'Hello,%0D%0A%0D%0A';
 	    message += String.format('%09{0} is located at {1}.%0D%0A', 
-	    	encodeURIComponent(resultCard.description.content.innerText), 
-	    	encodeURIComponent(resultCard.address.content.innerText));
+	    	encodeURIComponent(record.description), 
+	    	encodeURIComponent(record.addressLocation));
 
 	    message += String.format('%09They can be contacted at {0}.%0D%0A', 
-	    	encodeURIComponent(resultCard.contact.content.innerText));
+	    	encodeURIComponent(record.phoneNumber));
 
 	    message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A', 
-	    	encodeURIComponent(resultCard.cerner.content.innerText), 
-	    	encodeURIComponent(resultCard.code.content.innerText), 
-	    	encodeURIComponent(resultCard.lhd.content.innerText));
+	    	encodeURIComponent(record.cerner), 
+	    	encodeURIComponent(record.locationCode), 
+	    	encodeURIComponent(record.LHD));
 
-		message += resultCard.other.content.innerText.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A', 
-			encodeURIComponent(resultCard.other.content.innerText));
+		message += record.other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A', 
+			encodeURIComponent(record.other));
 
 		message += String.format('%0D%0ASource: {0}%0D%0A', 
 			sourceUrl);
@@ -185,13 +189,82 @@ util.sendShareEmail = function (resultCard) {
 	}
 };
 
-util.raiseUpdateTicket = function () {
-	// TODO
-}
+util.raiseUpdateTicket = function (record) {
+	var recepient = "laith.serhan@health.nsw.gov.au";
+	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.locationCode.hashCode());
+	var message = String.format(
+	'-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' + 
+	'LHD: {0}%0D%0A' + 
+	'Cerner: {1}%0D%0A' + 
+	'LocationCode: {2}%0D%0A' + 
+	'Description: {3}%0D%0A' + 
+	'AddressLocation: {4}%0D%0A' + 
+	'PhoneNumber: {5}%0D%0A' + 
+	'Sector: {6}%0D%0A' + 
+	'ORG: {7}%0D%0A' + 
+	'CostCentreCode: {8}%0D%0A' + 
+	'EntityCode: {9}%0D%0A' + 
+	'INST: {10}%0D%0A' + 
+	'Other: {11}%0D%0A%0D%0A' + 
+	'Comments: Your comments here...%0D%0A%0D%0A%0D%0A' + 
+	'-----// DO NOT EDIT BELOW THIS LINE //-----%0D%0A%0D%0A' + 
+	'LHD: {0}%0D%0A' + 
+	'Cerner: {1}%0D%0A' + 
+	'LocationCode: {2}%0D%0A' + 
+	'Description: {3}%0D%0A' + 
+	'AddressLocation: {4}%0D%0A' + 
+	'PhoneNumber: {5}%0D%0A' + 
+	'Sector: {6}%0D%0A' + 
+	'ORG: {7}%0D%0A' + 
+	'CostCentreCode: {8}%0D%0A' + 
+	'EntityCode: {9}%0D%0A' + 
+	'INST: {10}%0D%0A' + 
+	'Other: {11}%0D%0A%0D%0A',
+	encodeURIComponent(record.LHD), encodeURIComponent(record.cerner), 
+	encodeURIComponent(record.locationCode), encodeURIComponent(record.description),
+	encodeURIComponent(record.addressLocation), encodeURIComponent(record.phoneNumber), 
+	encodeURIComponent(record.sector), encodeURIComponent(record.ORG),
+	encodeURIComponent(record.costCentreCode), encodeURIComponent(record.entityCode), 
+	encodeURIComponent(record.INST), encodeURIComponent(record.other));
+
+	window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", recepient, subject, message));
+};
 
 util.raiseMissingTicket = function () {
-	// TODO
-}
+	var recepient = "laith.serhan@health.nsw.gov.au";
+	var subject = String.format("Trouble Ticket - {0}:NEW", (new Date()).yymmdd());
+	var message = String.format(
+	'-----// In This Field, Fill Out What You Know About The Missing Record //-----%0D%0A%0D%0A' + 
+	'LHD: %0D%0A' + 
+	'Description: %0D%0A' + 
+	'AddressLocation: %0D%0A' + 
+	'PhoneNumber: %0D%0A' + 
+	'Sector: %0D%0A' + 
+	'ORG: %0D%0A' + 
+	'Comments: %0D%0A%0D%0A');
+
+	window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", recepient, subject, message));
+};
+
+util.updateUrl = function () {
+	var url = String.format('{0}?q={1}', (location.origin + location.pathname), encodeURIComponent(ui.search.value));
+	history.replaceState({}, document.title, url)
+};
+
+util.parseUrlVariables = function() {
+	var a = window.location.search.substr(1).split('&');
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=', 2);
+        if (p.length == 1)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    window.location.get = b;
+};
 
 ////////////////////////////////
 
@@ -576,7 +649,7 @@ function ResultCard(record) {
 	this.inst.classList.add('hide');
 
 	this.anchor	= _element.querySelector('a');
-	this.anchor.id = String.hashCode(record.locationCode);
+	this.anchor.id = record.locationCode.hashCode();
 
 	this.buttons = {};
 
@@ -587,10 +660,10 @@ function ResultCard(record) {
 	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.description));	
 
 	this.buttons.share = _element.querySelector('.share-card');
-	this.buttons.share.onclick = function () { util.sendShareEmail(_parent); };
+	this.buttons.share.onclick = function () { util.sendShareEmail(record); };
 
 	this.buttons.report = _element.querySelector('.raise-ticket');
-	this.buttons.report.onclick = function () { util.raiseUpdateTicket(); };
+	this.buttons.report.onclick = function () { util.raiseUpdateTicket(record); };
 
     return _element;
 }
