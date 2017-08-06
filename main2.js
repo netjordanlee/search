@@ -14,7 +14,7 @@ scrollManager.lock = function(timer){
 window.addEventListener("load", function(evt) {
 
 	// If browser doesn't support service workers, use appcache
-	//if(!('serviceWorker' in navigator)) {
+	if(!('serviceWorker' in navigator)) {
 		window.applicationCache.addEventListener('updateready', function(e) {
 			if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 				// Browser downloaded a new app cache.
@@ -25,7 +25,9 @@ window.addEventListener("load", function(evt) {
 			// Manifest didn't changed. Nothing new to server.
 			}
 		}, false);
-	//}
+	} else {
+		window.applicationCache.abort();
+	}
 
 	
 	util.parseUrlVariables();
