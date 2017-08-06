@@ -5,18 +5,18 @@ CACHE MANIFEST
 CACHE:
 # favicon.ico
 index.html
-/db.min.xml
-/style.css
-/colors.min.css
-/tachyons.min.css
-/plugins.js
-/signals.js
-/classList.min.js
-/template.js
-/exceptions.js
-/a11y-cl.js
-/main.js
-/main2.js
+db.min.xml
+style.css
+colors.min.css
+tachyons.min.css
+main.js
+main2.js
+plugins.js
+signals.js
+classList.min.js
+template.js
+exceptions.js
+a11y-cl.js
 
 # All files retrieved from network first
 NETWORK:
