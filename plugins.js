@@ -92,3 +92,5 @@ if (!('remove' in Element.prototype)) {
         }
     };
 }
+
+window.location.get = [];

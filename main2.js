@@ -95,7 +95,7 @@ window.addEventListener("load", function(evt) {
 			}
 	}
 
-	if(window.location.get['q']) {
+	if(window.location.get.hasOwnProperty('q')) {
 		ui.search.value = window.location.get['q'];
 		ui.search.submit();
 	}
@@ -405,11 +405,13 @@ ui.results.clear = function () {
 };
 
 ui.results.highlight = function () {
-	var hash = window.location.get['r'] ? window.location.get['r'] : window.location.hash.replace('#', '');
-	var element = document.getElementById(hash);
-	if(element) {
-		window.scrollTo(0,element.offsetTop);
-		element.parentElement.parentElement.style = 'border: 5px solid white';
+	if(window.location.get.hasOwnProperty('r')) {
+		var hash = window.location.get['r'];
+		var element = document.getElementById(hash);
+		if(element) {
+			window.scrollTo(0,element.offsetTop);
+			element.parentElement.parentElement.style = 'border: 5px solid white';
+		}
 	}
 }
 
