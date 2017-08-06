@@ -3,7 +3,7 @@ CACHE MANIFEST
 # Last updated: 2017.08.06
 
 CACHE:
-favicon.ico
+# favicon.ico
 index.html
 db.min.xml
 style.css
