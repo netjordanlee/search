@@ -4,9 +4,29 @@
     "description": "[ HCIS-Search ]",
     "icons": [
         {
+            "src": "icon-16.png",
+            "type": "image/png",
+            "sizes": "16x16"
+        },
+        {
+            "src": "icon-24.png",
+            "type": "image/png",
+            "sizes": "24x24"
+        },
+        {
+            "src": "icon-32.png",
+            "type": "image/png",
+            "sizes": "32x32"
+        },
+        {
             "src": "icon-48.png",
             "type": "image/png",
             "sizes": "48x48"
+        },
+        {
+            "src": "icon-64.png",
+            "type": "image/png",
+            "sizes": "64x64"
         },
         {
             "src": "icon-96.png",
@@ -27,6 +47,16 @@
             "src": "icon-196.png",
             "type": "image/png",
             "sizes": "196x196"
+        }
+        {
+            "src": "icon-256.png",
+            "type": "image/png",
+            "sizes": "256x256"
+        }
+        {
+            "src": "icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
         }
     ],
     "start_url": "index.html?launcher=true",
