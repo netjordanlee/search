@@ -47,12 +47,12 @@
             "src": "icon-196.png",
             "type": "image/png",
             "sizes": "196x196"
-        }
+        },
         {
             "src": "icon-256.png",
             "type": "image/png",
             "sizes": "256x256"
-        }
+        },
         {
             "src": "icon-512.png",
             "type": "image/png",
