@@ -1,8 +1,13 @@
 {
-    "short_name": "[ HCIS-Search ]",
-    "name": "[ HCIS-Search ]",
-    "description": "[ HCIS-Search ]",
+    "short_name": "HCIS Search",
+    "name": "HCIS Search",
+    "description": "HCIS Search tool developed by and for WSLHD HCIS staff",
     "icons": [
+        {
+            "src": "./android-chrome-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
         {
             "src": "./android-chrome-192x192.png",
             "sizes": "192x192",
@@ -14,7 +19,7 @@
             "type": "image/png"
         }
     ],
-    "start_url": "index.html?launcher=true",
+    "start_url": "index.html",
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": "#FFFFFF",
