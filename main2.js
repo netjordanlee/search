@@ -674,7 +674,7 @@ function ResultCard(record) {
 	this.buttons.search.href = String.format('http://google.com/search?q={0}', encodeURIComponent(record.description));
 
 	this.buttons.map = _element.querySelector('.map-address');
-	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.description));	
+	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.addressLocation));	
 
 	this.buttons.share = _element.querySelector('.share-card');
 	this.buttons.share.onclick = function () { util.sendShareEmail(record); };
