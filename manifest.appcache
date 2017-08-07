@@ -22,3 +22,5 @@ a11y-cl.js
 NETWORK:
 *
 
+FALLBACK:
+/ index.html
