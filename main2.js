@@ -25,8 +25,6 @@ window.addEventListener("load", function(evt) {
 			// Manifest didn't changed. Nothing new to server.
 			}
 		}, false);
-	} else {
-		window.applicationCache.abort();
 	}
 
 	
