@@ -362,24 +362,24 @@ x.lighten .content tr:nth-child(odd) {
 
 /* Table extras styling //////////////////////////////////////////////////////////////////////////////////////////////////// */
 .extra-item {
+    display: inline;
+    float: left;
     user-select: none;
     cursor: pointer;
     padding: 0.3em .6em 0.3em .6em;
-    display: inline-block;
-    /*font-weight: 700;*/
-    /*color: #666;*/
 }
-x.extra-item:before {
 
-    content: "[-]";
-    display: block;
-    width: 20px;
-    height: 20px;
-    float: left;
-    margin: 0 6px 0 0;
+.search-description:before {
+    content:'Search';
 }
-x.raise-ticket {
-    float: right;
+.map-address:before {
+    content:'Map'
+}
+.share-card:before {
+    content: 'Share';
+}
+.raise-ticket:before {
+    content: 'Update';
 }
 
 /* Misc styling //////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -454,6 +454,21 @@ hr.hr-styling {
     }
     .content tbody tr td:nth-child(1) {
         display: table-cell;
+    }
+    .extra-item {
+        margin: 0 1px 0 0;
+    }
+    .search-description:before {
+        content:'Search Online';
+    }
+    .map-address:before {
+        content:'View Map'
+    }
+    .share-card:before {
+        content: 'Share Card';
+    }
+    .raise-ticket:before {
+        content: 'Update Details';
     }
 }
 @media screen and (min-width:48em) and (max-width:64em) {
