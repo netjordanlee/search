@@ -56,7 +56,7 @@ window.addEventListener("load", function(evt) {
 			// Scrolled down the page
 			ui.search.hide();
 			scrollManager.lock(333);
-		} else if(!scrollManager.locked) {
+		} else if(!scrollManager.locked && scrollManager.lastPosition > window.scrollY) {
 			// Scrolled up the page
 			ui.search.show();
 			scrollManager.lock(333);
@@ -88,8 +88,10 @@ window.addEventListener("load", function(evt) {
 
 	ui.results.onUpdate.add(ui.spinner.hide);
 	ui.results.onUpdate.add(ui.results.highlight);
+	ui.results.onUpdate.add(ui.nav.update);
 	ui.results.onClear.add(ui.spinner.hide);
 	ui.results.onError.add(ui.spinner.hide);
+	ui.results.onError.add(ui.nav.update);
 
 	try {
 		db.download("./db.min.xml");
@@ -168,6 +170,19 @@ function bmh(haystack, needle) {
 
 	return -1;
 }
+
+
+////////////////////////////////
+
+var UIColorMode = { RANDOM : 0, WHITE : 1, BLACK : 0 };
+
+var config = {
+	debug : false,
+	ui : {
+		results_per_page : 10,
+		color_mode : UIColorMode.RANDOM
+	}
+};
 
 ////////////////////////////////
 
@@ -304,6 +319,57 @@ ui.nav = {
 	pages : document.getElementById('combo-pages')
 };
 
+ui.nav.update = function () {
+	if(ui.results.page == null || ui.results.last_page == null) {
+		ui.nav.pages.clear();
+		ui.nav.pages.disabled = true;
+		ui.nav.btn_prev.disabled = true;
+		ui.nav.btn_next.disabled = true;
+	} else {
+		ui.nav.pages.clear();
+		ui.nav.pages.disabled = false;
+		for (var i = 0; i < ui.results.last_page; i++) {
+			var option = document.createElement('option');
+			option.text = String.format("- Page {0} of {1} -", i+1, ui.results.last_page);
+			option.value = i;
+			if (i == ui.results.page) {
+				option.selected = true;
+			}
+			ui.nav.pages.appendChild(option);
+		}
+
+		if(ui.results.page == (ui.results.last_page - 1)) { ui.nav.btn_next.disabled = true; }
+				else { ui.nav.btn_next.disabled = false; };
+		if(ui.results.page == 0) { ui.nav.btn_prev.disabled = true; }
+				else { ui.nav.btn_prev.disabled = false; };
+	}
+}
+
+ui.nav.pages.update = function () {
+
+};
+
+ui.nav.pages.clear = function () {
+	var options = ui.nav.pages.querySelectorAll('option');
+	if(options.length > 0) {
+		for(var i = 0; i < options.length; i++) {
+			options[i].remove();
+		}
+	}
+};
+
+ui.nav.pages.addEventListener('change', function() {
+	ui.results.show(parseInt(ui.nav.pages.value)); //FIX
+});
+
+ui.nav.btn_next.addEventListener('click', function() {
+	ui.results.show(ui.results.page+1);
+});
+
+ui.nav.btn_prev.addEventListener('click', function() {
+	ui.results.show(ui.results.page-1);
+});
+
 /**************************************************************/
 
 ui.spinner.show = function () {
@@ -380,30 +446,43 @@ ui.search.btn_clear.addEventListener("click", function(evt){
 	ui.search.clear();
 });
 
-// ui.search.chk_match_phrase.addEventListener("change", function(evt) {
-// 	ui.search.submit();
-// });
-
-// ui.search.chk_match_all.addEventListener("change", function(evt) {
-// 	ui.search.submit();
-// });
-
 /**************************************************************/
 
-ui.results.onUpdate = new Signal();
+ui.results.onUpdate = new Signal(); //dispatch page number?
 ui.results.onClear = new Signal();
 ui.results.onError = new Signal();
+
+ui.results.page = null;
+ui.results.last_page = null;
 
 ui.results.show = function (page) {
 	if(typeof page === "undefined") page = 0;
 	window.scrollTo(0,0);
+	ui.results.clear();
+	ui.results.page = null;
+	ui.results.last_page = null;
 
-	for (var i = 0; i < db.query.results.length; i++) {
+	var totalPages = Math.ceil(db.query.results.length / config.ui.results_per_page) - 1;
+
+	// for (var i = 0; i < db.query.results.length; i++) {
+	// 	var index = db.query.results[i].index;
+	// 	var element = new ResultCard(db.record[index]);
+	// 	ui.results.appendChild(element);
+	// }
+
+	if(page < 0 || page > totalPages) {
+		throw new ResultsPageOutOfBoundsException();
+	}
+
+	ui.results.page = page;
+	ui.results.last_page = totalPages+1;
+
+	var finalPageResultIndex = db.query.results.length < config.ui.results_per_page + (page * config.ui.results_per_page) ?
+			db.query.results.length : config.ui.results_per_page + (page * 10);
+
+	for (var i = (page * config.ui.results_per_page); i < finalPageResultIndex; i++) {
 		var index = db.query.results[i].index;
 		var element = new ResultCard(db.record[index]);
-		// var debugInfo = document.createElement("p");
-		// debugInfo.textContent = JSON.stringify(db.query.results[i]);
-		// element.appendChild(debugInfo);
 		ui.results.appendChild(element);
 	}
 
@@ -446,20 +525,6 @@ ui.results.error.hide = function () {
 		ui.results.error.__self = null;
 	}
 }
-
-/**************************************************************/
-
-ui.nav.btn_prev.addEventListener("onclick", function(evt){
-	
-});
-
-ui.nav.btn_next.addEventListener("onclick", function(evt){
-	
-});
-
-ui.nav.pages.addEventListener("onchange", function(evt){
-	
-});
 
 ////////////////
 

@@ -93,4 +93,8 @@ if (!('remove' in Element.prototype)) {
     };
 }
 
+if(!('scrollY' in window)) {
+    Object.defineProperty(window, 'scrollY', { get: function(){return document.documentElement.scrollTop;} });
+}
+
 window.location.get = [];

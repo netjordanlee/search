@@ -19,6 +19,12 @@ function NullResultsException(message) {
 }
 //NullResultsException.prototype = Error.prototype;
 
+function ResultsPageOutOfBoundsException(message) {
+	this.name = "ResultsPageOutOfBoundsException";
+	this.message = message ? (this.name + ": " + message) : (this.name + ": Attempted to access a page of results that doesn't exist.");
+	this.stack = Error.prototype;
+}
+
 function XHRNotSupportedException(message) {
 	this.name = "XHRNotSupportedException";
 	this.message = message ? (this.name + ": " + message) : (this.name + ": This browser does not support XMLHTTPRequests.")
