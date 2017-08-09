@@ -76,7 +76,7 @@ window.addEventListener("load", function(evt) {
 	//ui.search.onSubmit.add(ui.results.clear);
 	//ui.search.onSubmit.add(ui.spinner.show);
 	ui.search.onUpdate.add(ui.search.btn_clear.toggle);
-	ui.search.onUpdate.add(util.updateUrl);
+	//ui.search.onUpdate.add(util.updateUrl);
 
 	ui.search.onClear.add(ui.spinner.hide);
 
@@ -85,10 +85,12 @@ window.addEventListener("load", function(evt) {
 	db.onQuery.add(ui.results.error.hide);
 
 	db.onQueryComplete.add(ui.results.show);
+	db.onQueryComplete.add(ui.results.highlight);
 
 	ui.results.onUpdate.add(ui.spinner.hide);
-	ui.results.onUpdate.add(ui.results.highlight);
+	//ui.results.onUpdate.add(ui.results.highlight);
 	ui.results.onUpdate.add(ui.nav.update);
+	ui.results.onUpdate.add(util.updateUrl);
 	ui.results.onClear.add(ui.spinner.hide);
 	ui.results.onError.add(ui.spinner.hide);
 	ui.results.onError.add(ui.nav.update);
@@ -96,7 +98,7 @@ window.addEventListener("load", function(evt) {
 	try {
 		db.download("./db.min.xml");
 	} catch (err) {
-		switch(typeof(err)) {
+		switch(err.name) {
 			case "XHRException":
 				ui.results.error.show(err.message);
 				console.log(err);
@@ -109,26 +111,31 @@ window.addEventListener("load", function(evt) {
 				ui.results.error.show(err.message);
 				console.log(err);
 				break;
-			}
+		}
 	}
 
 	if(window.location.get.hasOwnProperty('q')) {
 		ui.search.value = window.location.get['q'];
 		ui.search.submit();
 	}
+
 });
 
 function search(query) {
 	try {
 		db.query(query);
-	} catch (error) {
-		if(error instanceof BadQueryException) {
-			ui.results.error.show("Please use a maximum of 8 keywords.");
-		} else if(error instanceof NullResultsException) {
-			ui.results.error.show("Unable to find what you're looking for, please check the spelling and try again.");
-		} else {
-			ui.results.error.show(error.stack);
-			console.log(error);
+	} catch (err) {
+		switch(err.name) {
+			case "BadQueryException":
+				ui.results.error.show("Please use a maximum of 8 keywords.");
+				break;
+			case "NullResultsException":
+				ui.results.error.show("Unable to find what you're looking for, please check the spelling and try again.");
+				break;
+			default:
+				ui.results.error.show(err.stack);
+				console.log(err);
+				break
 		}
 	}
 }
@@ -192,7 +199,7 @@ util.sendShareEmail = function (record) {
 	// Would be better to pull record properties from the Record object instead of the RecordCard
 	// perhaps have RecordCard store a reference to pass on?
 	if(record instanceof Record) {
-		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}', (window.location.origin + window.location.pathname), ui.search.value, record.locationCode.hashCode()));
+		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), ui.search.value, record.locationCode.hashCode(), ui.results.page));
 	    var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.description));
 	    var message = "";
 
@@ -277,7 +284,7 @@ util.raiseMissingTicket = function () {
 };
 
 util.updateUrl = function () {
-	var url = String.format('{0}?q={1}', (location.origin + location.pathname), encodeURIComponent(ui.search.value));
+	var url = String.format('{0}?q={1}&p={2}', (location.origin + location.pathname), encodeURIComponent(ui.search.value), encodeURIComponent((ui.results.page ? ui.results.page : 0)));
 	history.replaceState({}, document.title, url)
 };
 
@@ -359,7 +366,7 @@ ui.nav.pages.clear = function () {
 };
 
 ui.nav.pages.addEventListener('change', function() {
-	ui.results.show(parseInt(ui.nav.pages.value)); //FIX
+	ui.results.show(ui.nav.pages.value); //FIX
 });
 
 ui.nav.btn_next.addEventListener('click', function() {
@@ -393,6 +400,8 @@ ui.search.onClear = new Signal();
 
 ui.search.submit = function () {
 	ui.search.cancel();
+	// ui.results.page = null;
+	// ui.results.last_page = null;
 	ui.search.onUpdate.dispatch(ui.search.value);
 	if(ui.search.value.length > 1) {
 		ui.search.timeout = setTimeout("ui.search.onSubmit.dispatch(ui.search.value);", 666);
@@ -457,10 +466,10 @@ ui.results.last_page = null;
 
 ui.results.show = function (page) {
 	if(typeof page === "undefined") page = 0;
+	page = parseInt(page);
+
 	window.scrollTo(0,0);
 	ui.results.clear();
-	ui.results.page = null;
-	ui.results.last_page = null;
 
 	var totalPages = Math.ceil(db.query.results.length / config.ui.results_per_page) - 1;
 
@@ -490,6 +499,8 @@ ui.results.show = function (page) {
 };
 
 ui.results.clear = function () {
+	// ui.results.page = null;
+	// ui.results.last_page = null;
 	// JavaScript black magic, clearing innerHTML is very slow compared to looping through and removing each child?
 	while(ui.results.lastChild) {
 		ui.results.removeChild(ui.results.lastChild);
@@ -499,6 +510,15 @@ ui.results.clear = function () {
 };
 
 ui.results.highlight = function () {
+
+	/* Unfortunately causes two calls to ui.results.show()
+	   as Signal fires first and intercept not possible */
+	if(window.location.get.hasOwnProperty('p')) {
+		ui.results.show(window.location.get['p']);
+	} else {
+		ui.results.show();
+	}
+
 	if(window.location.get.hasOwnProperty('r')) {
 		var hash = window.location.get['r'];
 		var element = document.getElementById(hash);
@@ -507,6 +527,9 @@ ui.results.highlight = function () {
 			element.parentElement.parentElement.style.border = '5px solid white';
 		}
 	}
+
+	// Once only ever
+	db.onQueryComplete.remove(ui.results.highlight);
 }
 
 ui.results.error.show = function (message) {
