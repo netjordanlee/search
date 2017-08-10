@@ -487,7 +487,7 @@ ui.results.show = function (page) {
 	ui.results.last_page = totalPages+1;
 
 	var finalPageResultIndex = db.query.results.length < config.ui.results_per_page + (page * config.ui.results_per_page) ?
-			db.query.results.length : config.ui.results_per_page + (page * 10);
+			db.query.results.length : config.ui.results_per_page + (page * config.ui.results_per_page);
 
 	for (var i = (page * config.ui.results_per_page); i < finalPageResultIndex; i++) {
 		var index = db.query.results[i].index;
