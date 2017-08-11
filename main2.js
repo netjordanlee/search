@@ -399,6 +399,9 @@ ui.search.onSubmit = new Signal();
 ui.search.onClear = new Signal();
 
 ui.search.submit = function () {
+  while(db.state != DatabaseState.READY){
+    if(db.state == DatabaseState.ERROR) { return; }
+  };
 	ui.search.cancel();
 	// ui.results.page = null;
 	// ui.results.last_page = null;
@@ -551,8 +554,15 @@ ui.results.error.hide = function () {
 
 ////////////////
 
+var DatabaseState = {
+  ERROR: -1,
+  PENDING: 0,
+  READY: 1
+};
+
 var db = {};
 
+db.state = DatabaseState.PENDING;
 db.record = [];
 
 db.onDownloadBegin = new Signal();
@@ -576,12 +586,15 @@ db.download = function(url) {
 			if(xhttp.status == 200 || xhttp.status == 0) {
 				//HTTP OK or 0 for local fs
 				if(xhttp.responseText.isNullOrEmpty()) {
+          db.state = DatabaseState.ERROR;
 					throw new XHRException("The request returned an empty respose.");
 				} else {
+          db.state = DatabaseState.READY;
 					db.onDownloadComplete.dispatch(xhttp.responseText);
 					return xhttp.responseText;
 				}
 			} else {
+        db.state = DatabaseState.ERROR;
 				throw new XHRException("The request returned failed with the stauts code " + xhttp.status);
 			}
 		}
