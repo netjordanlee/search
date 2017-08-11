@@ -399,9 +399,13 @@ ui.search.onSubmit = new Signal();
 ui.search.onClear = new Signal();
 
 ui.search.submit = function () {
-  while(db.state != DatabaseState.READY){
+  /*while(db.state != DatabaseState.READY){
     if(db.state == DatabaseState.ERROR) { return; }
-  };
+  };*/
+  if(db.state != DatabaseState.READY){
+    setTimeout(ui.search.submit, 100);
+    return;
+  }
 	ui.search.cancel();
 	// ui.results.page = null;
 	// ui.results.last_page = null;
