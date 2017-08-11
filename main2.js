@@ -399,10 +399,10 @@ ui.search.onSubmit = new Signal();
 ui.search.onClear = new Signal();
 
 ui.search.submit = function () {
-  /*while(db.state != DatabaseState.READY){
-    if(db.state == DatabaseState.ERROR) { return; }
-  };*/
   if(db.state != DatabaseState.READY){
+    if(db.state == DatabaseState.ERROR) {
+     return; 
+    }
     setTimeout(ui.search.submit, 100);
     return;
   }
