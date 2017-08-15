@@ -43,7 +43,7 @@
       'bg-green maroon darken'
     ];
 
-    var elements = document.querySelectorAll(".a11y");
+    var elements = document.querySelectorAll(".colors-js");
     for (var i = 0; i < elements.length; i++) {
       var selectedClasses = classes[Math.floor(Math.random() * classes.length)].split(' ');
       for (var c = 0; c < selectedClasses.length; c++) {

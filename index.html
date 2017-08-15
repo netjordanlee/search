@@ -2,7 +2,7 @@
 <html lang="en-us" manifest="manifest.appcache">
 
 <!-- KEEP THIS VERSION NUMBER UPDATED -->
-<meta name="version" content="20170815.1" />
+<meta name="version" content="20170815.2" />
 
 <head>
 <title>[ HCIS-Search ]</title>
@@ -40,9 +40,8 @@
 <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
 <link rel="shortcut icon" href="./favicon.ico">
 
-<link rel="stylesheet" href="./style.smin.css" />
-<link rel="stylesheet" href="./style2.css" />
-<link rel="stylesheet" href="./colors.smin.css" />
+<link rel="stylesheet" href="./style.css" />
+<link rel="stylesheet" href="./colors.css" />
 
 <!--<base target="_top" />-->
 
@@ -62,7 +61,7 @@
 
 </head>
 
-<body class="a11y">
+<body class="colors-js">
 <!--[if lte IE 9]>
   <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <strong><a href="http://browsehappy.com/">upgrade your browser</a></strong> to improve your experience and security.</p>
 <![endif]-->
@@ -99,15 +98,13 @@
 </template>
 
 <template name='error'>
-  <li id="error" class="no-results">
+  <li id="error" class="error-message">
     <p class="sadface">:(</p>
     <p>If you think we're missing something, you can submit a <a href="#0" class="shade extra-item missing-ticket" onclick="util.raiseMissingTicket()">Missing Entry Report...</a></p>
   </li>
 </template>
 
-<div class='notification'><div class="info-icon"></div></div>
-
-<div id="body" class="page table-w-100">
+<div id="body" class="page">
   <div id="header" class="navigation">
     <div class="search-container">
       <input id="search" type="search" class="search shade" placeholder="Search" autocomplete="off" value="" autofocus/>
@@ -115,14 +112,14 @@
     </div>
     <div class="page-navigation">
         <div class="page-navigation-section">
-            <button id="btn-prev" class="pagination-btn" onclick="" disabled="true">&#10094;</button>
+            <button id="btn-prev" class="page-navigation" onclick="" disabled="true">&#10094;</button>
         </div>
         <div class="page-navigation-section">
-            <select id="combo-pages" class="shade" onchange="" disabled="true">
+            <select id="combo-pages" class="page-navigation shade" onchange="" disabled="true">
             </select>
         </div>
         <div class="page-navigation-section">
-            <button id="btn-next" class="pagination-btn" onclick="" disabled="true">&#10095;</button>
+            <button id="btn-next" class="page-navigation" onclick="" disabled="true">&#10095;</button>
         </div>
     </div>
   </div>
@@ -161,7 +158,7 @@
 <script type="text/javascript" src="./upup.min.js"></script>
 <script type="text/javascript" src="./upup.sw.min.js"></script>
 
-<script type="text/javascript" src="./a11y-cl.js"></script>
+<script type="text/javascript" src="./colors.js"></script>
 
 <script type="text/javascript" src="./signals.js"></script>
 <script type="text/javascript" src="./classList.min.js"></script>
@@ -170,7 +167,7 @@
 
 <script type="text/javascript" src="./exceptions.js"></script>
 
-<script type="text/javascript" src="./main2.js"></script>
+<script type="text/javascript" src="./main.js"></script>
 
 <script type="text/javascript">
 try {
@@ -178,20 +175,20 @@ try {
     'cache-version': appVersion,
     'content-url': './index.html',
     'assets': [
-      './',
-      './favicon.ico', //Is this necessary?
+      // Content
+      './index.html',
       './db.min.xml',
+      // StyleSheets
       './style.css',
-      './colors.min.css',
-      './tachyons.min.css',
+      './colors.css',
+      // JavaScript
       './main.js',
-      './main2.js',
       './plugins.js',
       './signals.js',
       './classList.min.js',
       './template.js',
       './exceptions.js',
-      './a11y-cl.js',
+      './colors.js',
       './upup.min.js',
       './upup.sw.min.js'
     ]
