@@ -1,37 +1,47 @@
 <!doctype html>
-<!--[if !IE]><!-->
-<html class="no-js" lang="en">
-<!--<![endif]-->
-<!--[if IE]><!-->
-<html class="ie no-js" lang="en">
-<!--<![endif]-->
+<html lang="en-us" manifest="manifest.appcache">
+
+<!-- KEEP THIS VERSION NUMBER UPDATED -->
+<meta name="version" content="20170815.3" />
 
 <head>
+<title>[ HCIS-Search ]</title>
+
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
-
-<title>[ HCIS-Search ]</title>
 
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="mobile-web-app-status-bar-style" content="black" />
-<meta name="apple-mobile-web-app-title" content="[ HCIS-Search ]" />
-<meta name="mobile-web-app-title" content="[ HCIS-Search ]" />
+<meta name="apple-mobile-web-app-title" content="HCIS Search">
+<meta name="application-name" content="HCIS Search">
+<meta name="theme-color" content="#ffffff">
 
 <link rel="manifest" href="./manifest.json" />
+<meta name="msapplication-config" content="./browserconfig.xml">
 
 <meta name="author" content="Laith Serhan, @laithserhan" />
 <meta name="contributor" content="Jordan Lee" />
-<meta name="version" content="20170302.1" />
 <meta name="description" content="[ HCIS-Search ]" />
 
-<link rel="apple-touch-icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA1BMVEUAAACnej3aAAAADElEQVR4AWNAAaMAAAEQAAEkQk9fAAAAAElFTkSuQmCC" />
+<link rel="apple-touch-icon" sizes="57x57" href="./apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="./apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="./apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="./apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="./apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="./apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="./apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="./apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="./favicon.ico">
 
-<link rel="stylesheet" type="text/css" href="./tachyons.min.css" />
 <link rel="stylesheet" href="./style.css" />
-<link rel="stylesheet" href="./colors.min.css" />
+<link rel="stylesheet" href="./colors.css" />
 
 <!--<base target="_top" />-->
 
@@ -48,12 +58,10 @@
   }
 })(document, window.navigator, "standalone")
 </script>
-<script type="text/javascript" src="./modernizr.min.js" crossorigin></script>
 
-<!-- http://halistechnology.com/2015/05/28/use-javascript-to-export-your-data-as-csv/ -->
 </head>
 
-<body class="a11y">
+<body class="colors-js">
 <!--[if lte IE 9]>
   <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <strong><a href="http://browsehappy.com/">upgrade your browser</a></strong> to improve your experience and security.</p>
 <![endif]-->
@@ -63,127 +71,127 @@
   </div>
 </noscript>
 
-<div id="body" class="page table-w-100">
-  <table id="table-header" class="head table-w-100">
-    <tbody>
-      <tr class="header">
-        <td class="break" colspan="4">
-          <input type="text" class="search shade" placeholder="Search" autocomplete="off" value="" autofocus/>
-        </td>
-
-        <td class="break shade ta-c" colspan="1">
-          <input id="chk-match-phrase" type="checkbox" />
-          <label class="extra-item" for="chk-match-phrase"></label>
-          <!-- <label for="chk-match-phrase"></label> -->
-        </td>
-        <td class="break shade ta-c" colspan="1">
-          <input id="chk-match-all" type="checkbox" checked="checked" />
-          <label class="extra-item" for="chk-match-all"></label>
-          <!-- <label for="chk-match-all"></label> -->
-        </td>
-      </tr>
-
-      <!-- <tr class="options-bar shade">
-        <td class="break shade" colspan="1">
-          <input id="chk-match-phrase" type="checkbox" />
-          <label for="chk-match-phrase">Match Phrase</label>
-        </td>
-        <td class="break shade" colspan="1">
-          <input id="chk-match-all" type="checkbox" checked="checked" />
-          <label for="chk-match-all">Match All Keywords</label>
-        </td>
-      </tr> -->
-
-      <tr class="pagination">
-        <td colspan='2'>
-          <button id="btn-prev" class="pagination-btn" onclick="displayResults(parseInt(currentPage)-1);" disabled="true">< Previous</button>
-        </td>
-        <td colspan='2' class='table-w-100'>
-          <div>
-            <select id="combo-pages" class="shade" onchange="displayResults(document.getElementById('combo-pages').value);" disabled="true">
-            </select>
-          </div>
-        </td>
-        <td colspan='2'>
-          <button id="btn-next" class="pagination-btn" onclick="displayResults(parseInt(currentPage)+1);" disabled="true">Next ></button>
-        </td>
-      </tr>
-
-      <!-- <tr class="">
-        <td colspan="6" class="break">
-          <hr class="hr-styling">
-        </td>
-      </tr> -->
-    </tbody>
-  </table>
-
-  <div class="content">
-    <div id="output" class="output">
-
+<template name="result-card">
+<li class="shade">
+  <div class="result-card">
+    <a class="anchor"></a>
+    <div class="lhd">LHD: <span></span></div>
+    <div class="cerner">Cerner: <span></span></div>
+    <div class="locationCode">Code: <span></span></div>
+    <div class="description">Description: <span></span></div>
+    <div class="addressLocation">Address: <span></span></div>
+    <div class="phoneNumber">Contact: <span></span></div>
+    <div class="sector">Sector: <span></span></div>
+    <div class="org">ORG: <span></span></div>
+    <div class="costCentreCode">Cost Centre Code: <span></span></div>
+    <div class="entityCode">Entity Code: <span></span></div>
+    <div class="inst">INST: <span></span></div>
+    <div class="other">Other: <span></span></div>
+    <div class="debug">Debug: <span></span></div>
+    <div>
+      <a class="extra-item search-description shade" title="Search Description on the Wold Wide Web..." target="_blank"></a>
+      <a class="extra-item map-address shade" title="Open Address in Maps..." target="_blank"></a>
+      <a class="extra-item share-card shade" title="Share this Contact Card by Email..."></a>
+      <a class="extra-item raise-ticket shade" title="Report a Problem or Request to Update Entries For This Contact Card..."></a>
     </div>
+  </div>
+</li>
+</template>
+
+<template name='error'>
+  <li id="error" class="error-message">
+    <p class="sadface">:(</p>
+    <p>If you think we're missing something, you can submit a <a href="#0" class="shade extra-item missing-ticket" onclick="util.raiseMissingTicket()">Missing Entry Report...</a></p>
+  </li>
+</template>
+
+<div id="body" class="page">
+  <div id="header" class="navigation">
+    <div class="search-container">
+      <input id="search" type="search" class="search shade" placeholder="Search" autocomplete="off" value="" autofocus/>
+      <a id="btn-clear" class="search-clear hide"></a>
+    </div>
+    <div class="page-navigation">
+        <div class="page-navigation-section">
+            <button id="btn-prev" class="page-navigation" onclick="" disabled="true">&#10094;</button>
+        </div>
+        <div class="page-navigation-section">
+            <select id="combo-pages" class="page-navigation shade" onchange="" disabled="true">
+            </select>
+        </div>
+        <div class="page-navigation-section">
+            <button id="btn-next" class="page-navigation" onclick="" disabled="true">&#10095;</button>
+        </div>
+    </div>
+  </div>
+
+  <div id="content" class="content">
+    <div id='loading' class='loading-overlay' style='height: 100%; opacity: 1; pointer-events: auto;'><div class='spinner'></div></div>
+    <div id="output" class="output"></div>
   </div>
   <!-- end of .content -->
 </div>
 <!-- end of .page -->
 
-<footer class="fl w-100 ptx pbx site-footer bg-silver">
-  <div class="center phm black mw-64">
-    <h2 class="f6 navy pls thin mbn title">Made by <a href="https://laithserhan.github.io/" class="lnk navy">Laith Serhan</a></h2>
-    <small class="f6 navy pls thin mbn">Contributions by <a href="#0" class="lnk navy">Jordan Lee</a></small>
-    <h2 class="navy pls thin mbn f3 mtl">Some other tools</h2>
-    <ul class="list f5 pln mln mtn" >
-      <li class="list-item pln mtm"><a class="bold f2 black lnk pas" href="https://laithserhan.github.io/hcis-search">HCIS-Search</a></li>
-      <li class="list-item pln mtm"><a class="bold f2 black lnk pas" href="https://laithserhan.github.io/hcis-tim-via-email">HCIS-TIM-via-Email</a></li>
-      <li class="list-item pln mtm"><a class="bold f2 black lnk pas" href="https://laithserhan.github.io/hcis-tim-auto-login">HCIS-TIM-auto-Login</a></li>
+<footer class="footer bg-silver">
+  <div class="footer black">
+    <h3 class="footer navy">Made by <a href="https://laithserhan.github.io/" class="lnk navy">Laith Serhan</a> & Jordan Lee</h2>
+    <h2 class="footer navy">Some other tools</h2>
+    <ul class="tools-list" >
+      <li class="tools-list"><a class="tools-list black" href="https://laithserhan.github.io/hcis-search">HCIS-Search</a></li>
+      <li class="tools-list"><a class="tools-list black" href="https://laithserhan.github.io/hcis-tim-via-email">HCIS-TIM-via-Email</a></li>
+      <li class="tools-list"><a class="tools-list black" href="https://laithserhan.github.io/hcis-tim-auto-login">HCIS-TIM-auto-Login</a></li>
 
     </ul>
-    <ul class="list f5 pln mln ptl mtx" style="border-top:1px solid
-      rgba(0,0,0,0.25);">
-      <li class="list-item pln mtm"><a class="black lnk pas" href="https://laithserhan.github.io/hcis-blog">HCIS-Blog</a></li>
-    </ul>
     <br />
     <br />
-    <small class="mtl pls bold navy">v20170503.1</small>
-    <small class="small pls title black" style="font-size: 12px;">
-      Projects and tools for use by staff at
-      <a href="https://www.wslhd.health.nsw.gov.au/Health-Care-Interpreter-Service-"
-       class="lnk black bold mtm"
-        title="blarg">WSLHD-HCIS
-      </a>.
-    </small>
+    <span class="version navy"></span>
+    <span class="sign-off" style="font-size: 12px;">
+      <a class="sign-off black" href="https://laithserhan.github.io/hcis-blog">Projects and tools</a> for use by staff at
+      <a href="https://www.wslhd.health.nsw.gov.au/Health-Care-Interpreter-Service-" class="sign-off black" title="More information about Western Sydney Health Care Interpreter Service">WSLHD-HCIS</a>
+    </span>
+    <a href="#0" class="shade extra-item missing-ticket" style="float:right" onclick="util.raiseMissingTicket()">Something missing?</a>
   </div>
 </footer>
 
-<script type="text/javascript" src="./jquery.min.js" crossorigin></script>
 <script type="text/javascript" src="./plugins.js"></script>
-<script type="text/javascript" src="./main.js"></script>
-<script type="text/javascript" src="./a11y-cl.js"></script>
+
 <script type="text/javascript" src="./upup.min.js"></script>
 <script type="text/javascript" src="./upup.sw.min.js"></script>
+
+<script type="text/javascript" src="./colors.js"></script>
+
+<script type="text/javascript" src="./signals.js"></script>
+<script type="text/javascript" src="./classList.min.js"></script>
+<script type="text/javascript" src="./template.js"></script>
+
+
+<script type="text/javascript" src="./exceptions.js"></script>
+
+<script type="text/javascript" src="./main.js"></script>
+
 <script type="text/javascript">
 try {
   UpUp.start({
-    'cache-version': 'v20170511.3',
+    'cache-version': appVersion,
     'content-url': './index.html',
     'assets': [
-      './',
-      './a11y-cl.js',
-      './colors.min.css',
-      './db.xml',
+      // Content
       './index.html',
-      './jquery.min.js',
-      './main.js',
-      './manifest.json',
-      './modernizr.min.js',
-      './plugins.js',
-      './README.md',
+      './db.min.xml',
+      // StyleSheets
       './style.css',
-      './sw.js',
-      './tachyons.min.css',
+      './colors.css',
+      // JavaScript
+      './main.js',
+      './plugins.js',
+      './signals.js',
+      './classList.min.js',
+      './template.js',
+      './exceptions.js',
+      './colors.js',
       './upup.min.js',
-      './upup.min.js.map',
-      './upup.sw.min.js',
-      './upup.sw.min.js.map'
+      './upup.sw.min.js'
     ]
   });
 } catch (err) {

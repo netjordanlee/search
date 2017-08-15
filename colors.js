@@ -1,6 +1,5 @@
-(function($) {
-
-  $(document).ready(function() {
+(function() {
+  window.addEventListener('load', function() {
     var classes = [
       'bg-yellow purple darken',
       'bg-yellow maroon darken',
@@ -44,9 +43,12 @@
       'bg-green maroon darken'
     ];
 
-    $('.a11y').each(function(i) {
-      $(this).addClass(classes[Math.floor(Math.random() * classes.length)]);
-    });
+    var elements = document.querySelectorAll(".colors-js");
+    for (var i = 0; i < elements.length; i++) {
+      var selectedClasses = classes[Math.floor(Math.random() * classes.length)].split(' ');
+      for (var c = 0; c < selectedClasses.length; c++) {
+        elements[i].classList.add(selectedClasses[c]); //Can only add one at a time!
+      }
+    }
   });
-
-})(jQuery);
+})();

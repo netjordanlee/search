@@ -24,7 +24,7 @@ doc.setAttribute('data-useragent', navigator.userAgent);
   }
 }());
 
-// Place any jQuery/helper plugins in here.
+// HERE BE POLYFILLS
 
 // Date formatting
 if (!Date.yymmdd) {
@@ -64,3 +64,37 @@ if (!String.isNullOrEmpty) {
     }
   };
 }
+
+if(!String.hashCode) {
+  String.prototype.hashCode = function() {
+    var hash = 5381;
+    for (i = 0; i < this.length; i++) {
+        char = this.charCodeAt(i);
+        hash = ((hash << 5) + hash) + char; /* hash * 33 + c */
+    }
+    return Math.abs(hash);
+  }
+  String.hashCode = function(str) {
+    var hash = 5381;
+    for (i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash << 5) + hash) + char; /* hash * 33 + c */
+    }
+    return Math.abs(hash);
+  }
+}
+
+// Fuck IE.
+if (!('remove' in Element.prototype)) {
+    Element.prototype.remove = function() {
+        if (this.parentNode) {
+            this.parentNode.removeChild(this);
+        }
+    };
+}
+
+if(!('scrollY' in window)) {
+    Object.defineProperty(window, 'scrollY', { get: function(){return document.documentElement.scrollTop;} });
+}
+
+window.location.get = [];

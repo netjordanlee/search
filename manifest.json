@@ -1,37 +1,27 @@
 {
-    "short_name": "[ HCIS-Search ]",
-    "name": "[ HCIS-Search ]",
-    "description": "[ HCIS-Search ]",
+    "short_name": "HCIS Search",
+    "name": "HCIS Search",
+    "description": "HCIS Search tool developed by and for WSLHD HCIS staff",
     "icons": [
         {
-            "src": "icon-48.png",
-            "type": "image/png",
-            "sizes": "48x48"
+            "src": "./android-chrome-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
         },
         {
-            "src": "icon-96.png",
-            "type": "image/png",
-            "sizes": "96x96"
+            "src": "./android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
         },
         {
-            "src": "icon-128.png",
-            "type": "image/png",
-            "sizes": "128x128"
-        },
-        {
-            "src": "icon-144.png",
-            "type": "image/png",
-            "sizes": "144x144"
-        },
-        {
-            "src": "icon-196.png",
-            "type": "image/png",
-            "sizes": "196x196"
+            "src": "./android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
         }
     ],
-    "start_url": "index.html?launcher=true",
+    "start_url": "https://therealzuriki.github.io/hcis-search/",
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": "#FFFFFF",
-    "background_color": "#FFFFFF"
+    "background_color": "#333333"
 }
