@@ -465,6 +465,7 @@ ui.search.btn_clear.hide = function() {
 
 ui.search.btn_clear.addEventListener("click", function(evt){
 	ui.search.clear();
+	ui.search.focus();
 });
 
 /**************************************************************/
