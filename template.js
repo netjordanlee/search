@@ -3,7 +3,7 @@ var template = (function(){
 	var __class__ = {};
 
 	__class__.load = function (name) {
-		var _template = document.querySelector('template.'+name);
+		var _template = document.querySelector('[name='+name+']');
 		if(_template.content)
 			return document.importNode(_template.content.firstElementChild, true);
 		if (_template.firstElementChild)

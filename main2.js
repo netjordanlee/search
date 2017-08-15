@@ -1,5 +1,7 @@
 var Signal = signals.Signal;
 
+var appVersion = document.querySelector('[name=version]').content;
+
 var scrollManager = {
 	locked : false,
 	lastPosition : 0
@@ -13,8 +15,10 @@ scrollManager.lock = function(timer){
 
 window.addEventListener("load", function(evt) {
 
-	// If browser doesn't support service workers, use appcache
-	if(!('serviceWorker' in navigator)) {
+	document.querySelector('.version').innerHTML = 'v' + appVersion; //Dynamically updates footer version
+
+	// If browser doesn't support service workers but does support applicationCache use it
+	if(!('serviceWorker' in navigator) && ('applicationCache' in window)) {
 		window.applicationCache.addEventListener('updateready', function(e) {
 			if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 				// Browser downloaded a new app cache.
@@ -60,8 +64,11 @@ window.addEventListener("load", function(evt) {
 			// Scrolled up the page
 			ui.search.show();
 			scrollManager.lock(333);
-		} else if(window.scrollY == 0) {
+		}
+
+		if(window.scrollY < 32) {
 			// Fallback to ensure that scrolling to the top always expands search
+			scrollManager.locked = false;
 			ui.search.show();
 		}
 		scrollManager.lastPosition = window.scrollY;
@@ -284,8 +291,13 @@ util.raiseMissingTicket = function () {
 };
 
 util.updateUrl = function () {
-	var url = String.format('{0}?q={1}&p={2}', (location.origin + location.pathname), encodeURIComponent(ui.search.value), encodeURIComponent((ui.results.page ? ui.results.page : 0)));
-	history.replaceState({}, document.title, url)
+	if(('replaceState' in history) && (window.location.origin !== undefined)) {
+		var url = String.format('{0}?q={1}&p={2}', 
+			(location.origin + location.pathname), 
+			encodeURIComponent(ui.search.value), 
+			encodeURIComponent((ui.results.page ? ui.results.page : 0)));
+		history.replaceState({}, document.title, url);
+	}
 };
 
 util.parseUrlVariables = function() {
@@ -314,7 +326,7 @@ ui.search.btn_clear = document.getElementById('btn-clear');
 
 ui.results = document.getElementById('output');
 
-ui.results.error = (function(){var a=document.getElementById('error');a.remove();return a;})();
+ui.results.error = template.load('error');
 ui.results.error.message = (function(){var a=document.createElement('p');a.id='error-text';ui.results.error.insertBefore(a,ui.results.error.lastChild);return a;})();
 
 ui.spinner = (function(){var a=document.getElementById('loading');a.remove();return a;})(); //It works, don't ask

@@ -70,8 +70,7 @@
   </div>
 </noscript>
 
-<!-- The class of a template is irrelevant, only used for template.js as selector -->
-<template class="result-card">
+<template name="result-card">
 <li class="shade">
   <div class="result-card">
     <a class="anchor"></a>
@@ -97,6 +96,13 @@
 </li>
 </template>
 
+<template name='error'>
+  <li id="error" class="no-results">
+    <p class="sadface">:(</p>
+    <p>If you think we're missing something, you can submit a <a href="#0" class="shade extra-item missing-ticket" onclick="util.raiseMissingTicket()">Missing Entry Report...</a></p>
+  </li>
+</template>
+
 <div id="body" class="page table-w-100">
   <div id="header" class="navigation">
     <div class="search-container">
@@ -119,12 +125,7 @@
 
   <div id="content" class="content">
     <div id='loading' class='loading-overlay' style='height: 100%; opacity: 1; pointer-events: auto;'><div class='spinner'></div></div>
-    <div id="output" class="output">
-      <li id="error" class="no-results">
-        <p style="transform: rotate(90deg); font-size: 8.333vw; font-family: Arial, sans-serif; pointer-events: none;">:(</p>
-        <p>If you think we're missing something, you can submit a <a href="#0" class="shade extra-item" onclick="util.raiseMissingTicket()">Missing Entry Report...</a></p>
-      </li>
-    </div>
+    <div id="output" class="output"></div>
   </div>
   <!-- end of .content -->
 </div>
@@ -142,7 +143,7 @@
     </ul>
     <br />
     <br />
-    <span class="version navy">v20170807.0</small>
+    <span class="version navy"></span>
     <span class="sign-off" style="font-size: 12px;">
       <a class="sign-off black" href="https://laithserhan.github.io/hcis-blog">Projects and tools</a> for use by staff at
       <a href="https://www.wslhd.health.nsw.gov.au/Health-Care-Interpreter-Service-" class="sign-off black" title="More information about Western Sydney Health Care Interpreter Service">WSLHD-HCIS</a>
