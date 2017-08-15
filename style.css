@@ -157,6 +157,7 @@ div.page-navigation {
 }
 
 div.page-navigation-section {
+    display: inline-block;
 	float: left;
 	width: 33.3333%;
 }
@@ -364,16 +365,16 @@ a.sign-off {
     padding: 0.3em .6em 0.3em .6em;
     white-space: nowrap;
 }
-.search-description:before {
+.search-description::before {
     content:'Search';
 }
-.map-address:before {
+.map-address::before {
     content:'Map'
 }
-.share-card:before {
+.share-card::before {
     content: 'Share';
 }
-.raise-ticket:before {
+.raise-ticket::before {
     content: 'Update';
 }
 
@@ -401,16 +402,16 @@ a.sign-off {
     .extra-item {
         margin: 0 1px 0 0;
     }
-    .search-description:before {
+    .search-description::before {
         content:'Search Online';
     }
-    .map-address:before {
+    .map-address::before {
         content:'View Map'
     }
-    .share-card:before {
+    .share-card::before {
         content: 'Share Card';
     }
-    .raise-ticket:before {
+    .raise-ticket::before {
         content: 'Update Details';
     }
 }
