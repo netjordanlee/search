@@ -512,7 +512,7 @@ ui.results.show = function (page) {
 
 	for (var i = (page * config.ui.results_per_page); i < finalPageResultIndex; i++) {
 		var index = db.query.results[i].index;
-		var element = new ResultCard(db.record[index]);
+		var element = new ResultCard(db.record[index], JSON.stringify(db.query.results[i]));
 		ui.results.appendChild(element);
 	}
 
@@ -750,7 +750,8 @@ function Record(healthDistrict, cerner, locationCode, description, addressLocati
 	this.other = other;
 };
 
-function ResultCard(record) {
+function ResultCard(record, debug) {
+	if(typeof debug !== "string") debug = "";
 	var _parent = this; // This makes me sad, but can't see a better way
 
 	var _element = template.load('result-card');
@@ -777,12 +778,16 @@ function ResultCard(record) {
 	this.entityCode = 	createField('.entityCode', record.entityCode);
 	this.inst = 		createField('.inst', record.INST);
 	this.other = 		createField('.other', record.other);
+	this.debug = 		createField('.debug', debug); // Added post-facto
 
-	this.sector.classList.add('hide');
-	this.org.classList.add('hide');
-	this.costCode.classList.add('hide');
-	this.entityCode.classList.add('hide');
-	this.inst.classList.add('hide');
+	if(!config.debug) {
+		this.sector.classList.add('hide');
+		this.org.classList.add('hide');
+		this.costCode.classList.add('hide');
+		this.entityCode.classList.add('hide');
+		this.inst.classList.add('hide');
+		this.debug.classList.add('hide');
+	}
 
 	this.anchor	= _element.querySelector('a');
 	this.anchor.id = record.locationCode.hashCode();
