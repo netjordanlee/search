@@ -1,3 +1,4 @@
+
 var Signal = signals.Signal;
 
 var appVersion = document.querySelector('[name=version]').content;
@@ -558,7 +559,7 @@ ui.results.error.show = function (message) {
 	if(!ui.results.error.__self) {
 		ui.results.error.__self = ui.container.appendChild(ui.results.error);
 	}
-
+  
 	ui.results.onError.dispatch(message);
 }
 
