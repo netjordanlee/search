@@ -545,7 +545,7 @@ ui.results.highlight = function () {
 		var element = document.getElementById(hash);
 		if(element) {
 			window.scrollTo(0,element.offsetTop);
-			element.parentElement.parentElement.style.border = '5px solid white';
+			element.parentElement.style.outline = '5px solid white';
 		}
 	}
 

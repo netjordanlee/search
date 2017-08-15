@@ -203,6 +203,7 @@ select.page-navigation::-ms-expand { display: none; }
 
 .page {
 	margin: auto;
+    width: 100%;
 	min-height: 100%;
 	background-color: inherit;
 }
