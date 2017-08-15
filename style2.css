@@ -214,3 +214,13 @@ span.sign-off {
 a.sign-off {
 	font-weight: 700;
 }
+
+/* Errors */
+.sadface {
+	transform: rotate(90deg);
+	font-size: 9vh;
+	font-family: Arial, sans-serif;
+	pointer-events: none;
+}
+
+}
