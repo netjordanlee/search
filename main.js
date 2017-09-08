@@ -235,7 +235,7 @@ util.sendShareEmail = function (record) {
 };
 
 util.raiseUpdateTicket = function (record) {
-	var recepient = "laith.serhan@health.nsw.gov.au";
+	var recepient = "jordan.lee@health.nsw.gov.au";
 	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.locationCode.hashCode());
 	var message = String.format(
 	'-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' + 
