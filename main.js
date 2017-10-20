@@ -276,7 +276,7 @@ util.raiseUpdateTicket = function (record) {
 };
 
 util.raiseMissingTicket = function () {
-	var recepient = "laith.serhan@health.nsw.gov.au";
+	var recepient = "jordan.lee@health.nsw.gov.au";
 	var subject = String.format("Trouble Ticket - {0}:NEW", (new Date()).yymmdd());
 	var message = String.format(
 	'-----// In This Field, Fill Out What You Know About The Missing Record //-----%0D%0A%0D%0A' + 
