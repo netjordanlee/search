@@ -1,7 +1,7 @@
 {
-    "short_name": "HCIS Search",
-    "name": "HCIS Search",
-    "description": "HCIS Search tool developed by and for WSLHD HCIS staff",
+    "short_name": "Search",
+    "name": "Search",
+    "description": "Description",
     "icons": [
         {
             "src": "./android-chrome-144x144.png",
@@ -19,7 +19,7 @@
             "type": "image/png"
         }
     ],
-    "start_url": "https://therealzuriki.github.io/hcis-search/",
+    "start_url": "https://laithserhan.github.io/search/",
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": "#FFFFFF",

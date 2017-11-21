@@ -1,8 +1,8 @@
-var version = 'v20170316.4'
+var version = 'v20171122.1'
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open('hcis-search').then(cache => {
+    caches.open('search').then(cache => {
       return cache.addAll([
           './',
           './index.html',
