@@ -87,6 +87,7 @@ window.addEventListener("load", function(evt) {
 	ui.search.onUpdate.add(ui.search.btn_clear.toggle);
 	//ui.search.onUpdate.add(util.updateUrl);
 
+  ui.search.onClear.add(util.updateUrl);
 	ui.search.onClear.add(ui.spinner.hide);
 
 	db.onQuery.add(ui.results.clear);
