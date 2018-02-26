@@ -208,7 +208,7 @@ util.sendShareEmail = function (record) {
 	// Would be better to pull record properties from the Record object instead of the RecordCard
 	// perhaps have RecordCard store a reference to pass on?
 	if(record instanceof Record) {
-		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), ui.search.value, record.locationCode.hashCode(), ui.results.page));
+		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), encodeURIComponent(ui.search.value), record.locationCode.hashCode(), ui.results.page));
 		var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.description));
 		var message = "";
 
