@@ -1,4 +1,3 @@
-
 var Signal = signals.Signal;
 
 var appVersion = document.querySelector('[name=version]').content;
@@ -16,7 +15,7 @@ scrollManager.lock = function(timer){
 
 window.addEventListener("load", function(evt) {
 
-	document.querySelector('.version').innerHTML = 'v' + appVersion; //Dynamically updates footer version
+	document.querySelector('.version').innerHTML = 'v' + appVersion; // Dynamically updates footer version
 
 	// If browser doesn't support service workers but does support applicationCache use it
 	if(!('serviceWorker' in navigator) && ('applicationCache' in window)) {
@@ -36,8 +35,8 @@ window.addEventListener("load", function(evt) {
 	util.parseUrlVariables();
 
 	document.addEventListener("keydown", function(evt) {
-		//if(evt.keyCode == 17) { ctrlDown = true; return; }
-		if(evt.ctrlKey || evt.metaKey) { return; }
+		// if(evt.keyCode == 17) { ctrlDown = true; return; }
+		if(evt.ctrlKey || evt.metaKey || evt.keyCode == 27) { return; }
 		if(!evt.ctrlKey || !evt.metaKey) {
 			ui.search.focus();
 			ui.search.show();
@@ -46,11 +45,11 @@ window.addEventListener("load", function(evt) {
 	});
 
 	document.addEventListener("keyup", function(evt) {
-		//if(evt.keyCode == 17) { evt.preventDefault(); ctrlDown = false; }
-		//Escape
+		// if(evt.keyCode == 17) { evt.preventDefault(); ctrlDown = false; }
+		// Escape
 		if(evt.keyCode == 27) {
 			evt.preventDefault();
-      ui.results.clear();
+			ui.results.clear();
 			ui.search.clear();
 			ui.search.focus();
 			ui.search.show();
@@ -82,12 +81,12 @@ window.addEventListener("load", function(evt) {
 
 	ui.search.onSubmit.add(search);
 	ui.search.onSubmit.add(util.parseUrlVariables);
-	//ui.search.onSubmit.add(ui.results.clear);
-	//ui.search.onSubmit.add(ui.spinner.show);
+	// ui.search.onSubmit.add(ui.results.clear);
+	// ui.search.onSubmit.add(ui.spinner.show);
 	ui.search.onUpdate.add(ui.search.btn_clear.toggle);
-	//ui.search.onUpdate.add(util.updateUrl);
+	// ui.search.onUpdate.add(util.updateUrl);
 
-  ui.search.onClear.add(util.updateUrl);
+	ui.search.onClear.add(util.updateUrl);
 	ui.search.onClear.add(ui.spinner.hide);
 
 	db.onQuery.add(ui.results.clear);
@@ -98,7 +97,7 @@ window.addEventListener("load", function(evt) {
 	db.onQueryComplete.add(ui.results.highlight);
 
 	ui.results.onUpdate.add(ui.spinner.hide);
-	//ui.results.onUpdate.add(ui.results.highlight);
+	// ui.results.onUpdate.add(ui.results.highlight);
 	ui.results.onUpdate.add(ui.nav.update);
 	ui.results.onUpdate.add(util.updateUrl);
 	ui.results.onClear.add(ui.spinner.hide);
@@ -189,7 +188,7 @@ function bmh(haystack, needle) {
 }
 
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var UIColorMode = { RANDOM : 0, WHITE : 1, BLACK : 0 };
 
@@ -201,7 +200,7 @@ var config = {
 	}
 };
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var util = {};
 
@@ -210,21 +209,21 @@ util.sendShareEmail = function (record) {
 	// perhaps have RecordCard store a reference to pass on?
 	if(record instanceof Record) {
 		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), ui.search.value, record.locationCode.hashCode(), ui.results.page));
-	    var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.description));
-	    var message = "";
+		var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.description));
+		var message = "";
 
-	    message += 'Hello,%0D%0A%0D%0A';
-	    message += String.format('%09{0} is located at {1}.%0D%0A', 
-	    	encodeURIComponent(record.description), 
-	    	encodeURIComponent(record.addressLocation));
+		message += 'Hello,%0D%0A%0D%0A';
+		message += String.format('%09{0} is located at {1}.%0D%0A', 
+			encodeURIComponent(record.description), 
+			encodeURIComponent(record.addressLocation));
 
-	    message += String.format('%09They can be contacted at {0}.%0D%0A', 
-	    	encodeURIComponent(record.phoneNumber));
+		message += String.format('%09They can be contacted at {0}.%0D%0A', 
+			encodeURIComponent(record.phoneNumber));
 
-	    message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A', 
-	    	encodeURIComponent(record.cerner), 
-	    	encodeURIComponent(record.locationCode), 
-	    	encodeURIComponent(record.LHD));
+		message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A', 
+			encodeURIComponent(record.cerner), 
+			encodeURIComponent(record.locationCode), 
+			encodeURIComponent(record.LHD));
 
 		message += record.other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A', 
 			encodeURIComponent(record.other));
@@ -232,7 +231,7 @@ util.sendShareEmail = function (record) {
 		message += String.format('%0D%0ASource: {0}%0D%0A', 
 			sourceUrl);
 
-	    window.location.href = String.format("mailto:?subject={0}&body={1}", subject, message);
+		window.location.href = String.format("mailto:?subject={0}&body={1}", subject, message);
 	}
 };
 
@@ -305,20 +304,20 @@ util.updateUrl = function () {
 
 util.parseUrlVariables = function() {
 	var a = window.location.search.substr(1).split('&');
-    if (a == "") return {};
-    var b = {};
-    for (var i = 0; i < a.length; ++i)
-    {
-        var p=a[i].split('=', 2);
-        if (p.length == 1)
-            b[p[0]] = "";
-        else
-            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-    }
-    window.location.get = b;
+	if (a == "") return {};
+	var b = {};
+	for (var i = 0; i < a.length; ++i)
+	{
+		var p=a[i].split('=', 2);
+		if (p.length == 1)
+			b[p[0]] = "";
+		else
+			b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+	}
+	window.location.get = b;
 };
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var ui = {};
 
@@ -332,7 +331,7 @@ ui.results = document.getElementById('output');
 ui.results.error = template.load('error');
 ui.results.error.message = (function(){var a=document.createElement('p');a.id='error-text';ui.results.error.insertBefore(a,ui.results.error.lastChild);return a;})();
 
-ui.spinner = (function(){var a=document.getElementById('loading');a.remove();return a;})(); //It works, don't ask
+ui.spinner = (function(){var a=document.getElementById('loading');a.remove();return a;})(); // It works, don't ask
 ui.container = document.getElementById('content');
 
 ui.nav = {
@@ -381,7 +380,7 @@ ui.nav.pages.clear = function () {
 };
 
 ui.nav.pages.addEventListener('change', function() {
-	ui.results.show(ui.nav.pages.value); //FIX
+	ui.results.show(ui.nav.pages.value); // FIX
 });
 
 ui.nav.btn_next.addEventListener('click', function() {
@@ -392,7 +391,7 @@ ui.nav.btn_prev.addEventListener('click', function() {
 	ui.results.show(ui.results.page-1);
 });
 
-/**************************************************************/
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ui.spinner.show = function () {
 	if(!ui.spinner.__self) {
@@ -407,20 +406,20 @@ ui.spinner.hide = function () {
 	}
 };
 
-/**************************************************************/
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ui.search.onUpdate = new Signal();
 ui.search.onSubmit = new Signal();
 ui.search.onClear = new Signal();
 
 ui.search.submit = function () {
-  if(db.state != DatabaseState.READY){
-    if(db.state == DatabaseState.ERROR) {
-     return; 
-    }
-    setTimeout(ui.search.submit, 100);
-    return;
-  }
+	if(db.state != DatabaseState.READY){
+		if(db.state == DatabaseState.ERROR) {
+			return; 
+		}
+	setTimeout(ui.search.submit, 100);
+	return;
+	}
 	ui.search.cancel();
 	// ui.results.page = null;
 	// ui.results.last_page = null;
@@ -438,7 +437,7 @@ ui.search.clear = function () {
 	ui.search.value = "";
 	ui.search.onClear.dispatch();
 	ui.search.onUpdate.dispatch(ui.search.value);
-	//ui.search.submit;
+	// ui.search.submit;
 };
 
 ui.search.show = function () {
@@ -450,8 +449,8 @@ ui.search.hide = function () {
 }
 
 ui.search.addEventListener("keyup", function(evt) {
-	//if(ctrlDown || ctrlDown && [65,67,86,88].includes(evt.keyCode)) { return; } //Select All, Cut, Copy and Paste
-	if(evt.ctrlKey || evt.metaKey) { return; } //Disable anything with ctrl pressed
+	// if(ctrlDown || ctrlDown && [65,67,86,88].includes(evt.keyCode)) { return; } // Select All, Cut, Copy and Paste
+	if(evt.ctrlKey || evt.metaKey) { return; } // Disable anything with ctrl pressed
 	ui.spinner.show();
 	ui.search.submit();
 	window.location.pathname
@@ -474,14 +473,14 @@ ui.search.btn_clear.hide = function() {
 }
 
 ui.search.btn_clear.addEventListener("click", function(evt){
-  ui.results.clear();
+	ui.results.clear();
 	ui.search.clear();
 	ui.search.focus();
 });
 
-/**************************************************************/
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ui.results.onUpdate = new Signal(); //dispatch page number?
+ui.results.onUpdate = new Signal(); // dispatch page number?
 ui.results.onClear = new Signal();
 ui.results.onError = new Signal();
 
@@ -540,8 +539,8 @@ ui.results.clear = function () {
 
 ui.results.highlight = function () {
 
-	/* Unfortunately causes two calls to ui.results.show()
-	   as Signal fires first and intercept not possible */
+	/*	Unfortunately causes two calls to ui.results.show()
+		as Signal fires first and intercept not possible	*/
 	if(window.location.get.hasOwnProperty('p')) {
 		ui.results.show(window.location.get['p']);
 	} else {
@@ -567,7 +566,7 @@ ui.results.error.show = function (message) {
 	if(!ui.results.error.__self) {
 		ui.results.error.__self = ui.container.appendChild(ui.results.error);
 	}
-  
+
 	ui.results.onError.dispatch(message);
 }
 
@@ -581,9 +580,9 @@ ui.results.error.hide = function () {
 ////////////////
 
 var DatabaseState = {
-  ERROR: -1,
-  PENDING: 0,
-  READY: 1
+	ERROR: -1,
+	PENDING: 0,
+	READY: 1
 };
 
 var db = {};
@@ -600,7 +599,7 @@ db.download = function(url) {
 	var xmlData;
 	var xhttp;
 	if ('ActiveXObject' in window) {
-		xhttp = new ActiveXObject("Microsoft.XMLHTTP"); //IE w/ FS Access
+		xhttp = new ActiveXObject("Microsoft.XMLHTTP"); // IE w/ FS Access
 	} else if (window.XMLHttpRequest) {
 		xhttp = new XMLHttpRequest();
 	} else {
@@ -610,17 +609,17 @@ db.download = function(url) {
 	xhttp.onreadystatechange = function () {
 		if(xhttp.readyState == 4) {
 			if(xhttp.status == 200 || xhttp.status == 0) {
-				//HTTP OK or 0 for local fs
+				// HTTP OK or 0 for local fs
 				if(xhttp.responseText.isNullOrEmpty()) {
-          db.state = DatabaseState.ERROR;
+		db.state = DatabaseState.ERROR;
 					throw new XHRException("The request returned an empty respose.");
 				} else {
-          db.state = DatabaseState.READY;
+		db.state = DatabaseState.READY;
 					db.onDownloadComplete.dispatch(xhttp.responseText);
 					return xhttp.responseText;
 				}
 			} else {
-        db.state = DatabaseState.ERROR;
+		db.state = DatabaseState.ERROR;
 				throw new XHRException("The request returned failed with the stauts code " + xhttp.status);
 			}
 		}
@@ -664,14 +663,14 @@ db.query = function(query) {
 
 	if(keyword.length == 2) {
 		/*	Performance hack: if keyword length is only 2...
-		 	then k0 and k1 will always be the same, so...
-		 	remove k1 to avoid searching same keyword twice */
+			then k0 and k1 will always be the same, so...
+			remove k1 to avoid searching same keyword twice	*/
 		keyword = [keyword[0]];
 	}
 
 	for (var i = 0; i < keyword.length; i++) {
 		if(keyword[i].length==1) {
-			keyword.splice(i, 1); //Remove single character keywords for performance
+			keyword.splice(i, 1); // Remove single character keywords for performance
 		}
 	}
 
@@ -797,7 +796,7 @@ function ResultCard(record, debug) {
 		this.debug.classList.add('hide');
 	}
 
-	this.anchor	= _element.querySelector('a');
+	this.anchor = _element.querySelector('a');
 	this.anchor.id = record.locationCode.hashCode();
 
 	this.buttons = {};
@@ -814,5 +813,5 @@ function ResultCard(record, debug) {
 	this.buttons.report = _element.querySelector('.raise-ticket');
 	this.buttons.report.onclick = function () { util.raiseUpdateTicket(record); };
 
-    return _element;
+	return _element;
 }
