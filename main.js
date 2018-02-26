@@ -526,6 +526,9 @@ ui.results.clear = function () {
 	ui.nav.pages.disabled = true;
 	ui.nav.btn_prev.disabled = true;
 	ui.nav.btn_next.disabled = true;
+	ui.results.page = 0;
+	ui.results.page = 0;
+	ui.results.last_page = 0;
 
 	// ui.results.page = null;
 	// ui.results.last_page = null;
