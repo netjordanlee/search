@@ -357,6 +357,9 @@ a.sign-off {
 .anchor {
 	position: relative; top: -200px;
 }
+.extra-items {
+	padding: 2em 0 0 0;
+}
 .extra-item {
     display: inline;
     float: left;
