@@ -347,11 +347,11 @@ a.sign-off {
 /* Result Cards */
 .result-card {
 	margin: 0 0 2em 0;
-    padding: 1em;
+    padding: 1em 2em;
 }
 .result-card > div {
 	overflow: hidden;
-	margin: 3px 0;
+	margin: 0.333em 0;
 }
 .result-card > div > span {
 	display: inline-block;
