@@ -34,6 +34,11 @@ window.addEventListener("load", function(evt) {
 	
 	util.parseUrlVariables();
 
+	// prevent esc from closing browser fullscreen mode
+	document.onkeydown = function (evt) {
+		if (evt.keyCode == 27) evt.preventDefault();
+	}
+
 	document.addEventListener("keydown", function(evt) {
 		// if(evt.keyCode == 17) { ctrlDown = true; return; }
 		if(evt.ctrlKey || evt.metaKey || evt.keyCode == 27) { return; }
