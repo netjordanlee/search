@@ -5,6 +5,7 @@ CACHE MANIFEST
 CACHE:
 ./img/favicon.ico
 ./index.html
+./db/xml.html
 ./db/db.min.xml
 ./db/schema.json
 ./css/style.css
