@@ -1,0 +1,78 @@
+{
+  "version" : 20180228.0,
+  "dataurl" : "./db.min.xml",
+  "fields" : [
+    {
+      "dataname" : "LHD",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "LHD"
+    },
+    {
+      "dataname" : "Cerner",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "Cerner"
+    },
+    {
+      "dataname" : "LocationCode",
+      "visible" : true,
+      "weight" : 1,
+      "title" : "Location Code"
+    },
+    {
+      "dataname" : "Description",
+      "visible" : true,
+      "weight" : 0.5,
+      "title" : "Description"
+    },
+    {
+      "dataname" : "AddressLocation",
+      "visible" : true,
+      "weight" : 0.7,
+      "title" : "Address"
+    },
+    {
+      "dataname" : "PhoneNumber",
+      "visible" : true,
+      "weight" : 1,
+      "title" : "Phone Number"
+    },
+    {
+      "dataname" : "Sector",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Sector"
+    },
+    {
+      "dataname" : "ORG",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Organisation"
+    },
+    {
+      "dataname" : "CostCentreCode",
+      "visible" : false,
+      "weight" : 1,
+      "title" : "Cost Code"
+    },
+    {
+      "dataname" : "EntityCode",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Entity Code"
+    },
+    {
+      "dataname" : "INST",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Institution"
+    },
+    {
+      "dataname" : "Other",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "Other"
+    }
+  ]
+}

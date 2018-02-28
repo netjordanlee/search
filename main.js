@@ -32,7 +32,7 @@ window.addEventListener("load", function(evt) {
 		}, false);
 	}
 
-	
+
 	util.parseUrlVariables();
 
 	document.addEventListener("keydown", function(evt) {
@@ -75,6 +75,10 @@ window.addEventListener("load", function(evt) {
 		scrollManager.lastPosition = window.scrollY;
 	});
 
+	schema.onDownloadBegin.add(ui.spinner.show);
+	schema.onDownloadComplete.add(schema.parse);
+	schema.onReady.add(db.download);
+
 	db.onDownloadBegin.add(ui.spinner.show);
 	db.onDownloadComplete.add(ui.spinner.hide);
 	db.onDownloadComplete.add(db.parse);
@@ -104,7 +108,8 @@ window.addEventListener("load", function(evt) {
 	ui.results.onError.add(ui.nav.update);
 
 	try {
-		db.download("./db.min.xml");
+		schema.download("./schema.json");
+		//db.download("./db.min.xml");
 	} catch (err) {
 		switch(err.name) {
 			case "XHRException":
@@ -212,22 +217,22 @@ util.sendShareEmail = function (record) {
 	    var message = "";
 
 	    message += 'Hello,%0D%0A%0D%0A';
-	    message += String.format('%09{0} is located at {1}.%0D%0A', 
-	    	encodeURIComponent(record.description), 
+	    message += String.format('%09{0} is located at {1}.%0D%0A',
+	    	encodeURIComponent(record.description),
 	    	encodeURIComponent(record.addressLocation));
 
-	    message += String.format('%09They can be contacted at {0}.%0D%0A', 
+	    message += String.format('%09They can be contacted at {0}.%0D%0A',
 	    	encodeURIComponent(record.phoneNumber));
 
-	    message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A', 
-	    	encodeURIComponent(record.cerner), 
-	    	encodeURIComponent(record.locationCode), 
+	    message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A',
+	    	encodeURIComponent(record.cerner),
+	    	encodeURIComponent(record.locationCode),
 	    	encodeURIComponent(record.LHD));
 
-		message += record.other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A', 
+		message += record.other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A',
 			encodeURIComponent(record.other));
 
-		message += String.format('%0D%0ASource: {0}%0D%0A', 
+		message += String.format('%0D%0ASource: {0}%0D%0A',
 			sourceUrl);
 
 	    window.location.href = String.format("mailto:?subject={0}&body={1}", subject, message);
@@ -238,38 +243,38 @@ util.raiseUpdateTicket = function (record) {
 	var recepient = "jordan.lee@health.nsw.gov.au";
 	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.locationCode.hashCode());
 	var message = String.format(
-	'-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' + 
-	'LHD: {0}%0D%0A' + 
-	'Cerner: {1}%0D%0A' + 
-	'LocationCode: {2}%0D%0A' + 
-	'Description: {3}%0D%0A' + 
-	'AddressLocation: {4}%0D%0A' + 
-	'PhoneNumber: {5}%0D%0A' + 
-	'Sector: {6}%0D%0A' + 
-	'ORG: {7}%0D%0A' + 
-	'CostCentreCode: {8}%0D%0A' + 
-	'EntityCode: {9}%0D%0A' + 
-	'INST: {10}%0D%0A' + 
-	'Other: {11}%0D%0A%0D%0A' + 
-	'Comments: Your comments here...%0D%0A%0D%0A%0D%0A' + 
-	'-----// DO NOT EDIT BELOW THIS LINE //-----%0D%0A%0D%0A' + 
-	'LHD: {0}%0D%0A' + 
-	'Cerner: {1}%0D%0A' + 
-	'LocationCode: {2}%0D%0A' + 
-	'Description: {3}%0D%0A' + 
-	'AddressLocation: {4}%0D%0A' + 
-	'PhoneNumber: {5}%0D%0A' + 
-	'Sector: {6}%0D%0A' + 
-	'ORG: {7}%0D%0A' + 
-	'CostCentreCode: {8}%0D%0A' + 
-	'EntityCode: {9}%0D%0A' + 
-	'INST: {10}%0D%0A' + 
+	'-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' +
+	'LHD: {0}%0D%0A' +
+	'Cerner: {1}%0D%0A' +
+	'LocationCode: {2}%0D%0A' +
+	'Description: {3}%0D%0A' +
+	'AddressLocation: {4}%0D%0A' +
+	'PhoneNumber: {5}%0D%0A' +
+	'Sector: {6}%0D%0A' +
+	'ORG: {7}%0D%0A' +
+	'CostCentreCode: {8}%0D%0A' +
+	'EntityCode: {9}%0D%0A' +
+	'INST: {10}%0D%0A' +
+	'Other: {11}%0D%0A%0D%0A' +
+	'Comments: Your comments here...%0D%0A%0D%0A%0D%0A' +
+	'-----// DO NOT EDIT BELOW THIS LINE //-----%0D%0A%0D%0A' +
+	'LHD: {0}%0D%0A' +
+	'Cerner: {1}%0D%0A' +
+	'LocationCode: {2}%0D%0A' +
+	'Description: {3}%0D%0A' +
+	'AddressLocation: {4}%0D%0A' +
+	'PhoneNumber: {5}%0D%0A' +
+	'Sector: {6}%0D%0A' +
+	'ORG: {7}%0D%0A' +
+	'CostCentreCode: {8}%0D%0A' +
+	'EntityCode: {9}%0D%0A' +
+	'INST: {10}%0D%0A' +
 	'Other: {11}%0D%0A%0D%0A',
-	encodeURIComponent(record.LHD), encodeURIComponent(record.cerner), 
+	encodeURIComponent(record.LHD), encodeURIComponent(record.cerner),
 	encodeURIComponent(record.locationCode), encodeURIComponent(record.description),
-	encodeURIComponent(record.addressLocation), encodeURIComponent(record.phoneNumber), 
+	encodeURIComponent(record.addressLocation), encodeURIComponent(record.phoneNumber),
 	encodeURIComponent(record.sector), encodeURIComponent(record.ORG),
-	encodeURIComponent(record.costCentreCode), encodeURIComponent(record.entityCode), 
+	encodeURIComponent(record.costCentreCode), encodeURIComponent(record.entityCode),
 	encodeURIComponent(record.INST), encodeURIComponent(record.other));
 
 	window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", recepient, subject, message));
@@ -279,13 +284,13 @@ util.raiseMissingTicket = function () {
 	var recepient = "jordan.lee@health.nsw.gov.au";
 	var subject = String.format("Trouble Ticket - {0}:NEW", (new Date()).yymmdd());
 	var message = String.format(
-	'-----// In This Field, Fill Out What You Know About The Missing Record //-----%0D%0A%0D%0A' + 
-	'LHD: %0D%0A' + 
-	'Description: %0D%0A' + 
-	'AddressLocation: %0D%0A' + 
-	'PhoneNumber: %0D%0A' + 
-	'Sector: %0D%0A' + 
-	'ORG: %0D%0A' + 
+	'-----// In This Field, Fill Out What You Know About The Missing Record //-----%0D%0A%0D%0A' +
+	'LHD: %0D%0A' +
+	'Description: %0D%0A' +
+	'AddressLocation: %0D%0A' +
+	'PhoneNumber: %0D%0A' +
+	'Sector: %0D%0A' +
+	'ORG: %0D%0A' +
 	'Comments: %0D%0A%0D%0A');
 
 	window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", recepient, subject, message));
@@ -293,9 +298,9 @@ util.raiseMissingTicket = function () {
 
 util.updateUrl = function () {
 	if(('replaceState' in history) && (window.location.origin !== undefined)) {
-		var url = String.format('{0}?q={1}&p={2}', 
-			(location.origin + location.pathname), 
-			encodeURIComponent(ui.search.value), 
+		var url = String.format('{0}?q={1}&p={2}',
+			(location.origin + location.pathname),
+			encodeURIComponent(ui.search.value),
 			encodeURIComponent((ui.results.page ? ui.results.page : 0)));
 		history.replaceState({}, document.title, url);
 	}
@@ -414,7 +419,7 @@ ui.search.onClear = new Signal();
 ui.search.submit = function () {
   if(db.state != DatabaseState.READY){
     if(db.state == DatabaseState.ERROR) {
-     return; 
+     return;
     }
     setTimeout(ui.search.submit, 100);
     return;
@@ -559,7 +564,7 @@ ui.results.error.show = function (message) {
 	if(!ui.results.error.__self) {
 		ui.results.error.__self = ui.container.appendChild(ui.results.error);
 	}
-  
+
 	ui.results.onError.dispatch(message);
 }
 
@@ -577,6 +582,66 @@ var DatabaseState = {
   PENDING: 0,
   READY: 1
 };
+
+var schema = {};
+
+schema.onDownloadBegin = new Signal();
+schema.onDownloadComplete = new Signal();
+schema.onReady = new Signal();
+
+schema.download = function(url) {
+	var data;
+	var xhttp;
+	if ('ActiveXObject' in window) {
+		xhttp = new ActiveXObject("Microsoft.XMLHTTP"); //IE w/ FS Access
+	} else if (window.XMLHttpRequest) {
+		xhttp = new XMLHttpRequest();
+	} else {
+		throw new XHRNotSupportedException();
+	}
+
+	xhttp.onreadystatechange = function () {
+		if(xhttp.readyState == 4) {
+			if(xhttp.status == 200 || xhttp.status == 0) {
+				//HTTP OK or 0 for local fs
+				if(xhttp.responseText.isNullOrEmpty()) {
+          //db.state = DatabaseState.ERROR;
+					throw new XHRException("The request returned an empty respose.");
+				} else {
+          //db.state = DatabaseState.READY;
+					schema.onDownloadComplete.dispatch(xhttp.responseText);
+					return xhttp.responseText;
+				}
+			} else {
+        //db.state = DatabaseState.ERROR;
+				throw new XHRException("The request returned failed with the stauts code " + xhttp.status);
+			}
+		}
+	}
+
+	xhttp.open("GET", url, true);
+	xhttp.send();
+};
+
+schema.parse = function(data) {
+	var schemaObj = {};
+	try {
+		schemaObj = JSON.parse(data);
+		schema.version = schemaObj.version;
+		schema.dataurl = schemaObj.dataurl;
+		schema.fields = schemaObj.fields;
+		schemaObj = null; // Mm, memory management
+		data = null;
+		schema.onReady.dispatch(schema.dataurl); // Pass database file url to db.download();
+	} catch (err) {
+		throw err;
+		//throw new InvalidSchemaException();
+	}
+};
+
+schema.version = -1;
+schema.dataurl = "";
+schema.fields = [];
 
 var db = {};
 
@@ -629,7 +694,11 @@ db.parse = function(xmlData) {
 	xmlData = null;
 
 	for (var i = 0; i < xmlDoc.length; i++) {
-		db.record.push(new Record(
+		// Still semi-hardcoded format for the record until I can neatly generate Record objects
+
+		db.record.push(new Record(xmlDoc[i]));
+
+		/*db.record.push(new Record(
 			xmlDoc[i].getElementsByTagName("LHD")[0].textContent,
 			xmlDoc[i].getElementsByTagName("Cerner")[0].textContent,
 			xmlDoc[i].getElementsByTagName("LocationCode")[0].textContent,
@@ -643,7 +712,7 @@ db.parse = function(xmlData) {
 			xmlDoc[i].getElementsByTagName("INST")[0].textContent,
 			xmlDoc[i].getElementsByTagName("Other")[0].textContent
 			)
-		);
+		);*/
 	}
 };
 
@@ -673,13 +742,17 @@ db.query = function(query) {
 
 	for (var i = 0; i < db.record.length; i++) {
 		var recordScore = 0;
-		var hasMatchPhrase = false; 
+		var hasMatchPhrase = false;
 		var hasMatchAll = true; // True until proven false
 
 		for (var k = 0; k < keyword.length; k++) {
 			var newScore = recordScore;
 
-			newScore = bmh(db.record[i].LHD, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			for (var f = 0; f < schema.fields.length; f++) {
+				newScore = bmh(db.record[i][schema.fields[f].dataname], keyword[k]) > -1 ? (newScore + (keyword[k].length * schema.fields[f].weight)) : (newScore);
+			}
+
+			/*newScore = bmh(db.record[i].LHD, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
 			newScore = bmh(db.record[i].cerner, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
 			newScore = bmh(db.record[i].locationCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
 			newScore = bmh(db.record[i].description, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.5)) : (newScore);
@@ -690,7 +763,7 @@ db.query = function(query) {
 			newScore = bmh(db.record[i].costCentreCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
 			newScore = bmh(db.record[i].entityCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
 			newScore = bmh(db.record[i].INST, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].other, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			newScore = bmh(db.record[i].other, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);*/
 
 			// Corner-case k0 is always the entire query
 			if(k==0 && newScore > recordScore){
@@ -734,7 +807,20 @@ db.query = function(query) {
 
 db.query.results = [];
 
-function Record(healthDistrict, cerner, locationCode, description, addressLocation, 
+// Record should not really be responsible for parsing
+// but until a better solution can be implemented, this
+// will have to suffice.
+function Record(xmlElement) {
+	for(var i = 0; i < schema.fields.length; i++) {
+		var field = schema.fields[i];
+		this[field.dataname] = xmlElement.getElementsByTagName(field.dataname)[0].textContent;
+		this[field.dataname].visible = field.visible;
+		this[field.dataname].weight = field.weight;
+		this[field.dataname].title = field.title;
+	}
+}
+
+/*function Record(healthDistrict, cerner, locationCode, description, addressLocation,
 	phoneNumber, sector, org, costCentreCode, entityCode, inst, other) {
 	this.LHD = healthDistrict;
 	this.cerner = cerner;
@@ -748,7 +834,7 @@ function Record(healthDistrict, cerner, locationCode, description, addressLocati
 	this.entityCode = entityCode;
 	this.INST = inst;
 	this.other = other;
-};
+};*/
 
 function ResultCard(record, debug) {
 	if(typeof debug !== "string") debug = "";
@@ -756,6 +842,7 @@ function ResultCard(record, debug) {
 
 	var _element = template.load('result-card');
 
+	// Currently relies on a hard-coded copy of the <template> element in index.html
 	var createField = function (query, recordField) {
 		var _export = _element.querySelector(query);
 		_export.content = _export.querySelector('span');
@@ -766,7 +853,11 @@ function ResultCard(record, debug) {
 		return _export;
 	};
 
-	this.lhd = 			createField('.lhd', record.LHD);
+	for (var f = 0; f < schema.fields.length; f++) {
+		this[schema.fields[f].dataname] = createField('.' + schema.fields[f].dataname, record[schema.fields[f].dataname]);
+	}
+
+	/*this.lhd = 			createField('.lhd', record.LHD);
 	this.cerner = 		createField('.cerner', record.cerner);
 	this.code = 		createField('.locationCode', record.locationCode);
 	this.description = 	createField('.description', record.description);
@@ -777,20 +868,28 @@ function ResultCard(record, debug) {
 	this.costCode = 	createField('.costCentreCode', record.costCentreCode);
 	this.entityCode = 	createField('.entityCode', record.entityCode);
 	this.inst = 		createField('.inst', record.INST);
-	this.other = 		createField('.other', record.other);
+	this.other = 		createField('.other', record.other);*/
 	this.debug = 		createField('.debug', debug); // Added post-facto
 
 	if(!config.debug) {
-		this.sector.classList.add('hide');
+
+		for (var f = 0; f < schema.fields.length; f++) {
+			if(schema.fields[f].visible == false) {
+				this[schema.fields[f].dataname].classList.add('.hide');
+			}
+		}
+
+		/*this.sector.classList.add('hide');
 		this.org.classList.add('hide');
 		this.costCode.classList.add('hide');
 		this.entityCode.classList.add('hide');
 		this.inst.classList.add('hide');
-		this.debug.classList.add('hide');
+		this.debug.classList.add('hide');*/
 	}
 
 	this.anchor	= _element.querySelector('a');
-	this.anchor.id = record.locationCode.hashCode();
+	// TODO: re-implement anchoring using non-hardcoded field (implement in schema?)
+	//this.anchor.id = record.locationCode.hashCode();
 
 	this.buttons = {};
 
@@ -798,7 +897,7 @@ function ResultCard(record, debug) {
 	this.buttons.search.href = String.format('http://google.com/search?q={0}', encodeURIComponent(record.description));
 
 	this.buttons.map = _element.querySelector('.map-address');
-	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.addressLocation));	
+	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.addressLocation));
 
 	this.buttons.share = _element.querySelector('.share-card');
 	this.buttons.share.onclick = function () { util.sendShareEmail(record); };

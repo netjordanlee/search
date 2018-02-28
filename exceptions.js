@@ -39,3 +39,10 @@ function XHRException(message) {
 	this.stack = (new Error().stack);
 }
 XHRException.prototype = Error.prototype;
+
+function InvalidSchemaException(message) {
+	this.name = "InvalidSchemaException";
+	this.message = message ? (this.name + ": " + message) : (this.name + ": Unable to parse schema, it may be formatted incorrectly, corrupted or unavailable.")
+	this.stack = (new Error().stack);
+}
+XHRException.prototype = Error.prototype;
