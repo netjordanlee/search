@@ -639,6 +639,16 @@ schema.parse = function(data) {
 	}
 };
 
+schema.getFieldByName = function(name) {
+	// Just a utility function for debugging purposes
+	for(var i = 0; i < schema.fields.length; i++) {
+		if(schema.fields[i].dataname == name) {
+			return schema.fields[i];
+		}
+	}
+	throw new Exception("Field not found.");
+};
+
 schema.version = -1;
 schema.dataurl = "";
 schema.fields = [];
@@ -878,6 +888,8 @@ function ResultCard(record, debug) {
 				this[schema.fields[f].dataname].classList.add('hide');
 			}
 		}
+
+		this.debug.classList.add('hide');
 
 		/*this.sector.classList.add('hide');
 		this.org.classList.add('hide');
