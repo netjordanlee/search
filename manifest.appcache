@@ -1,25 +1,25 @@
 CACHE MANIFEST
 # Provided as a fallback for iOS devices only
-# Last updated: 2018.02.28
+# Last updated: v20180301.2
 
 CACHE:
-favicon.ico
-index.html
-db.min.xml
-style.css
-colors.css
-main.js
-plugins.js
-signals.js
-classList.min.js
-template.js
-exceptions.js
-colors.js
-schema.json
+./img/favicon.ico
+./index.html
+./db/db.min.xml
+./db/schema.json
+./css/style.css
+./css/colors.css
+./js/main.js
+./js/plugins.js
+./js/signals.js
+./js/classList.min.js
+./js/template.js
+./js/exceptions.js
+./js/colors.js
 
 # All files retrieved from network first
 NETWORK:
 *
 
 FALLBACK:
-/ index.html
+./index.html

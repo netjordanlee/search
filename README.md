@@ -1,2 +1,2 @@
-# HCIS-Search
-[ HCIS-Search ]
+# Search
+[ Search ]

@@ -131,8 +131,14 @@ input.search {
     text-transform: uppercase;
     border: none;
     outline: 0;
-    border-radius: none; /*iOS*/
-    appearance: none; /*iOS*/
+
+/* Remove default input styling from WebKit/Moz */
+    appearance:         none;  /* Fallback */
+    -moz-appearance:    none;  /* Firefox */
+    -webkit-appearance: none;  /* Safari */
+    border-radius:          0; /* Fallback */
+    -moz-border-radius:     0; /* Firefox */
+    -webkit-border-radius:  0; /* Safari */
 }
 
 .search-clear {
@@ -341,11 +347,11 @@ a.sign-off {
 /* Result Cards */
 .result-card {
 	margin: 0 0 2em 0;
-    padding: 1em;
+  padding: 1em;
 }
 .result-card > div {
 	overflow: hidden;
-	margin: 3px 0;
+	margin: 0.333em 0;
 }
 .result-card > div > span {
 	display: inline-block;
@@ -356,6 +362,9 @@ a.sign-off {
 /* Result Card Interactions */
 .anchor {
 	position: relative; top: -200px;
+}
+.extra-items {
+	padding: 1.333em 0 0 0;
 }
 .extra-item {
     display: inline;
@@ -398,6 +407,9 @@ a.sign-off {
     }
     .content {
         width: 100%;
+    }
+    .result-card {
+        padding: 1em 2em;
     }
     .extra-item {
         margin: 0 1px 0 0;
