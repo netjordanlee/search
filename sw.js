@@ -1,4 +1,4 @@
-var version = 'v20171122.1'
+var version = 'v20180301.1'
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -6,10 +6,10 @@ self.addEventListener('install', e => {
       return cache.addAll([
           './',
           './index.html',
-          './style.css',
-          './plugins.js',
-          './main.js',
-          './db.xml'
+          './css/style.css',
+          './js/plugins.js',
+          './js/main.js',
+          './js/db.xml'
         ])
         .then(() => self.skipWaiting());
     })
