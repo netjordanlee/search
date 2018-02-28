@@ -17,35 +17,13 @@ window.addEventListener("load", function(evt) {
 
 	document.querySelector('.version').innerHTML = 'v' + appVersion; // Dynamically updates footer version
 
-	// If browser doesn't support service workers but does support applicationCache use it
-	if(!('serviceWorker' in navigator) && ('applicationCache' in window)) {
-		window.applicationCache.addEventListener('updateready', function(e) {
-			if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-				// Browser downloaded a new app cache.
-				if (confirm('A new version of this site is available. Load it?')) {
-					window.location.reload();
-				}
-			} else {
-			// Manifest didn't changed. Nothing new to server.
-			}
-		}, false);
-	}
-
-
 	util.parseUrlVariables();
 
-	// prevent esc from closing browser fullscreen mode, breaks search... FIX
-  // document.onkeydown = function (evt) {
-  //    if (evt.keyCode == 27) evt.preventDefault();
-  // }
-
 	document.addEventListener("keydown", function(evt) {
-		// if(evt.keyCode == 17) { ctrlDown = true; return; }
 		if(evt.ctrlKey || evt.metaKey || evt.keyCode == 27) { return; }
-		if(!evt.ctrlKey || !evt.metaKey) {
-			ui.search.focus();
-			ui.search.show();
-		}
+
+		ui.search.focus();
+		ui.search.show();
 		window.scrollTo(0,0);
 	});
 
@@ -115,7 +93,6 @@ window.addEventListener("load", function(evt) {
 
 	try {
 		schema.download("./db/schema.json");
-		//db.download("./db.min.xml");
 	} catch (err) {
 		switch(err.name) {
 			case "XHRException":
@@ -139,6 +116,24 @@ window.addEventListener("load", function(evt) {
 	}
 
 });
+
+// window.applicationCache.addEventListener('checking', function(evt) {
+// 	// If browser supports Service Worker, abort applicationCache update
+// 	if('serviceWorker' in navigator) {
+// 		evt.preventDefault();
+// 	}
+// }, false);
+
+window.applicationCache.addEventListener('updateready', function(evt) {
+	if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+		// Browser downloaded a new app cache.
+		if (confirm('A new version of this site is available. Load it?')) {
+			window.location.reload();
+		}
+	} else {
+	// Manifest didn't change nothing new to serve
+	}
+}, false);
 
 function search(query) {
 	try {
@@ -622,15 +617,12 @@ schema.download = function(url) {
 			if(xhttp.status == 200 || xhttp.status == 0) {
 				//HTTP OK or 0 for local fs
 				if(xhttp.responseText.isNullOrEmpty()) {
-          //db.state = DatabaseState.ERROR;
 					throw new XHRException("The request returned an empty respose.");
 				} else {
-          //db.state = DatabaseState.READY;
 					schema.onDownloadComplete.dispatch(xhttp.responseText);
 					return xhttp.responseText;
 				}
 			} else {
-        //db.state = DatabaseState.ERROR;
 				throw new XHRException("The request returned failed with the stauts code " + xhttp.status);
 			}
 		}
@@ -652,7 +644,6 @@ schema.parse = function(data) {
 		schema.onReady.dispatch(schema.dataurl); // Pass database file url to db.download();
 	} catch (err) {
 		throw err;
-		//throw new InvalidSchemaException();
 	}
 };
 
@@ -721,25 +712,7 @@ db.parse = function(xmlData) {
 	xmlData = null;
 
 	for (var i = 0; i < xmlDoc.length; i++) {
-		// Still semi-hardcoded format for the record until I can neatly generate Record objects
-
 		db.record.push(new Record(xmlDoc[i]));
-
-		/*db.record.push(new Record(
-			xmlDoc[i].getElementsByTagName("LHD")[0].textContent,
-			xmlDoc[i].getElementsByTagName("Cerner")[0].textContent,
-			xmlDoc[i].getElementsByTagName("LocationCode")[0].textContent,
-			xmlDoc[i].getElementsByTagName("Description")[0].textContent,
-			xmlDoc[i].getElementsByTagName("AddressLocation")[0].textContent,
-			xmlDoc[i].getElementsByTagName("PhoneNumber")[0].textContent,
-			xmlDoc[i].getElementsByTagName("Sector")[0].textContent,
-			xmlDoc[i].getElementsByTagName("ORG")[0].textContent,
-			xmlDoc[i].getElementsByTagName("CostCentreCode")[0].textContent,
-			xmlDoc[i].getElementsByTagName("EntityCode")[0].textContent,
-			xmlDoc[i].getElementsByTagName("INST")[0].textContent,
-			xmlDoc[i].getElementsByTagName("Other")[0].textContent
-			)
-		);*/
 	}
 };
 
@@ -778,19 +751,6 @@ db.query = function(query) {
 			for (var f = 0; f < schema.fields.length; f++) {
 				newScore = bmh(db.record[i][schema.fields[f].dataname], keyword[k]) > -1 ? (newScore + (keyword[k].length * schema.fields[f].weight)) : (newScore);
 			}
-
-			/*newScore = bmh(db.record[i].LHD, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].cerner, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].locationCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
-			newScore = bmh(db.record[i].description, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.5)) : (newScore);
-			newScore = bmh(db.record[i].addressLocation, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.7)) : (newScore);
-			newScore = bmh(db.record[i].phoneNumber, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
-			newScore = bmh(db.record[i].sector, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].ORG, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].costCentreCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
-			newScore = bmh(db.record[i].entityCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].INST, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].other, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);*/
 
 			// Corner-case k0 is always the entire query
 			if(k==0 && newScore > recordScore){
@@ -847,22 +807,6 @@ function Record(xmlElement) {
 	}
 }
 
-/*function Record(healthDistrict, cerner, locationCode, description, addressLocation,
-	phoneNumber, sector, org, costCentreCode, entityCode, inst, other) {
-	this.LHD = healthDistrict;
-	this.cerner = cerner;
-	this.locationCode = locationCode;
-	this.description = description;
-	this.addressLocation = addressLocation;
-	this.phoneNumber = phoneNumber;
-	this.sector = sector;
-	this.ORG = org;
-	this.costCentreCode = costCentreCode;
-	this.entityCode = entityCode;
-	this.INST = inst;
-	this.other = other;
-};*/
-
 function ResultCard(record, debug) {
 	if(typeof debug !== "string") debug = "";
 	var _parent = this; // This makes me sad, but can't see a better way
@@ -884,18 +828,6 @@ function ResultCard(record, debug) {
 		this[schema.fields[f].dataname] = createField('.' + schema.fields[f].dataname, record[schema.fields[f].dataname]);
 	}
 
-	/*this.lhd = 			createField('.lhd', record.LHD);
-	this.cerner = 		createField('.cerner', record.cerner);
-	this.code = 		createField('.locationCode', record.locationCode);
-	this.description = 	createField('.description', record.description);
-	this.address = 		createField('.addressLocation', record.addressLocation);
-	this.contact = 		createField('.phoneNumber', record.phoneNumber);
-	this.sector = 		createField('.sector', record.sector);
-	this.org =  		createField('.org', record.ORG);
-	this.costCode = 	createField('.costCentreCode', record.costCentreCode);
-	this.entityCode = 	createField('.entityCode', record.entityCode);
-	this.inst = 		createField('.inst', record.INST);
-	this.other = 		createField('.other', record.other);*/
 	this.debug = 		createField('.debug', debug); // Added post-facto
 
 	if(!config.debug) {
@@ -905,15 +837,7 @@ function ResultCard(record, debug) {
 				this[schema.fields[f].dataname].classList.add('hide');
 			}
 		}
-
 		this.debug.classList.add('hide');
-
-		/*this.sector.classList.add('hide');
-		this.org.classList.add('hide');
-		this.costCode.classList.add('hide');
-		this.entityCode.classList.add('hide');
-		this.inst.classList.add('hide');
-		this.debug.classList.add('hide');*/
 	}
 
 	this.anchor	= _element.querySelector('a');
