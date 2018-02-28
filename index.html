@@ -125,6 +125,15 @@
     </div>
   </div>
 
+  <div id="notification" class="notification hide">
+    <div class="notification-body">
+      <strong>Update Ready!</strong> Do you want to apply now?
+      <div class="notification-actions">
+        <button class="notification-action-accept" onclick="window.location.reload()">Update Now</button> <button class="notification-action-decline" onclick="ui.notification.hide()">Not Now</button>
+      </div>
+    </div>
+  </div>
+
   <div id="content" class="content">
     <div id='loading' class='loading-overlay' style='height: 100%; opacity: 1; pointer-events: auto;'><div class='spinner'></div></div>
     <div id="output" class="output"></div>

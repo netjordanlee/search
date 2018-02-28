@@ -117,19 +117,17 @@ window.addEventListener("load", function(evt) {
 
 });
 
-// window.applicationCache.addEventListener('checking', function(evt) {
-// 	// If browser supports Service Worker, abort applicationCache update
-// 	if('serviceWorker' in navigator) {
-// 		evt.preventDefault();
-// 	}
-// }, false);
+window.applicationCache.addEventListener('checking', function(evt) {
+	// If browser supports Service Worker, abort applicationCache update
+	if(('serviceWorker' in navigator) && !config.debug) {
+		evt.preventDefault();
+	}
+}, false);
 
 window.applicationCache.addEventListener('updateready', function(evt) {
 	if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 		// Browser downloaded a new app cache.
-		if (confirm('A new version of this site is available. Load it?')) {
-			window.location.reload();
-		}
+		ui.notification.show();
 	} else {
 	// Manifest didn't change nothing new to serve
 	}
@@ -198,7 +196,7 @@ function bmh(haystack, needle) {
 var UIColorMode = { RANDOM : 0, WHITE : 1, BLACK : 0 };
 
 var config = {
-	debug : false,
+	debug : true,
 	ui : {
 		results_per_page : 10,
 		color_mode : UIColorMode.RANDOM
@@ -585,6 +583,18 @@ ui.results.error.hide = function () {
 		ui.results.error.__self.remove();
 		ui.results.error.__self = null;
 	}
+}
+
+////////////////
+
+ui.notification = document.getElementById('notification');
+
+ui.notification.show = function () {
+	ui.notification.classList.remove('hide');
+}
+
+ui.notification.hide = function () {
+	ui.notification.classList.add('hide');
 }
 
 ////////////////
