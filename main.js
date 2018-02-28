@@ -54,10 +54,10 @@ window.addEventListener("load", function(evt) {
 		// Escape
 		if(evt.keyCode == 27) {
 			evt.preventDefault();
-			ui.results.clear();
-			ui.search.clear();
 			ui.search.focus();
 			ui.search.show();
+			ui.search.clear();
+			ui.results.clear();
 		}
 	});
 
