@@ -347,7 +347,7 @@ a.sign-off {
 /* Result Cards */
 .result-card {
 	margin: 0 0 2em 0;
-    padding: 1em 2em;
+  padding: 1em;
 }
 .result-card > div {
 	overflow: hidden;
@@ -407,6 +407,9 @@ a.sign-off {
     }
     .content {
         width: 100%;
+    }
+    .result-card {
+        padding: 1em 2em;
     }
     .extra-item {
         margin: 0 1px 0 0;
