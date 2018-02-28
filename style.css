@@ -132,7 +132,6 @@ input.search {
     border: none;
     outline: 0;
     border-radius: 0; /*iOS*/
-    appearance: none;
     -webkit-appearance: none; /*iOS*/
 }
 
