@@ -131,8 +131,14 @@ input.search {
     text-transform: uppercase;
     border: none;
     outline: 0;
-    border-radius: 0; /*iOS*/
-    -webkit-appearance: none; /*iOS*/
+
+/* Remove default input styling from WebKit/Moz */
+    appearance:         none;  /* Fallback */
+    -moz-appearance:    none;  /* Firefox */
+    -webkit-appearance: none;  /* Safari */
+    border-radius:          0; /* Fallback */
+    -moz-border-radius:     0; /* Firefox */
+    -webkit-border-radius:  0; /* Safari */
 }
 
 .search-clear {
