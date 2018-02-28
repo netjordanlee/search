@@ -131,8 +131,9 @@ input.search {
     text-transform: uppercase;
     border: none;
     outline: 0;
-    border-radius: none; /*iOS*/
-    appearance: none; /*iOS*/
+    border-radius: 0; /*iOS*/
+    appearance: none;
+    -webkit-appearance: none; /*iOS*/
 }
 
 .search-clear {
