@@ -875,7 +875,7 @@ function ResultCard(record, debug) {
 
 		for (var f = 0; f < schema.fields.length; f++) {
 			if(schema.fields[f].visible == false) {
-				this[schema.fields[f].dataname].classList.add('.hide');
+				this[schema.fields[f].dataname].classList.add('hide');
 			}
 		}
 
