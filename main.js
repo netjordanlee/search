@@ -443,6 +443,7 @@ ui.search.clear = function () {
 	ui.search.onClear.dispatch();
 	ui.search.onUpdate.dispatch(ui.search.value);
 	// ui.search.submit;
+  window.scrollTo(0,0);
 };
 
 ui.search.show = function () {
