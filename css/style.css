@@ -9,9 +9,9 @@
     border-radius: 0;
 }
 
-html, body, div, article, section, main, footer, header, form, fieldset, 
-pre, code, p, ul, ol, li, dl, dt, dd, textarea, input, input[type="email"], 
-input[type="number"], input[type="password"], input[type="tel"], 
+html, body, div, article, section, main, footer, header, form, fieldset,
+pre, code, p, ul, ol, li, dl, dt, dd, textarea, input, input[type="email"],
+input[type="number"], input[type="password"], input[type="tel"],
 input[type="text"], input[type="url"], .border-box {
     box-sizing: border-box;
 }
@@ -150,7 +150,7 @@ input.search {
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
-    background: transparent url("./cross.svg");
+    background: transparent url("../img/cross.svg");
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;

@@ -114,7 +114,7 @@ window.addEventListener("load", function(evt) {
 	ui.results.onError.add(ui.nav.update);
 
 	try {
-		schema.download("./schema.json");
+		schema.download("./db/schema.json");
 		//db.download("./db.min.xml");
 	} catch (err) {
 		switch(err.name) {
