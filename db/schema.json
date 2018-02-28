@@ -1,6 +1,6 @@
 {
   "version" : 20180228.1,
-  "dataurl" : "./db.min.xml",
+  "dataurl" : "./db/db.min.xml",
   "fields" : [
     {
       "dataname" : "LHD",
