@@ -3,7 +3,6 @@ CACHE MANIFEST
 # Last updated: v20180301.3
 
 CACHE:
-./img/favicon.ico
 ./index.html
 ./db/db.min.xml
 ./db/schema.json
@@ -16,6 +15,7 @@ CACHE:
 ./js/template.js
 ./js/exceptions.js
 ./js/colors.js
+./img/favicon.ico
 
 # All files retrieved from network first
 NETWORK:

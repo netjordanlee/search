@@ -122,7 +122,11 @@ window.addEventListener("load", function(evt) {
 window.applicationCache.addEventListener('checking', function(evt) {
 	// If browser supports Service Worker, abort applicationCache update
 	if(('serviceWorker' in navigator) && !config.debug) {
+		evt.stopImmediatePropagation();
+		evt.cancelBubble = true;
 		evt.preventDefault();
+		console.warn('Blocked ApplicationCache checking for update because ServiceWorker support was detected.');
+		return false;
 	}
 }, false);
 
