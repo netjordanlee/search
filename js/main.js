@@ -19,6 +19,8 @@ window.addEventListener("load", function(evt) {
 
 	util.parseUrlVariables();
 
+	config.debug = window.location.get["debug"] ? window.location.get["debug"] : config.debug;
+
 	document.addEventListener("keydown", function(evt) {
 		if(evt.ctrlKey || evt.metaKey || evt.keyCode == 27) { return; }
 
@@ -196,7 +198,7 @@ function bmh(haystack, needle) {
 var UIColorMode = { RANDOM : 0, WHITE : 1, BLACK : 0 };
 
 var config = {
-	debug : true,
+	debug : false,
 	ui : {
 		results_per_page : 10,
 		color_mode : UIColorMode.RANDOM
