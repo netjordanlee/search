@@ -122,8 +122,6 @@ window.addEventListener("load", function(evt) {
 window.applicationCache.addEventListener('checking', function(evt) {
 	// If browser supports Service Worker, abort applicationCache update
 	if(('serviceWorker' in navigator) && !config.debug) {
-		evt.stopImmediatePropagation();
-		evt.cancelBubble = true;
 		evt.preventDefault();
 		console.warn('Blocked ApplicationCache checking for update because ServiceWorker support was detected.');
 		return false;
@@ -858,7 +856,7 @@ function ResultCard(record, debug) {
 
 	this.anchor	= _element.querySelector('a');
 	// TODO: re-implement anchoring using non-hardcoded field (implement in schema?)
-	//this.anchor.id = record.LocationCode.hashCode();
+	this.anchor.id = record.LocationCode.hashCode();
 
 	this.buttons = {};
 
