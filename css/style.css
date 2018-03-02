@@ -395,11 +395,11 @@ a.sign-off {
 	margin: 0 0 2em 0;
   padding: 1em;
 }
-.result-card > div {
+.result-card > .rows > div {
 	overflow: hidden;
 	margin: 0.333em 0;
 }
-.result-card > div > span {
+.result-card > .rows > div > span {
 	display: inline-block;
 	width: 66.666%;
 	float: right;
@@ -410,6 +410,7 @@ a.sign-off {
 	position: relative; top: -200px;
 }
 .extra-items {
+  display: inline-block;
 	padding: 1.333em 0 0 0;
 }
 .extra-item {

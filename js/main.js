@@ -653,6 +653,24 @@ schema.parse = function(data) {
 		schema.version = schemaObj.version;
 		schema.dataurl = schemaObj.dataurl;
 		schema.fields = schemaObj.fields;
+		schema.position = schemaObj.position;
+
+		// Sort by defined position in schema
+		var highestAssignedPosition = 0;
+		for (var i = 0; i < schema.fields.length; i++) {
+			if(schema.fields[i].position > highestAssignedPosition) highestAssignedPosition = schema.fields[i].position;
+		}
+
+		// Where no position is defined, move to end of list in the order each field is defined
+		for (var i = 0; i < schema.fields.length; i++) {
+			if(schema.fields[i].position == null) schema.fields[i].position = ++highestAssignedPosition; // Increment then assign
+		}
+
+		// Sort all fields according to final position value
+		schema.fields.sort(function(a, b) {
+		    return a.position - b.position;
+		});
+
 		schemaObj = null; // Mm, memory management
 		data = null;
 		schema.onReady.dispatch(schema.dataurl); // Pass database file url to db.download();
@@ -826,26 +844,33 @@ function ResultCard(record, debug) {
 	var _parent = this; // This makes me sad, but can't see a better way
 
 	var _element = template.load('result-card');
+	_element.rows = _element.querySelector('.rows');
 
 	// Currently relies on a hard-coded copy of the <template> element in index.html
-	var createField = function (query, recordField) {
-		var _export = _element.querySelector(query);
-		_export.content = _export.querySelector('span');
-		_export.content.innerHTML = recordField.replace(/\n/g, "<br />");
-		if(recordField.isNullOrEmpty()) {
-			_export.classList.add('hide');
+	var createField = function (header, content) {
+		var _row = document.createElement('div');
+		_row.content = document.createElement('span');
+
+		_row.innerHTML = String.format('{0}: ', header);
+		_row.content.innerHTML = content.replace(/\n/g, "<br />");;
+
+		_row.appendChild(_row.content);
+
+		if(content.isNullOrEmpty()) {
+			_row.classList.add('hide');
 		}
-		return _export;
+		return _row;
 	};
 
 	for (var f = 0; f < schema.fields.length; f++) {
-		this[schema.fields[f].dataname] = createField('.' + schema.fields[f].dataname, record[schema.fields[f].dataname]);
+		this[schema.fields[f].dataname] = createField(schema.fields[f].dataname, record[schema.fields[f].dataname]);
+		_element.rows.appendChild(this[schema.fields[f].dataname]);
 	}
 
-	this.debug = 		createField('.debug', debug); // Added post-facto
+	this.debug = createField('debug', debug); // Added post-facto
+	_element.rows.appendChild(this.debug);
 
 	if(!config.debug) {
-
 		for (var f = 0; f < schema.fields.length; f++) {
 			if(schema.fields[f].visible == false) {
 				this[schema.fields[f].dataname].classList.add('hide');

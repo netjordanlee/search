@@ -1,6 +1,5 @@
 CACHE MANIFEST
-# Provided as a fallback for iOS devices only
-# Last updated: v20180301.3
+# Last updated: v20180302.0
 
 CACHE:
 ./index.html
@@ -21,5 +20,6 @@ CACHE:
 NETWORK:
 *
 
+# Fallback must be index to circumvent URL variable problem
 FALLBACK:
 ./index.html

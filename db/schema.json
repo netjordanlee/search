@@ -1,24 +1,27 @@
 {
-  "version" : 20180228.1,
+  "version" : 20180302.0,
   "dataurl" : "./db/db.min.xml",
   "fields" : [
     {
       "dataname" : "LHD",
       "visible" : true,
       "weight" : 0.1,
-      "title" : "LHD"
+      "title" : "LHD",
+      "position" : 1
     },
     {
       "dataname" : "Cerner",
       "visible" : true,
       "weight" : 0.1,
-      "title" : "Cerner"
+      "title" : "Cerner",
+      "position" : 0
     },
     {
       "dataname" : "LocationCode",
       "visible" : true,
       "weight" : 1,
-      "title" : "Location Code"
+      "title" : "Location Code",
+      "position": 2
     },
     {
       "dataname" : "Description",
@@ -30,7 +33,8 @@
       "dataname" : "AddressLocation",
       "visible" : true,
       "weight" : 0.7,
-      "title" : "Address"
+      "title" : "Address",
+      "position" : 3
     },
     {
       "dataname" : "PhoneNumber",
