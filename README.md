@@ -1,5 +1,5 @@
 # [ Search ]
-> Search is a tool that loads data from an db.xml file and allows users to search that data.
+> Search is a tool that loads data from an `db.xml` file and allows users to search that data.
 
 Search is built by [Laith Serhan](https://github.com/laithserhan) and [Jordan Lee](https://github.com/TheRealZuriki).
 
@@ -14,14 +14,14 @@ Example: searching `hello world`
 
 Search will check for `hello world`, `hello` and `world`.
 
-Example: searching `hello lovely world` but `lovely` is not in the data, Search will still show results for `hello` and `world`.
-
 Even if Search returns a false positive, Search will still show results.
+
+Example: searching `hello lovely world` but `lovely` is not in the data, Search will still show results for `hello` and `world`.
 
 ***
 
 ## Search does More!
-> Search also allows options to be toggled via a schema.json file.
+> Search also allows options to be toggled via a `schema.json` file.
 
 - Search data can be weighted for optimized search results.
 - Data order sorting.
