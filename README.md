@@ -11,9 +11,11 @@ Search is built by [Laith Serhan](https://github.com/laithserhan) and [Jordan Le
 Search automagically matches search input text by exact phrase, whole word and partial phrase.
 
 Example: searching `hello world`
+
 Search will check for `hello world`, `hello` and `world`.
 
 Example: searching `hello lovely world` but `lovely` is not in the data, Search will still show results for `hello` and `world`.
+
 Even if Search returns a false positive, Search will still show results.
 
 ***
