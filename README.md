@@ -1,5 +1,5 @@
 # [ Search ]
-> Search is a tool that loads data from an `db.xml` file and allows users to search that data.
+> Search is a tool that loads data from a `db.min.xml` file and allows users to search that data.
 
 Search is built by [Laith Serhan](https://laithserhan.github.io/) and [Jordan Lee](https://github.com/TheRealZuriki).
 
