@@ -1,0 +1,46 @@
+{
+  "version" : 20180305.2,
+  "dataurl" : "./db/sample/db.xml",
+  "fields" : [
+    {
+      "dataname" : "author",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "Author",
+      "position" : 1
+    },
+    {
+      "dataname" : "title",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "Title",
+      "position" : 0
+    },
+    {
+      "dataname" : "genre",
+      "visible" : true,
+      "weight" : 1,
+      "title" : "Genre",
+      "position": 2
+    },
+    {
+      "dataname" : "price",
+      "visible" : true,
+      "weight" : 0.5,
+      "title" : "Price"
+    },
+    {
+      "dataname" : "publish_date",
+      "visible" : true,
+      "weight" : 0.7,
+      "title" : "Publish Date",
+      "position" : 3
+    },
+    {
+      "dataname" : "description",
+      "visible" : true,
+      "weight" : 1,
+      "title" : "Description"
+    }
+  ]
+}
