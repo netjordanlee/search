@@ -9,9 +9,9 @@
     border-radius: 0;
 }
 
-html, body, div, article, section, main, footer, header, form, fieldset, 
-pre, code, p, ul, ol, li, dl, dt, dd, textarea, input, input[type="email"], 
-input[type="number"], input[type="password"], input[type="tel"], 
+html, body, div, article, section, main, footer, header, form, fieldset,
+pre, code, p, ul, ol, li, dl, dt, dd, textarea, input, input[type="email"],
+input[type="number"], input[type="password"], input[type="tel"],
 input[type="text"], input[type="url"], .border-box {
     box-sizing: border-box;
 }
@@ -227,6 +227,52 @@ select.page-navigation::-ms-expand { display: none; }
     margin: auto;
 }
 
+/* Notification */
+
+.notification {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  z-index: 10000;
+  width: 100%;
+  padding: 1em;
+  background: #fff;
+  color: #333;
+  font-size: .9em;
+  transition: bottom 1s ease-out;
+}
+
+.notification.hide {
+  display: block;
+  bottom: -300px;
+}
+
+.notification-body {
+  margin: 0 auto;
+}
+
+div.notification-actions {
+  float: right;
+}
+
+button.notification-action-accept {
+  background: #09f;
+  color: #fff;
+  font-weight: 600;
+  padding: .2em .4em;
+  border-radius: 3px;
+  box-shadow: 0px 2px 4px -1px;
+}
+
+button.notification-action-decline {
+  background: #999;
+  color: #fff;
+  font-weight: 600;
+  padding: .2em .4em;
+  border-radius: 3px;
+  box-shadow: 0px 2px 4px -1px;
+}
+
 /* Footer */
 
 footer.footer {
@@ -349,11 +395,11 @@ a.sign-off {
 	margin: 0 0 2em 0;
   padding: 1em;
 }
-.result-card > div {
+.result-card > .rows > div {
 	overflow: hidden;
 	margin: 0.333em 0;
 }
-.result-card > div > span {
+.result-card > .rows > div > span {
 	display: inline-block;
 	width: 66.666%;
 	float: right;
@@ -364,6 +410,7 @@ a.sign-off {
 	position: relative; top: -200px;
 }
 .extra-items {
+  display: inline-block;
 	padding: 1.333em 0 0 0;
 }
 .extra-item {
@@ -407,6 +454,9 @@ a.sign-off {
     }
     .content {
         width: 100%;
+    }
+    .notification-body {
+      width: 66.666%;
     }
     .result-card {
         padding: 1em 2em;
