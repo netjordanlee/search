@@ -216,25 +216,25 @@ util.sendShareEmail = function (record) {
 	// perhaps have RecordCard store a reference to pass on?
 	// TODO: Reimplement in accordance with schema?
 	if(record instanceof Record) {
-		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), encodeURIComponent(ui.search.value), record.locationCode.hashCode(), ui.results.page));
-		var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.description));
+		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), encodeURIComponent(ui.search.value), record.LocationCode.hashCode(), ui.results.page));
+		var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.Description));
 		var message = "";
 
 		message += 'Hello,%0D%0A%0D%0A';
 		message += String.format('%09{0} is located at {1}.%0D%0A',
-			encodeURIComponent(record.description),
-			encodeURIComponent(record.addressLocation));
+			encodeURIComponent(record.Description),
+			encodeURIComponent(record.AddressLocation));
 
 		message += String.format('%09They can be contacted at {0}.%0D%0A',
-			encodeURIComponent(record.phoneNumber));
+			encodeURIComponent(record.PhoneNumber));
 
 		message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A',
-			encodeURIComponent(record.cerner),
-			encodeURIComponent(record.locationCode),
-			encodeURIComponent(record.lhd));
+			encodeURIComponent(record.Cerner),
+			encodeURIComponent(record.LocationCode),
+			encodeURIComponent(record.LHD));
 
-		message += record.other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A',
-			encodeURIComponent(record.other));
+		message += record.Other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A',
+			encodeURIComponent(record.Other));
 
 		message += String.format('%0D%0ASource: {0}%0D%0A',
 			sourceUrl);
@@ -274,12 +274,12 @@ util.raiseUpdateTicket = function (record) {
 	'EntityCode: {9}%0D%0A' +
 	'INST: {10}%0D%0A' +
 	'Other: {11}%0D%0A%0D%0A',
-	encodeURIComponent(record.lhd), encodeURIComponent(record.cerner),
-	encodeURIComponent(record.locationCode), encodeURIComponent(record.description),
-	encodeURIComponent(record.addressLocation), encodeURIComponent(record.phoneNumber),
-	encodeURIComponent(record.sector), encodeURIComponent(record.org),
-	encodeURIComponent(record.costCentreCode), encodeURIComponent(record.entityCode),
-	encodeURIComponent(record.inst), encodeURIComponent(record.other));
+	encodeURIComponent(record.LHD), encodeURIComponent(record.Cerner),
+	encodeURIComponent(record.LocationCode), encodeURIComponent(record.Description),
+	encodeURIComponent(record.AddressLocation), encodeURIComponent(record.PhoneNumber),
+	encodeURIComponent(record.Sector), encodeURIComponent(record.ORG),
+	encodeURIComponent(record.CostCentreCode), encodeURIComponent(record.EntityCode),
+	encodeURIComponent(record.INST), encodeURIComponent(record.Other));
 
 	window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", recepient, subject, message));
 };
@@ -881,15 +881,15 @@ function ResultCard(record, debug) {
 
 	this.anchor	= _element.querySelector('a');
 	// TODO: re-implement anchoring using non-hardcoded field (implement in schema?)
-	this.anchor.id = record.locationCode.hashCode();
+	this.anchor.id = record.LocationCode.hashCode();
 
 	this.buttons = {};
 
 	this.buttons.search = _element.querySelector('.search-description');
-	this.buttons.search.href = String.format('http://google.com/search?q={0}', encodeURIComponent(record.description));
+	this.buttons.search.href = String.format('http://google.com/search?q={0}', encodeURIComponent(record.Description));
 
 	this.buttons.map = _element.querySelector('.map-address');
-	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.addressLocation));
+	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.AddressLocation));
 
 	this.buttons.share = _element.querySelector('.share-card');
 	this.buttons.share.onclick = function () { util.sendShareEmail(record); };
