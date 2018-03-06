@@ -863,7 +863,7 @@ function ResultCard(record, debug) {
 	};
 
 	for (var f = 0; f < schema.fields.length; f++) {
-		this[schema.fields[f].dataname] = createField(schema.fields[f].title, record[schema.fields[f].dataname]);
+		this[schema.fields[f].dataname] = createField(schema.fields[f].dataname, record[schema.fields[f].dataname]);
 		_element.rows.appendChild(this[schema.fields[f].dataname]);
 	}
 
