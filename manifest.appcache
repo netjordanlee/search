@@ -4,7 +4,7 @@ CACHE MANIFEST
 
 CACHE:
 ./index.html
-./db/sample/db.min.xml
+./db/sample/db.xml
 ./css/colors.css
 ./css/style.css
 ./js/classList.min.js
