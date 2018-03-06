@@ -47,7 +47,7 @@
     for (var i = 0; i < elements.length; i++) {
       var selectedClasses = classes[Math.floor(Math.random() * classes.length)].split(' ');
       for (var c = 0; c < selectedClasses.length; c++) {
-        elements[i].classList.add(selectedClasses[c]); // Can only add one at a time!
+        elements[i].classList.add(selectedClasses[c]); //Can only add one at a time!
       }
     }
   });

@@ -17,35 +17,15 @@ window.addEventListener("load", function(evt) {
 
 	document.querySelector('.version').innerHTML = 'v' + appVersion; // Dynamically updates footer version
 
-	// If browser doesn't support service workers but does support applicationCache use it
-	if(!('serviceWorker' in navigator) && ('applicationCache' in window)) {
-		window.applicationCache.addEventListener('updateready', function(e) {
-			if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-				// Browser downloaded a new app cache.
-				if (confirm('A new version of this site is available. Load it?')) {
-					window.location.reload();
-				}
-			} else {
-			// Manifest didn't changed. Nothing new to server.
-			}
-		}, false);
-	}
-
-	
 	util.parseUrlVariables();
 
-	// prevent esc from closing browser fullscreen mode, breaks search... FIX
-  // document.onkeydown = function (evt) {
-  //    if (evt.keyCode == 27) evt.preventDefault();
-  // }
+	config.debug = window.location.get["debug"] ? window.location.get["debug"] : config.debug;
 
 	document.addEventListener("keydown", function(evt) {
-		// if(evt.keyCode == 17) { ctrlDown = true; return; }
 		if(evt.ctrlKey || evt.metaKey || evt.keyCode == 27) { return; }
-		if(!evt.ctrlKey || !evt.metaKey) {
-			ui.search.focus();
-			ui.search.show();
-		}
+
+		ui.search.focus();
+		ui.search.show();
 		window.scrollTo(0,0);
 	});
 
@@ -80,6 +60,10 @@ window.addEventListener("load", function(evt) {
 		scrollManager.lastPosition = window.scrollY;
 	});
 
+	schema.onDownloadBegin.add(ui.spinner.show);
+	schema.onDownloadComplete.add(schema.parse);
+	schema.onReady.add(db.download);
+
 	db.onDownloadBegin.add(ui.spinner.show);
 	db.onDownloadComplete.add(ui.spinner.hide);
 	db.onDownloadComplete.add(db.parse);
@@ -110,7 +94,7 @@ window.addEventListener("load", function(evt) {
 	ui.results.onError.add(ui.nav.update);
 
 	try {
-		db.download("./db/db.min.xml");
+		schema.download("./db/schema.json");
 	} catch (err) {
 		switch(err.name) {
 			case "XHRException":
@@ -134,6 +118,24 @@ window.addEventListener("load", function(evt) {
 	}
 
 });
+
+window.applicationCache.addEventListener('checking', function(evt) {
+	// If browser supports Service Worker, abort applicationCache update
+	if(('serviceWorker' in navigator) && !config.debug) {
+		evt.preventDefault();
+		console.warn('Blocked ApplicationCache checking for update because ServiceWorker support was detected.');
+		return false;
+	}
+}, false);
+
+window.applicationCache.addEventListener('updateready', function(evt) {
+	if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+		// Browser downloaded a new app cache.
+		ui.notification.show();
+	} else {
+	// Manifest didn't change nothing new to serve
+	}
+}, false);
 
 function search(query) {
 	try {
@@ -212,28 +214,29 @@ var util = {};
 util.sendShareEmail = function (record) {
 	// Would be better to pull record properties from the Record object instead of the RecordCard
 	// perhaps have RecordCard store a reference to pass on?
+	// TODO: Reimplement in accordance with schema?
 	if(record instanceof Record) {
-		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), encodeURIComponent(ui.search.value), record.locationCode.hashCode(), ui.results.page));
-		var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.description));
+		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), encodeURIComponent(ui.search.value), record.LocationCode.hashCode(), ui.results.page));
+		var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.Description));
 		var message = "";
 
 		message += 'Hello,%0D%0A%0D%0A';
-		message += String.format('%09{0} is located at {1}.%0D%0A', 
-			encodeURIComponent(record.description), 
-			encodeURIComponent(record.addressLocation));
+		message += String.format('%09{0} is located at {1}.%0D%0A',
+			encodeURIComponent(record.Description),
+			encodeURIComponent(record.AddressLocation));
 
-		message += String.format('%09They can be contacted at {0}.%0D%0A', 
-			encodeURIComponent(record.phoneNumber));
+		message += String.format('%09They can be contacted at {0}.%0D%0A',
+			encodeURIComponent(record.PhoneNumber));
 
-		message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A', 
-			encodeURIComponent(record.cerner), 
-			encodeURIComponent(record.locationCode), 
+		message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A',
+			encodeURIComponent(record.Cerner),
+			encodeURIComponent(record.LocationCode),
 			encodeURIComponent(record.LHD));
 
-		message += record.other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A', 
-			encodeURIComponent(record.other));
+		message += record.Other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A',
+			encodeURIComponent(record.Other));
 
-		message += String.format('%0D%0ASource: {0}%0D%0A', 
+		message += String.format('%0D%0ASource: {0}%0D%0A',
 			sourceUrl);
 
 		window.location.href = String.format("mailto:?subject={0}&body={1}", subject, message);
@@ -241,57 +244,57 @@ util.sendShareEmail = function (record) {
 };
 
 util.raiseUpdateTicket = function (record) {
-	var recepient = "";
-	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.locationCode.hashCode());
+	var recepient = "jordan.lee@health.nsw.gov.au";
+	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.Location.hashCode());
 	var message = String.format(
-	'-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' + 
-	'LHD: {0}%0D%0A' + 
-	'Cerner: {1}%0D%0A' + 
-	'LocationCode: {2}%0D%0A' + 
-	'Description: {3}%0D%0A' + 
-	'AddressLocation: {4}%0D%0A' + 
-	'PhoneNumber: {5}%0D%0A' + 
-	'Sector: {6}%0D%0A' + 
-	'ORG: {7}%0D%0A' + 
-	'CostCentreCode: {8}%0D%0A' + 
-	'EntityCode: {9}%0D%0A' + 
-	'INST: {10}%0D%0A' + 
-	'Other: {11}%0D%0A%0D%0A' + 
-	'Comments: Your comments here...%0D%0A%0D%0A%0D%0A' + 
-	'-----// DO NOT EDIT BELOW THIS LINE //-----%0D%0A%0D%0A' + 
-	'LHD: {0}%0D%0A' + 
-	'Cerner: {1}%0D%0A' + 
-	'LocationCode: {2}%0D%0A' + 
-	'Description: {3}%0D%0A' + 
-	'AddressLocation: {4}%0D%0A' + 
-	'PhoneNumber: {5}%0D%0A' + 
-	'Sector: {6}%0D%0A' + 
-	'ORG: {7}%0D%0A' + 
-	'CostCentreCode: {8}%0D%0A' + 
-	'EntityCode: {9}%0D%0A' + 
-	'INST: {10}%0D%0A' + 
+	'-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' +
+	'LHD: {0}%0D%0A' +
+	'Cerner: {1}%0D%0A' +
+	'LocationCode: {2}%0D%0A' +
+	'Description: {3}%0D%0A' +
+	'AddressLocation: {4}%0D%0A' +
+	'PhoneNumber: {5}%0D%0A' +
+	'Sector: {6}%0D%0A' +
+	'ORG: {7}%0D%0A' +
+	'CostCentreCode: {8}%0D%0A' +
+	'EntityCode: {9}%0D%0A' +
+	'INST: {10}%0D%0A' +
+	'Other: {11}%0D%0A%0D%0A' +
+	'Comments: Your comments here...%0D%0A%0D%0A%0D%0A' +
+	'-----// DO NOT EDIT BELOW THIS LINE //-----%0D%0A%0D%0A' +
+	'LHD: {0}%0D%0A' +
+	'Cerner: {1}%0D%0A' +
+	'LocationCode: {2}%0D%0A' +
+	'Description: {3}%0D%0A' +
+	'AddressLocation: {4}%0D%0A' +
+	'PhoneNumber: {5}%0D%0A' +
+	'Sector: {6}%0D%0A' +
+	'ORG: {7}%0D%0A' +
+	'CostCentreCode: {8}%0D%0A' +
+	'EntityCode: {9}%0D%0A' +
+	'INST: {10}%0D%0A' +
 	'Other: {11}%0D%0A%0D%0A',
-	encodeURIComponent(record.LHD), encodeURIComponent(record.cerner), 
-	encodeURIComponent(record.locationCode), encodeURIComponent(record.description),
-	encodeURIComponent(record.addressLocation), encodeURIComponent(record.phoneNumber), 
-	encodeURIComponent(record.sector), encodeURIComponent(record.ORG),
-	encodeURIComponent(record.costCentreCode), encodeURIComponent(record.entityCode), 
-	encodeURIComponent(record.INST), encodeURIComponent(record.other));
+	encodeURIComponent(record.LHD), encodeURIComponent(record.Cerner),
+	encodeURIComponent(record.LocationCode), encodeURIComponent(record.Description),
+	encodeURIComponent(record.AddressLocation), encodeURIComponent(record.PhoneNumber),
+	encodeURIComponent(record.Sector), encodeURIComponent(record.ORG),
+	encodeURIComponent(record.CostCentreCode), encodeURIComponent(record.EntityCode),
+	encodeURIComponent(record.INST), encodeURIComponent(record.Other));
 
 	window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", recepient, subject, message));
 };
 
 util.raiseMissingTicket = function () {
-	var recepient = "";
+	var recepient = "jordan.lee@health.nsw.gov.au";
 	var subject = String.format("Trouble Ticket - {0}:NEW", (new Date()).yymmdd());
 	var message = String.format(
-	'-----// In This Field, Fill Out What You Know About The Missing Record //-----%0D%0A%0D%0A' + 
-	'LHD: %0D%0A' + 
-	'Description: %0D%0A' + 
-	'AddressLocation: %0D%0A' + 
-	'PhoneNumber: %0D%0A' + 
-	'Sector: %0D%0A' + 
-	'ORG: %0D%0A' + 
+	'-----// In This Field, Fill Out What You Know About The Missing Record //-----%0D%0A%0D%0A' +
+	'LHD: %0D%0A' +
+	'Description: %0D%0A' +
+	'AddressLocation: %0D%0A' +
+	'PhoneNumber: %0D%0A' +
+	'Sector: %0D%0A' +
+	'ORG: %0D%0A' +
 	'Comments: %0D%0A%0D%0A');
 
 	window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", recepient, subject, message));
@@ -299,9 +302,9 @@ util.raiseMissingTicket = function () {
 
 util.updateUrl = function () {
 	if(('replaceState' in history) && (window.location.origin !== undefined)) {
-		var url = String.format('{0}?q={1}&p={2}', 
-			(location.origin + location.pathname), 
-			encodeURIComponent(ui.search.value), 
+		var url = String.format('{0}?q={1}&p={2}',
+			(location.origin + location.pathname),
+			encodeURIComponent(ui.search.value),
 			encodeURIComponent((ui.results.page ? ui.results.page : 0)));
 		history.replaceState({}, document.title, url);
 	}
@@ -418,13 +421,13 @@ ui.search.onSubmit = new Signal();
 ui.search.onClear = new Signal();
 
 ui.search.submit = function () {
-	if(db.state != DatabaseState.READY){
-		if(db.state == DatabaseState.ERROR) {
-			return; 
-		}
-	setTimeout(ui.search.submit, 100);
-	return;
-	}
+  if(db.state != DatabaseState.READY){
+    if(db.state == DatabaseState.ERROR) {
+     return;
+    }
+    setTimeout(ui.search.submit, 100);
+    return;
+  }
 	ui.search.cancel();
 	// ui.results.page = null;
 	// ui.results.last_page = null;
@@ -588,11 +591,107 @@ ui.results.error.hide = function () {
 
 ////////////////
 
+ui.notification = document.getElementById('notification');
+
+ui.notification.show = function () {
+	ui.notification.classList.remove('hide');
+}
+
+ui.notification.hide = function () {
+	ui.notification.classList.add('hide');
+}
+
+////////////////
+
 var DatabaseState = {
 	ERROR: -1,
 	PENDING: 0,
 	READY: 1
 };
+
+var schema = {};
+
+schema.onDownloadBegin = new Signal();
+schema.onDownloadComplete = new Signal();
+schema.onReady = new Signal();
+
+schema.download = function(url) {
+	var data;
+	var xhttp;
+	if ('ActiveXObject' in window) {
+		xhttp = new ActiveXObject("Microsoft.XMLHTTP"); //IE w/ FS Access
+	} else if (window.XMLHttpRequest) {
+		xhttp = new XMLHttpRequest();
+	} else {
+		throw new XHRNotSupportedException();
+	}
+
+	xhttp.onreadystatechange = function () {
+		if(xhttp.readyState == 4) {
+			if(xhttp.status == 200 || xhttp.status == 0) {
+				//HTTP OK or 0 for local fs
+				if(xhttp.responseText.isNullOrEmpty()) {
+					throw new XHRException("The request returned an empty respose.");
+				} else {
+					schema.onDownloadComplete.dispatch(xhttp.responseText);
+					return xhttp.responseText;
+				}
+			} else {
+				throw new XHRException("The request returned failed with the stauts code " + xhttp.status);
+			}
+		}
+	}
+
+	xhttp.open("GET", url, true);
+	xhttp.send();
+};
+
+schema.parse = function(data) {
+	var schemaObj = {};
+	try {
+		schemaObj = JSON.parse(data);
+		schema.version = schemaObj.version;
+		schema.dataurl = schemaObj.dataurl;
+		schema.fields = schemaObj.fields;
+		schema.position = schemaObj.position;
+
+		// Sort by defined position in schema
+		var highestAssignedPosition = 0;
+		for (var i = 0; i < schema.fields.length; i++) {
+			if(schema.fields[i].position > highestAssignedPosition) highestAssignedPosition = schema.fields[i].position;
+		}
+
+		// Where no position is defined, move to end of list in the order each field is defined
+		for (var i = 0; i < schema.fields.length; i++) {
+			if(schema.fields[i].position == null) schema.fields[i].position = ++highestAssignedPosition; // Increment then assign
+		}
+
+		// Sort all fields according to final position value
+		schema.fields.sort(function(a, b) {
+		    return a.position - b.position;
+		});
+
+		schemaObj = null; // Mm, memory management
+		data = null;
+		schema.onReady.dispatch(schema.dataurl); // Pass database file url to db.download();
+	} catch (err) {
+		throw err;
+	}
+};
+
+schema.getFieldByName = function(name) {
+	// Just a utility function for debugging purposes
+	for(var i = 0; i < schema.fields.length; i++) {
+		if(schema.fields[i].dataname == name) {
+			return schema.fields[i];
+		}
+	}
+	throw new Exception("Field not found.");
+};
+
+schema.version = -1;
+schema.dataurl = "";
+schema.fields = [];
 
 var db = {};
 
@@ -645,21 +744,7 @@ db.parse = function(xmlData) {
 	xmlData = null;
 
 	for (var i = 0; i < xmlDoc.length; i++) {
-		db.record.push(new Record(
-			xmlDoc[i].getElementsByTagName("LHD")[0].textContent,
-			xmlDoc[i].getElementsByTagName("Cerner")[0].textContent,
-			xmlDoc[i].getElementsByTagName("LocationCode")[0].textContent,
-			xmlDoc[i].getElementsByTagName("Description")[0].textContent,
-			xmlDoc[i].getElementsByTagName("AddressLocation")[0].textContent,
-			xmlDoc[i].getElementsByTagName("PhoneNumber")[0].textContent,
-			xmlDoc[i].getElementsByTagName("Sector")[0].textContent,
-			xmlDoc[i].getElementsByTagName("ORG")[0].textContent,
-			xmlDoc[i].getElementsByTagName("CostCentreCode")[0].textContent,
-			xmlDoc[i].getElementsByTagName("EntityCode")[0].textContent,
-			xmlDoc[i].getElementsByTagName("INST")[0].textContent,
-			xmlDoc[i].getElementsByTagName("Other")[0].textContent
-			)
-		);
+		db.record.push(new Record(xmlDoc[i]));
 	}
 };
 
@@ -689,24 +774,15 @@ db.query = function(query) {
 
 	for (var i = 0; i < db.record.length; i++) {
 		var recordScore = 0;
-		var hasMatchPhrase = false; 
+		var hasMatchPhrase = false;
 		var hasMatchAll = true; // True until proven false
 
 		for (var k = 0; k < keyword.length; k++) {
 			var newScore = recordScore;
 
-			newScore = bmh(db.record[i].LHD, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].cerner, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].locationCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
-			newScore = bmh(db.record[i].description, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.5)) : (newScore);
-			newScore = bmh(db.record[i].addressLocation, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.7)) : (newScore);
-			newScore = bmh(db.record[i].phoneNumber, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
-			newScore = bmh(db.record[i].sector, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].ORG, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].costCentreCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 1)) : (newScore);
-			newScore = bmh(db.record[i].entityCode, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].INST, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
-			newScore = bmh(db.record[i].other, keyword[k]) > -1 ? (newScore + (keyword[k].length * 0.1)) : (newScore);
+			for (var f = 0; f < schema.fields.length; f++) {
+				newScore = bmh(db.record[i][schema.fields[f].dataname], keyword[k]) > -1 ? (newScore + (keyword[k].length * schema.fields[f].weight)) : (newScore);
+			}
 
 			// Corner-case k0 is always the entire query
 			if(k==0 && newScore > recordScore){
@@ -750,63 +826,62 @@ db.query = function(query) {
 
 db.query.results = [];
 
-function Record(healthDistrict, cerner, locationCode, description, addressLocation, 
-	phoneNumber, sector, org, costCentreCode, entityCode, inst, other) {
-	this.LHD = healthDistrict;
-	this.cerner = cerner;
-	this.locationCode = locationCode;
-	this.description = description;
-	this.addressLocation = addressLocation;
-	this.phoneNumber = phoneNumber;
-	this.sector = sector;
-	this.ORG = org;
-	this.costCentreCode = costCentreCode;
-	this.entityCode = entityCode;
-	this.INST = inst;
-	this.other = other;
-};
+// Record should not really be responsible for parsing
+// but until a better solution can be implemented, this
+// will have to suffice.
+function Record(xmlElement) {
+	for(var i = 0; i < schema.fields.length; i++) {
+		var field = schema.fields[i];
+		this[field.dataname] = xmlElement.getElementsByTagName(field.dataname)[0].textContent;
+		this[field.dataname].visible = field.visible;
+		this[field.dataname].weight = field.weight;
+		this[field.dataname].title = field.title;
+	}
+}
 
 function ResultCard(record, debug) {
 	if(typeof debug !== "string") debug = "";
 	var _parent = this; // This makes me sad, but can't see a better way
 
 	var _element = template.load('result-card');
+	_element.rows = _element.querySelector('.rows');
 
-	var createField = function (query, recordField) {
-		var _export = _element.querySelector(query);
-		_export.content = _export.querySelector('span');
-		_export.content.innerHTML = recordField.replace(/\n/g, "<br />");
-		if(recordField.isNullOrEmpty()) {
-			_export.classList.add('hide');
+	// Currently relies on a hard-coded copy of the <template> element in index.html
+	var createField = function (header, content) {
+		var _row = document.createElement('div');
+		_row.content = document.createElement('span');
+
+		_row.innerHTML = String.format('{0}: ', header);
+		_row.content.innerHTML = content.replace(/\n/g, "<br />");;
+
+		_row.appendChild(_row.content);
+
+		if(content.isNullOrEmpty()) {
+			_row.classList.add('hide');
 		}
-		return _export;
+		return _row;
 	};
 
-	this.lhd = 			createField('.lhd', record.LHD);
-	this.cerner = 		createField('.cerner', record.cerner);
-	this.code = 		createField('.locationCode', record.locationCode);
-	this.description = 	createField('.description', record.description);
-	this.address = 		createField('.addressLocation', record.addressLocation);
-	this.contact = 		createField('.phoneNumber', record.phoneNumber);
-	this.sector = 		createField('.sector', record.sector);
-	this.org =  		createField('.org', record.ORG);
-	this.costCode = 	createField('.costCentreCode', record.costCentreCode);
-	this.entityCode = 	createField('.entityCode', record.entityCode);
-	this.inst = 		createField('.inst', record.INST);
-	this.other = 		createField('.other', record.other);
-	this.debug = 		createField('.debug', debug); // Added post-facto
+	for (var f = 0; f < schema.fields.length; f++) {
+		this[schema.fields[f].dataname] = createField(schema.fields[f].title, record[schema.fields[f].dataname]);
+		_element.rows.appendChild(this[schema.fields[f].dataname]);
+	}
+
+	this.debug = createField('debug', debug); // Added post-facto
+	_element.rows.appendChild(this.debug);
 
 	if(!config.debug) {
-		this.sector.classList.add('hide');
-		this.org.classList.add('hide');
-		this.costCode.classList.add('hide');
-		this.entityCode.classList.add('hide');
-		this.inst.classList.add('hide');
+		for (var f = 0; f < schema.fields.length; f++) {
+			if(schema.fields[f].visible == false) {
+				this[schema.fields[f].dataname].classList.add('hide');
+			}
+		}
 		this.debug.classList.add('hide');
 	}
 
-	this.anchor = _element.querySelector('a');
-	this.anchor.id = record.locationCode.hashCode();
+	this.anchor	= _element.querySelector('a');
+	// TODO: re-implement anchoring using non-hardcoded field (implement in schema?)
+	//this.anchor.id = record.LocationCode.hashCode();
 
 	this.buttons = {};
 
@@ -814,7 +889,7 @@ function ResultCard(record, debug) {
 	this.buttons.search.href = String.format('http://google.com/search?q={0}', encodeURIComponent(record.description));
 
 	this.buttons.map = _element.querySelector('.map-address');
-	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.addressLocation));	
+	this.buttons.map.href = String.format('http://maps.apple.com/maps?q={0}', encodeURIComponent(record.addressLocation));
 
 	this.buttons.share = _element.querySelector('.share-card');
 	this.buttons.share.onclick = function () { util.sendShareEmail(record); };
