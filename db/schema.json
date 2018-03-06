@@ -1,46 +1,82 @@
 {
-  "version" : 20180306.1,
-  "dataurl" : "./db/sample/db.xml",
+  "version" : 20180302.0,
+  "dataurl" : "./db/hcis/db.min.xml",
   "fields" : [
     {
-      "dataname" : "author",
+      "dataname" : "LHD",
       "visible" : true,
       "weight" : 0.1,
-      "title" : "Author",
+      "title" : "LHD",
       "position" : 1
     },
     {
-      "dataname" : "title",
+      "dataname" : "Cerner",
       "visible" : true,
       "weight" : 0.1,
-      "title" : "Title",
+      "title" : "Cerner",
       "position" : 0
     },
     {
-      "dataname" : "genre",
+      "dataname" : "LocationCode",
       "visible" : true,
       "weight" : 1,
-      "title" : "Genre",
+      "title" : "Location Code",
       "position": 2
     },
     {
-      "dataname" : "price",
+      "dataname" : "Description",
       "visible" : true,
       "weight" : 0.5,
-      "title" : "Price"
+      "title" : "Description"
     },
     {
-      "dataname" : "publish_date",
+      "dataname" : "AddressLocation",
       "visible" : true,
       "weight" : 0.7,
-      "title" : "Publish Date",
+      "title" : "Address",
       "position" : 3
     },
     {
-      "dataname" : "description",
+      "dataname" : "PhoneNumber",
       "visible" : true,
       "weight" : 1,
-      "title" : "Description"
+      "title" : "Phone Number"
+    },
+    {
+      "dataname" : "Sector",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Sector"
+    },
+    {
+      "dataname" : "ORG",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Organisation"
+    },
+    {
+      "dataname" : "CostCentreCode",
+      "visible" : false,
+      "weight" : 1,
+      "title" : "Cost Code"
+    },
+    {
+      "dataname" : "EntityCode",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Entity Code"
+    },
+    {
+      "dataname" : "INST",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Institution"
+    },
+    {
+      "dataname" : "Other",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "Other"
     }
   ]
 }
