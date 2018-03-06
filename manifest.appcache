@@ -1,10 +1,10 @@
 CACHE MANIFEST
 # Provided as a fallback for iOS devices only
-# Last updated: v20180301.3
+# Last updated: v20180306.0
 
 CACHE:
 ./index.html
-./db/db.min.xml
+./db/sample/db.min.xml
 ./css/colors.css
 ./css/style.css
 ./js/classList.min.js
