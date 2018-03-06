@@ -1,4 +1,4 @@
-var version = 'v20180306.6'
+var version = 'v20180307.1'
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -7,7 +7,7 @@ self.addEventListener('install', e => {
           './',
           './index.html',
           './db/schema.json',
-          './db/sample/db.xml',
+          './db/db.min.xml',
           './css/colors.css',
           './css/style.css',
           './js/classList.min.js',
