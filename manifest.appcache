@@ -1,11 +1,11 @@
 CACHE MANIFEST
-# Last updated: v20180306.6
+# Last updated: v20180307.1
 
 CACHE:
 ./
 ./index.html
 ./db/schema.json
-./db/db.xml
+./db/db.min.xml
 ./css/colors.css
 ./css/style.css
 ./js/classList.min.js
