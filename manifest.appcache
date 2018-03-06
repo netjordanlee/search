@@ -1,9 +1,10 @@
 CACHE MANIFEST
-# Provided as a fallback for iOS devices only
-# Last updated: v20180306.0
+# Last updated: v20180306.1
 
 CACHE:
+./
 ./index.html
+./db/schema.json
 ./db/sample/db.xml
 ./css/colors.css
 ./css/style.css
@@ -13,12 +14,16 @@ CACHE:
 ./js/main.js
 ./js/plugins.js
 ./js/signals.js
+./js/sw.js
 ./js/template.js
+./upup.min.js
+./upup.sw.min.js
 ./img/favicon.ico
 
 # All files retrieved from network first
 NETWORK:
 *
 
+# Fallback must be index to circumvent URL variable problem
 FALLBACK:
 ./index.html

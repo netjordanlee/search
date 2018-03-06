@@ -2,7 +2,7 @@
 <html lang="en-us" manifest="manifest.appcache">
 
 <!-- KEEP THIS VERSION NUMBER UPDATED -->
-<meta name="version" content="20180306.1" />
+<meta name="version" content="201806306.1" />
 
 <head>
 <title>[ Search ]</title>
@@ -75,19 +75,20 @@
 <li class="shade">
   <div class="result-card">
     <a class="anchor"></a>
-    <div class="lhd">LHD: <span></span></div>
-    <div class="cerner">Cerner: <span></span></div>
-    <div class="locationCode">Code: <span></span></div>
-    <div class="description">Description: <span></span></div>
-    <div class="addressLocation">Address: <span></span></div>
-    <div class="phoneNumber">Contact: <span></span></div>
-    <div class="sector">Sector: <span></span></div>
-    <div class="org">ORG: <span></span></div>
-    <div class="costCentreCode">Cost Centre Code: <span></span></div>
-    <div class="entityCode">Entity Code: <span></span></div>
-    <div class="inst">INST: <span></span></div>
-    <div class="other">Other: <span></span></div>
-    <div class="debug">Debug: <span></span></div>
+    <div class="rows"></div>
+    <!-- <div class="LHD">LHD: <span></span></div>
+    <div class="Cerner">Cerner: <span></span></div>
+    <div class="LocationCode">Code: <span></span></div>
+    <div class="Description">Description: <span></span></div>
+    <div class="AddressLocation">Address: <span></span></div>
+    <div class="PhoneNumber">Contact: <span></span></div>
+    <div class="Sector">Sector: <span></span></div>
+    <div class="ORG">ORG: <span></span></div>
+    <div class="CostCentreCode">Cost Centre Code: <span></span></div>
+    <div class="EntityCode">Entity Code: <span></span></div>
+    <div class="INST">INST: <span></span></div>
+    <div class="Other">Other: <span></span></div>
+    <div class="debug">Debug: <span></span></div> -->
     <div class="extra-items">
       <a class="extra-item search-description shade" title="Search Description on the Wold Wide Web..." target="_blank"></a>
       <a class="extra-item map-address shade" title="Open Address in Maps..." target="_blank"></a>
@@ -122,6 +123,15 @@
         <div class="page-navigation-section">
             <button id="btn-next" class="page-navigation" onclick="" disabled="true">&#10095;</button>
         </div>
+    </div>
+  </div>
+
+  <div id="notification" class="notification hide">
+    <div class="notification-body">
+      <strong>Update Ready!</strong> Do you want to apply now?
+      <div class="notification-actions">
+        <button class="notification-action-accept" onclick="window.location.reload()">Update Now</button> <button class="notification-action-decline" onclick="ui.notification.hide()">Not Now</button>
+      </div>
     </div>
   </div>
 
@@ -178,20 +188,24 @@ try {
     'assets': [
       // Content
       './index.html',
-      './db/sample/db.min.xml',
+      './db/schema.json',
+      './db/sample/db.xml',
       // StyleSheets
-      './css/style.css',
       './css/colors.css',
+      './css/style.css',
       // JavaScript
+      './js/classList.min.js',
+      './js/colors.js',
+      './js/exceptions.js',
       './js/main.js',
       './js/plugins.js',
       './js/signals.js',
-      './js/classList.min.js',
+      './js/sw.js',
       './js/template.js',
-      './js/exceptions.js',
-      './js/colors.js',
       './upup.min.js',
-      './upup.sw.min.js'
+      './upup.sw.min.js',
+      // Images
+      './img/favicon.ico'
     ]
   });
 } catch (err) {
