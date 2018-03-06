@@ -216,25 +216,25 @@ util.sendShareEmail = function (record) {
 	// perhaps have RecordCard store a reference to pass on?
 	// TODO: Reimplement in accordance with schema?
 	if(record instanceof Record) {
-		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), encodeURIComponent(ui.search.value), record.LocationCode.hashCode(), ui.results.page));
-		var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.Description));
+		var sourceUrl = encodeURIComponent(String.format('{0}?q={1}&r={2}&p={3}', (window.location.origin + window.location.pathname), encodeURIComponent(ui.search.value), record.locationCode.hashCode(), ui.results.page));
+		var subject = encodeURIComponent(String.format("{0} > {1} > {2}", document.title, ui.search.value.toUpperCase(), record.description));
 		var message = "";
 
 		message += 'Hello,%0D%0A%0D%0A';
 		message += String.format('%09{0} is located at {1}.%0D%0A',
-			encodeURIComponent(record.Description),
-			encodeURIComponent(record.AddressLocation));
+			encodeURIComponent(record.description),
+			encodeURIComponent(record.addressLocation));
 
 		message += String.format('%09They can be contacted at {0}.%0D%0A',
-			encodeURIComponent(record.PhoneNumber));
+			encodeURIComponent(record.phoneNumber));
 
 		message += String.format('%09Their {0} Cerner Code is {1} and they are part of the {2}.%0D%0A',
-			encodeURIComponent(record.Cerner),
-			encodeURIComponent(record.LocationCode),
-			encodeURIComponent(record.LHD));
+			encodeURIComponent(record.cerner),
+			encodeURIComponent(record.locationCode),
+			encodeURIComponent(record.lhd));
 
-		message += record.Other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A',
-			encodeURIComponent(record.Other));
+		message += record.other.isNullOrEmpty() ? '' : String.format('%09Notes: {0}%0D%0A',
+			encodeURIComponent(record.other));
 
 		message += String.format('%0D%0ASource: {0}%0D%0A',
 			sourceUrl);
@@ -245,7 +245,7 @@ util.sendShareEmail = function (record) {
 
 util.raiseUpdateTicket = function (record) {
 	var recepient = "";
-	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.Location.hashCode());
+	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.location.hashCode());
 	var message = String.format(
 	'-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' +
 	'LHD: {0}%0D%0A' +
@@ -274,12 +274,12 @@ util.raiseUpdateTicket = function (record) {
 	'EntityCode: {9}%0D%0A' +
 	'INST: {10}%0D%0A' +
 	'Other: {11}%0D%0A%0D%0A',
-	encodeURIComponent(record.LHD), encodeURIComponent(record.Cerner),
-	encodeURIComponent(record.LocationCode), encodeURIComponent(record.Description),
-	encodeURIComponent(record.AddressLocation), encodeURIComponent(record.PhoneNumber),
-	encodeURIComponent(record.Sector), encodeURIComponent(record.ORG),
-	encodeURIComponent(record.CostCentreCode), encodeURIComponent(record.EntityCode),
-	encodeURIComponent(record.INST), encodeURIComponent(record.Other));
+	encodeURIComponent(record.lhd), encodeURIComponent(record.cerner),
+	encodeURIComponent(record.locationCode), encodeURIComponent(record.description),
+	encodeURIComponent(record.addressLocation), encodeURIComponent(record.phoneNumber),
+	encodeURIComponent(record.sector), encodeURIComponent(record.org),
+	encodeURIComponent(record.costCentreCode), encodeURIComponent(record.entityCode),
+	encodeURIComponent(record.inst), encodeURIComponent(record.other));
 
 	window.location.href = (String.format("mailto:{0}?subject={1}&body={2}", recepient, subject, message));
 };
@@ -881,7 +881,7 @@ function ResultCard(record, debug) {
 
 	this.anchor	= _element.querySelector('a');
 	// TODO: re-implement anchoring using non-hardcoded field (implement in schema?)
-	//this.anchor.id = record.LocationCode.hashCode();
+	this.anchor.id = record.locationCode.hashCode();
 
 	this.buttons = {};
 
