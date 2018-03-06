@@ -16,8 +16,8 @@ self.addEventListener('install', e => {
           './js/main.js',
           './js/plugins.js',
           './js/signals.js',
-          './js/sw.js',
           './js/template.js',
+          './sw.js',
           './upup.min.js',
           './upup.sw.min.js',
           './img/favicon.ico'
