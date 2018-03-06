@@ -1,0 +1,82 @@
+{
+  "version" : 20180302.0,
+  "dataurl" : "./db/hcis/db.min.xml",
+  "fields" : [
+    {
+      "dataname" : "LHD",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "LHD",
+      "position" : 1
+    },
+    {
+      "dataname" : "Cerner",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "Cerner",
+      "position" : 0
+    },
+    {
+      "dataname" : "LocationCode",
+      "visible" : true,
+      "weight" : 1,
+      "title" : "Location Code",
+      "position": 2
+    },
+    {
+      "dataname" : "Description",
+      "visible" : true,
+      "weight" : 0.5,
+      "title" : "Description"
+    },
+    {
+      "dataname" : "AddressLocation",
+      "visible" : true,
+      "weight" : 0.7,
+      "title" : "Address",
+      "position" : 3
+    },
+    {
+      "dataname" : "PhoneNumber",
+      "visible" : true,
+      "weight" : 1,
+      "title" : "Phone Number"
+    },
+    {
+      "dataname" : "Sector",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Sector"
+    },
+    {
+      "dataname" : "ORG",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Organisation"
+    },
+    {
+      "dataname" : "CostCentreCode",
+      "visible" : false,
+      "weight" : 1,
+      "title" : "Cost Code"
+    },
+    {
+      "dataname" : "EntityCode",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Entity Code"
+    },
+    {
+      "dataname" : "INST",
+      "visible" : false,
+      "weight" : 0.1,
+      "title" : "Institution"
+    },
+    {
+      "dataname" : "Other",
+      "visible" : true,
+      "weight" : 0.1,
+      "title" : "Other"
+    }
+  ]
+}
