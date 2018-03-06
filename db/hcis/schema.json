@@ -1,6 +1,6 @@
 {
-  "version" : 20180302.0,
-  "dataurl" : "./db/hcis/db.min.xml",
+  "version" : 20180307.1,
+  "dataurl" : "./db/db.min.xml",
   "fields" : [
     {
       "dataname" : "LHD",
