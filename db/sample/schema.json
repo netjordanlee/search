@@ -1,6 +1,6 @@
 {
-  "version" : 20180306.1,
-  "dataurl" : "./db/sample/db.xml",
+  "version" : 20180307.1,
+  "dataurl" : "./db/db.xml",
   "fields" : [
     {
       "dataname" : "author",
