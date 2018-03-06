@@ -5,7 +5,7 @@ CACHE:
 ./
 ./index.html
 ./db/schema.json
-./db/sample/db.xml
+./db/db.xml
 ./css/colors.css
 ./css/style.css
 ./js/classList.min.js
