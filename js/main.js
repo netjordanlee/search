@@ -245,7 +245,7 @@ util.sendShareEmail = function (record) {
 
 util.raiseUpdateTicket = function (record) {
 	var recepient = "";
-	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.location.hashCode());
+	var subject = String.format("Trouble Ticket - {0}:{1}", (new Date()).yymmdd(), record.LocationCode.hashCode());
 	var message = String.format(
 	'-----// In This Field, Make The Appropriate Changes To The Record. //-----%0D%0A%0D%0A' +
 	'LHD: {0}%0D%0A' +
