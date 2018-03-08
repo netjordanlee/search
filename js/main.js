@@ -433,6 +433,7 @@ ui.search.submit = function () {
 	// ui.results.last_page = null;
 	ui.search.onUpdate.dispatch(ui.search.value);
 	if(ui.search.value.length > 1) {
+		ui.spinner.show();
 		ui.search.timeout = setTimeout("ui.search.onSubmit.dispatch(ui.search.value);", 666);
 	} else if(ui.search.value.length == 0) {
 		ui.search.onClear.dispatch();
@@ -460,7 +461,6 @@ ui.search.hide = function () {
 ui.search.addEventListener("keyup", function(evt) {
 	// if(ctrlDown || ctrlDown && [65,67,86,88].includes(evt.keyCode)) { return; } // Select All, Cut, Copy and Paste
 	if(evt.ctrlKey || evt.metaKey) { return; } // Disable anything with ctrl pressed
-	ui.spinner.show();
 	ui.search.submit();
 	window.location.pathname
 });
