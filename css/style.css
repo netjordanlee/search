@@ -26,10 +26,21 @@ html {
 }
 
 body {
-    font-family: avenir, 'avenir next', helvetica, arial, sans-serif
+    font-family: avenir, 'avenir next', helvetica, arial, sans-serif;
     margin: auto;
     overflow-y: scroll;
     animation: load-fade-in 0.5s linear 0s 1 normal;
+}
+
+.noselect {
+         pointer-events: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 template { display: none !important; } /*Really important*/
@@ -357,7 +368,6 @@ a.sign-off {
     background: rgba(255, 255, 255, 0.5);
     opacity: 0;
     transition: opacity 0.333s;
-    pointer-events: none;
     z-index: 999;
 }
 .spinner {
@@ -387,7 +397,6 @@ a.sign-off {
 	transform: rotate(90deg);
 	font-size: 9vh;
 	font-family: Arial, sans-serif;
-	pointer-events: none;
 }
 
 /* Result Cards */
