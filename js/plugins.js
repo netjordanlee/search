@@ -50,14 +50,14 @@ if (!String.format) {
 //String is null or empty method
 if (!String.isNullOrEmpty) {
   String.prototype.isNullOrEmpty = function() {
-    if (this == null || this == "null" || this == "" || this.replace(" ", "") == "") {
+    if (this == null || this == "null" || this == "Unknown" || this == "" || this.replace(" ", "") == "") {
       return true;
     } else {
       return false;
     }
   }
   String.isNullOrEmpty = function(input) {
-    if (input == null || this == "null" || input == "" || input.replace(" ", "") == "") {
+    if (input == null || input == "null" || input == "Unknown" || input == "" || input.replace(" ", "") == "") {
       return true;
     } else {
       return false;
