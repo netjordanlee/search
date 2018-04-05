@@ -84,6 +84,11 @@ table {
 .darken .shade { background: rgba(0, 0, 0, 0.333); color: #fff; }
 .darken .shade::-webkit-input-placeholder { color: #fff; }
 .darken .shade::-moz-placeholder { color: #fff; }
+
+.lighten .shade { background: rgba(255, 255, 255, 0.666); color: #000; }
+.lighten .shade::-webkit-input-placeholder { color: #000; }
+.lighten .shade::-moz-placeholder { color: #000; }
+
 .hide { display: none; }
 
 button:hover,
