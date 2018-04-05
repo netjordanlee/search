@@ -58,17 +58,20 @@ a:link {
     opacity: 1;
     -webkit-transition: opacity .15s ease-out;
     transition: opacity .15s ease-out;
-    text-decoration: none
+    text-decoration: none;
+	color: inherit;
 }
 
 a:hover {
     opacity: .5;
     -webkit-transition: opacity .15s ease-out;
-    transition: opacity .15s ease-out
+    transition: opacity .15s ease-out;
+	color: inherit;
 }
 
 a:active {
     opacity: .7;
     -webkit-transition: opacity .15s ease-out;
-    transition: opacity .15s ease-out
+    transition: opacity .15s ease-out;
+	color: inherit;
 }
