@@ -26,7 +26,7 @@ html {
 }
 
 body {
-    font-family: avenir, 'avenir next', helvetica, arial, sans-serif;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     margin: auto;
     overflow-y: scroll;
     animation: load-fade-in 0.5s linear 0s 1 normal;
