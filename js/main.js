@@ -20,7 +20,7 @@ function scrollToTop() {
 		scrollAnimation=setTimeout('scrollToTop()',3);
 	}
 	else clearTimeout(scrollAnimation);
-}
+}();
 
 window.addEventListener("load", function(evt) {
 
