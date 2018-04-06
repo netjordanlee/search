@@ -249,7 +249,7 @@ select.page-navigation::-ms-expand { display: none; }
 
 .content {
     position: relative;
-    top: 96px;
+    top: 6em;
     z-index: 2;
     width: 90%;
     margin: auto;
