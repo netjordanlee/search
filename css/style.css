@@ -81,13 +81,13 @@ table {
 
 /* General */
 
-.darken .shade { background: rgba(0, 0, 0, 0.333); color: inherit; }
-.darken .shade::-webkit-input-placeholder { color: inherit; }
-.darken .shade::-moz-placeholder { color: inherit; }
+.darken .shade { background: rgba(0, 0, 0, 0.333); color: #fff; }
+.darken .shade::-webkit-input-placeholder { color: #fff; }
+.darken .shade::-moz-placeholder { color: #fff; }
 
-.lighten .shade { background: rgba(255, 255, 255, 0.666); color: inherit; }
-.lighten .shade::-webkit-input-placeholder { color: inherit; }
-.lighten .shade::-moz-placeholder { color: inherit; }
+.lighten .shade { background: rgba(255, 255, 255, 0.666); color: #000; }
+.lighten .shade::-webkit-input-placeholder { color: #000; }
+.lighten .shade::-moz-placeholder { color: #000; }
 
 .hide { display: none; }
 
@@ -214,23 +214,26 @@ select.page-navigation {
 
 select.page-navigation::-ms-expand { display: none; }
 
+.lighten button.page-navigation,
+.lighten select.page-navigation { background: rgba(255, 255, 255, 0.333); color: #000; }
+
 .darken button.page-navigation,
-.darken select.page-navigation { background: rgba(0, 0, 0, 0.666); color: inherit; }
+.darken select.page-navigation { background: rgba(0, 0, 0, 0.666); color: #fff; }
 
 .lighten button.page-navigation:disabled,
-.lighten select.page-navigation:disabled { background: rgba(0, 0, 0, 0.666); color: inherit; }
+.lighten select.page-navigation:disabled { background: rgba(0, 0, 0, 0.666); color: #000; }
 
 .darken button.page-navigation:disabled,
-.darken select.page-navigation:disabled { background: rgba(255, 255, 255, 0.333); color: inherit; }
+.darken select.page-navigation:disabled { background: rgba(255, 255, 255, 0.333); color: #fff; }
 
 /* Body */
 
 .page {
 	margin: auto;
-    width: 100%;
+	width: 100%;
 	min-height: 100%;
 	background-color: inherit;
-  color: inherit;
+	color: inherit;
 }
 
 .output {
