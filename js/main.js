@@ -13,6 +13,15 @@ scrollManager.lock = function(timer){
 	scrollManager.locked=true;
 };
 
+function scrollToTop() {
+	var position = document.body.scrollTop || document.documentElement.scrollTop;
+	if (position){
+		window.scrollBy(0,-Math.max(3, Math.floor(position / 16)));
+		scrollAnimation=setTimeout('scrollToTop()',3);
+	}
+	else clearTimeout(scrollAnimation);
+}
+
 window.addEventListener("load", function(evt) {
 
 	document.querySelector('.version').innerHTML = 'v' + appVersion; // Dynamically updates footer version
@@ -26,7 +35,8 @@ window.addEventListener("load", function(evt) {
 
 		ui.search.focus();
 		ui.search.show();
-		window.scrollTo(0,0);
+		// window.scrollTo(0,0);
+		scrollToTop();
 	});
 
 	document.addEventListener("keyup", function(evt) {
@@ -447,7 +457,8 @@ ui.search.clear = function () {
 	ui.search.onClear.dispatch();
 	ui.search.onUpdate.dispatch(ui.search.value);
 	// ui.search.submit;
-  window.scrollTo(0,0);
+	// window.scrollTo(0,0);
+	scrollToTop();
 };
 
 ui.search.show = function () {
@@ -500,7 +511,8 @@ ui.results.show = function (page) {
 	if(typeof page === "undefined") page = 0;
 	page = parseInt(page);
 
-	window.scrollTo(0,0);
+	// window.scrollTo(0,0);
+	scrollToTop();
 	ui.results.clear();
 
 	var totalPages = Math.ceil(db.query.results.length / config.ui.results_per_page) - 1;
