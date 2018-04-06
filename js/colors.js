@@ -15,7 +15,6 @@
 		'bg-lime lighten',
 		'bg-maroon darken',
 		'bg-maroon lighten',
-		'bg-navy darken',
 		'bg-navy lighten',
 		'bg-olive darken',
 		'bg-olive lighten',
