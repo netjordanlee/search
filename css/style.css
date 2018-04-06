@@ -43,6 +43,27 @@ body {
                                   supported by Chrome and Opera */
 }
 
+a,
+a:link,
+a:visited { color: inherit; }
+
+a:link {
+    opacity: 1;
+    -webkit-transition: opacity .15s ease-out;
+    transition: opacity .15s ease-out;
+    text-decoration: none
+}
+a:hover {
+    opacity: .5;
+    -webkit-transition: opacity .15s ease-out;
+    transition: opacity .15s ease-out
+}
+a:active {
+    opacity: .7;
+    -webkit-transition: opacity .15s ease-out;
+    transition: opacity .15s ease-out
+}
+
 template { display: none !important; } /*Really important*/
 template * { display: none !important; } /* IE smh */
 
