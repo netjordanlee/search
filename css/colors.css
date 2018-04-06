@@ -54,6 +54,10 @@ article, code, div, fieldset, footer, form, header, input[type=url], input[type=
     box-sizing: border-box
 }*/
 
+a,
+a:link,
+a:visited { color: inherit; }
+
 a:link {
     opacity: 1;
     -webkit-transition: opacity .15s ease-out;
