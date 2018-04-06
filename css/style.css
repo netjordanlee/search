@@ -329,7 +329,7 @@ h3.footer {
 	text-transform: uppercase;
 	letter-spacing: .2em;
 	margin-bottom: 0;
-	padding-left: .5rem;
+/* 	padding-left: .5rem; */
 }
 
 ul.tools-list {
@@ -337,7 +337,8 @@ ul.tools-list {
 	margin: 0;
 	padding: 0 0 32px 0;
 	list-style: none;
-	border-bottom: solid 1px darkgray;
+/* 	border-bottom: solid 1px darkgray; */
+	border-bottom: solid 1px rgba(255, 255, 255, 0.333);
 }
 
 li.tools-list {
@@ -419,7 +420,7 @@ a.sign-off {
 /* Result Cards */
 .result-card {
 	margin: 0 0 2em 0;
-  padding: 1em;
+	padding: 1em;
 }
 .result-card > .rows > div {
 	overflow: hidden;
@@ -436,7 +437,7 @@ a.sign-off {
 	position: relative; top: -200px;
 }
 .extra-items {
-  display: inline-block;
+	display: inline-block;
 	padding: 1.333em 0 0 0;
 }
 .extra-item {
@@ -444,7 +445,7 @@ a.sign-off {
     float: left;
     user-select: none;
     cursor: pointer;
-    padding: 0.3em .6em 0.3em .6em;
+	padding: 0.3em .6em 0.3em .6em;
     white-space: nowrap;
 }
 .search-description::before {
