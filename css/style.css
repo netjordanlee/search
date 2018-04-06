@@ -222,7 +222,7 @@ select.page-navigation {
 select.page-navigation::-ms-expand { display: none; }
 
 .lighten button.page-navigation,
-.lighten select.page-navigation { background: rgba(255, 255, 255, 0.666); color: #000; }
+.lighten select.page-navigation { background: rgba(255, 255, 255, 0.888); color: #000; }
 
 .lighten button.page-navigation:disabled,
 .lighten select.page-navigation:disabled { background: rgba(255, 255, 255, 0.333); color: #000; }
