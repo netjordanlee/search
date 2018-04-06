@@ -320,7 +320,7 @@ div.footer {
 h2.footer {
 	font-size: 1.25rem;
 	font-weight: 100;
-	margin-top: 32px;
+	margin-top: 64px;
 	margin-bottom: 0;
 }
 
@@ -351,7 +351,7 @@ li.tools-list {
 a.tools-list {
 	font-size: 1.75rem;
 	font-weight: 700;
-	padding: .5rem;
+	padding: 0 .5rem 0 0;
 }
 
 .version {
