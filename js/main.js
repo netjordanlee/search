@@ -14,13 +14,14 @@ scrollManager.lock = function(timer){
 };
 
 function scrollToTop() {
+	var scrollAnimation
 	var position = document.body.scrollTop || document.documentElement.scrollTop;
 	if (position){
 		window.scrollBy(0,-Math.max(3, Math.floor(position / 16)));
 		scrollAnimation=setTimeout('scrollToTop()',3);
 	}
 	else clearTimeout(scrollAnimation);
-}();
+};
 
 window.addEventListener("load", function(evt) {
 
