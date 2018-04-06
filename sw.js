@@ -1,4 +1,4 @@
-var version = 'v20180406.10'
+var version = 'v20180406.11'
 
 self.addEventListener('install', e => {
   e.waitUntil(
