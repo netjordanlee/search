@@ -9,6 +9,10 @@
     border-radius: 0;
 }
 
+/* hide scrollbars */
+::-webkit-scrollbar { width: 0 !important; display: none; }
+html { -ms-overflow-style: none; overflow: -moz-scrollbars-none; }
+
 html, body, div, article, section, main, footer, header, form, fieldset,
 pre, code, p, ul, ol, li, dl, dt, dd, textarea, input, input[type="email"],
 input[type="number"], input[type="password"], input[type="tel"],
