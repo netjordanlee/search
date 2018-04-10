@@ -1,0 +1,433 @@
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Flat UI Palette v1
+// By: Flat UI Colors
+// From: 
+// https://flatuicolors.com/palette/defo
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-v1-01 { background-color: #1ABC9C; } /* TURQUOISE */
+.fuic-v1-02 { background-color: #2ECC71; } /* EMERALD */
+.fuic-v1-03 { background-color: #3498DB; } /* PETER RIVER */
+.fuic-v1-04 { background-color: #9B59B6; } /* AMETHYST */
+.fuic-v1-05 { background-color: #34495E; } /* WET ASPHALT */
+
+.fuic-v1-06 { background-color: #16A085; } /* GREEN SEA */
+.fuic-v1-07 { background-color: #27AE60; } /* NEPHRITIS */
+.fuic-v1-08 { background-color: #2980B9; } /* BELIZE HOLE */
+.fuic-v1-09 { background-color: #8E44AD; } /* WISTERIA */
+.fuic-v1-10 { background-color: #2C3E50; } /* MIDNIGHT BLUE */
+
+.fuic-v1-11 { background-color: #F1C40F; } /* SUN FLOWER */
+.fuic-v1-12 { background-color: #E67E22; } /* CARROT */
+.fuic-v1-13 { background-color: #E74C3C; } /* ALIZARIN */
+.fuic-v1-14 { background-color: #ECF0F1; } /* CLOUDS */
+.fuic-v1-15 { background-color: #95A5A6; } /* CONCRETE */
+
+.fuic-v1-16 { background-color: #F39C12; } /* ORANGE */
+.fuic-v1-17 { background-color: #D35400; } /* PUMPKIN */
+.fuic-v1-18 { background-color: #C0392B; } /* POMEGRANATE */
+.fuic-v1-19 { background-color: #BDC3C7; } /* SILVER */
+.fuic-v1-20 { background-color: #7F8C8D; } /* ASBESTOS */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// American Palette
+// By: Kevin Yang
+// From: US
+// https://flatuicolors.com/palette/us
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-us-01 { background-color: #55EFC4; } /* Light Greenish Blue */
+.fuic-us-02 { background-color: #81ECEC; } /* Faded Poster */
+.fuic-us-03 { background-color: #74B9FF; } /* Green Darner Tail */
+.fuic-us-04 { background-color: #A29BFE; } /* Shy Moment */
+.fuic-us-05 { background-color: #DFE6E9; } /* City Lights */
+
+.fuic-us-06 { background-color: #00B894; } /* Mint Leaf */
+.fuic-us-07 { background-color: #00CEC9; } /* Robin's Egg Blue */
+.fuic-us-08 { background-color: #0984E3; } /* Electron Blue */
+.fuic-us-09 { background-color: #6C5CE7; } /* Exodus Fruit */
+.fuic-us-10 { background-color: #B2BEC3; } /* Soothing Breeze */
+
+.fuic-us-11 { background-color: #FFEAA7; } /* Sour Lemon */
+.fuic-us-12 { background-color: #FAB1A0; } /* First Date */
+.fuic-us-13 { background-color: #FF7675; } /* Pink Glamour */
+.fuic-us-14 { background-color: #FD79A8; } /* Pico-8 Pink */
+.fuic-us-15 { background-color: #636E72; } /* American River */
+
+.fuic-us-16 { background-color: #FDCB6E; } /* Bright Yarrow */
+.fuic-us-17 { background-color: #E17055; } /* Orangeville */
+.fuic-us-18 { background-color: #D63031; } /* Chi-Gong */
+.fuic-us-19 { background-color: #E84393; } /* Prunus Avium */
+.fuic-us-20 { background-color: #2D3436; } /* Dracula Orchid */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Aussie Palette
+// By: Kate Hoolahan
+// From: AU
+// https://flatuicolors.com/palette/au
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-au-01 { background-color: #F6E58D; } /* Beekeeper */
+.fuic-au-02 { background-color: #FFBE76; } /* Spiced Nectarine */
+.fuic-au-03 { background-color: #FF7979; } /* Pink Glamour */
+.fuic-au-04 { background-color: #BADC58; } /* June Bud */
+.fuic-au-05 { background-color: #DFF9FB; } /* Coastal Breeze */
+
+.fuic-au-06 { background-color: #F9CA24; } /* Turbo */
+.fuic-au-07 { background-color: #F0932B; } /* Quince Jelly */
+.fuic-au-08 { background-color: #EB4D4B; } /* Carmine Pink */
+.fuic-au-09 { background-color: #6AB04C; } /* Pure Apple */
+.fuic-au-10 { background-color: #C7ECEE; } /* Hint of Ice Pack */
+
+.fuic-au-11 { background-color: #7ED6DF; } /* Middle Blue */
+.fuic-au-12 { background-color: #E056FD; } /* Heliotrope */
+.fuic-au-13 { background-color: #686DE0; } /* Exodus Fruit */
+.fuic-au-14 { background-color: #30336B; } /* Deep Koamaru */
+.fuic-au-15 { background-color: #95AFC0; } /* Soaring Eagle */
+
+.fuic-au-16 { background-color: #22A6B3; } /* Greenland Green */
+.fuic-au-17 { background-color: #BE2EDD; } /* Steel Pink */
+.fuic-au-18 { background-color: #4834D4; } /* Blurple */
+.fuic-au-19 { background-color: #130F40; } /* Deep Cove */
+.fuic-au-20 { background-color: #535C68; } /* Wizard Grey */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// British Palette
+// By: Jan Losert
+// From: GB
+// https://flatuicolors.com/palette/gb
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-gb-01 { background-color: #00A8FF; } /* Protoss Pylon */
+.fuic-gb-02 { background-color: #9C88FF; } /* Periwinkle */
+.fuic-gb-03 { background-color: #FBC531; } /* Rise-N-Shine */
+.fuic-gb-04 { background-color: #4CD137; } /* Download Progress */
+.fuic-gb-05 { background-color: #487EB0; } /* Seabrook */
+
+.fuic-gb-06 { background-color: #0097E6; } /* Vanadyl Blue */
+.fuic-gb-07 { background-color: #8C7AE6; } /* Matt Purple */
+.fuic-gb-08 { background-color: #E1B12C; } /* Nanohanacha Gold */
+.fuic-gb-09 { background-color: #44BD32; } /* Skirret Green */
+.fuic-gb-10 { background-color: #40739E; } /* Naval */
+
+.fuic-gb-11 { background-color: #E84118; } /* Nasturcian Flower */
+.fuic-gb-12 { background-color: #F5F6FA; } /* Lynx White */
+.fuic-gb-13 { background-color: #7F8FA6; } /* Blueberry Soda */
+.fuic-gb-14 { background-color: #273C75; } /* Mazarine Blue */
+.fuic-gb-15 { background-color: #353B48; } /* Blue Nights */
+
+.fuic-gb-16 { background-color: #C23616; } /* Harley Davidson Orange */
+.fuic-gb-17 { background-color: #DCDDE1; } /* Hint of Pensive */
+.fuic-gb-18 { background-color: #718093; } /* Chain Gang Grey */
+.fuic-gb-19 { background-color: #192A56; } /* Pico Void */
+.fuic-gb-20 { background-color: #2F3640; } /* Electromagnetic */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Canadian Palette
+// By: Dmitri Litvinov
+// From: CA
+// https://flatuicolors.com/palette/ca
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-ca-01 { background-color: #FF9FF3; } /* Jigglypuff */
+.fuic-ca-02 { background-color: #FECA57; } /* Casandora Yellow */
+.fuic-ca-03 { background-color: #FF6B6B; } /* Pastel Red */
+.fuic-ca-04 { background-color: #48DBFB; } /* Megaman */
+.fuic-ca-05 { background-color: #1DD1A1; } /* Wild Caribbean Green */
+
+.fuic-ca-06 { background-color: #F368E0; } /* Lián Hóng Lotus Pink */
+.fuic-ca-07 { background-color: #FF9F43; } /* Double Dragon Skin */
+.fuic-ca-08 { background-color: #EE5253; } /* Amour */
+.fuic-ca-09 { background-color: #0ABDE3; } /* Cyanite */
+.fuic-ca-10 { background-color: #10AC84; } /* Dark Mountain Meadow */
+
+.fuic-ca-11 { background-color: #00D2D3; } /* Jade Dust */
+.fuic-ca-12 { background-color: #54A0FF; } /* Joust Blue */
+.fuic-ca-13 { background-color: #5F27CD; } /* Nasu Purple */
+.fuic-ca-14 { background-color: #C8D6E5; } /* Light Blue Ballerina */
+.fuic-ca-15 { background-color: #576574; } /* Fuel Town */
+
+.fuic-ca-16 { background-color: #01A3A4; } /* Aqua Velvet */
+.fuic-ca-17 { background-color: #2E86DE; } /* Bleu De France */
+.fuic-ca-18 { background-color: #341F97; } /* Bluebell */
+.fuic-ca-19 { background-color: #8395A7; } /* Storm Petrel */
+.fuic-ca-20 { background-color: #222F3E; } /* Imperial Primer */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Chinese Palette
+// By: Wenjun
+// From: CN
+// https://flatuicolors.com/palette/cn
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-cn-01 { background-color: #ECCC68; } /* Golden Sand */
+.fuic-cn-02 { background-color: #FF7F50; } /* Coral */
+.fuic-cn-03 { background-color: #FF6B81; } /* Wild Watermelon */
+.fuic-cn-04 { background-color: #A4B0BE; } /* Peace */
+.fuic-cn-05 { background-color: #57606F; } /* Grisaille */
+
+.fuic-cn-06 { background-color: #FFA502; } /* Orange */
+.fuic-cn-07 { background-color: #FF6348; } /* Bruschetta Tomato */
+.fuic-cn-08 { background-color: #FF4757; } /* Watermelon */
+.fuic-cn-09 { background-color: #747D8C; } /* Bay Wharf */
+.fuic-cn-10 { background-color: #2F3542; } /* Prestige Blue */
+
+.fuic-cn-11 { background-color: #7BED9F; } /* Lime Soap */
+.fuic-cn-12 { background-color: #70A1FF; } /* French Sky Blue */
+.fuic-cn-13 { background-color: #5352ED; } /* Saturated Sky */
+.fuic-cn-14 { background-color: #FFFFFF; } /* White */
+.fuic-cn-15 { background-color: #DFE4EA; } /* City Lights */
+
+.fuic-cn-16 { background-color: #2ED573; } /* UFO Green */
+.fuic-cn-17 { background-color: #1E90FF; } /* Clear Chill */
+.fuic-cn-18 { background-color: #3742FA; } /* Bright Greek */
+.fuic-cn-19 { background-color: #F1F2F6; } /* Anti-Flash White */
+.fuic-cn-20 { background-color: #CED6E0; } /* Twinkle Blue */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Dutch Palette
+// By: Jeroen Van Eerden
+// From: NL
+// https://flatuicolors.com/palette/nl
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-nl-01 { background-color: #FFC312; } /* Sunflower */
+.fuic-nl-02 { background-color: #C4E538; } /* Energos */
+.fuic-nl-03 { background-color: #12CBC4; } /* Blue Martina */
+.fuic-nl-04 { background-color: #FDA7DF; } /* Lavender Rose */
+.fuic-nl-05 { background-color: #ED4C67; } /* Bara Red */
+
+.fuic-nl-06 { background-color: #F79F1F; } /* Radiant Yellow */
+.fuic-nl-07 { background-color: #A3CB38; } /* Android Green */
+.fuic-nl-08 { background-color: #1289A7; } /* Mediterranean Sea */
+.fuic-nl-09 { background-color: #D980FA; } /* Lavender Tea */
+.fuic-nl-10 { background-color: #B53471; } /* Very Berry */
+
+.fuic-nl-11 { background-color: #EE5A24; } /* Puffins Bill */
+.fuic-nl-12 { background-color: #009432; } /* Pixelated Grass */
+.fuic-nl-13 { background-color: #0652DD; } /* Merchant Marine Blue */
+.fuic-nl-14 { background-color: #9980FA; } /* Forgotten Purple */
+.fuic-nl-15 { background-color: #833471; } /* Hollyhock */
+
+.fuic-nl-16 { background-color: #EA2027; } /* Red Pigment */
+.fuic-nl-17 { background-color: #006266; } /* Turkish Aqua */
+.fuic-nl-18 { background-color: #1B1464; } /* 20000 Leagues Under the Sea */
+.fuic-nl-19 { background-color: #5758BB; } /* Circumorbital Ring */
+.fuic-nl-20 { background-color: #6F1E51; } /* Magenta Purple */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// French Palette
+// By: Léa Poisson
+// From: FR
+// https://flatuicolors.com/palette/fr
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-fr-01 { background-color: #FAD390; } /* Flat Flesh */
+.fuic-fr-02 { background-color: #F8C291; } /* Melon Melody */
+.fuic-fr-03 { background-color: #6A89CC; } /* Livid */
+.fuic-fr-04 { background-color: #82CCDD; } /* Spray */
+.fuic-fr-05 { background-color: #B8E994; } /* Paradise Green */
+
+.fuic-fr-06 { background-color: #F6B93B; } /* Squash Blossom */
+.fuic-fr-07 { background-color: #E55039; } /* Mandarin Red */
+.fuic-fr-08 { background-color: #4A69BD; } /* Azraq Blue */
+.fuic-fr-09 { background-color: #60A3BC; } /* Dupain */
+.fuic-fr-10 { background-color: #78E08F; } /* Aurora Green */
+
+.fuic-fr-11 { background-color: #FA983A; } /* Iceland Poppy */
+.fuic-fr-12 { background-color: #EB2F06; } /* Tomato Red */
+.fuic-fr-13 { background-color: #1E3799; } /* Yuè Guāng Lán Blue */
+.fuic-fr-14 { background-color: #3C6382; } /* Good Samaritan */
+.fuic-fr-15 { background-color: #38ADA9; } /* Waterfall */
+
+.fuic-fr-16 { background-color: #E58E26; } /* Carrot Orange */
+.fuic-fr-17 { background-color: #B71540; } /* Jalapeno Red */
+.fuic-fr-18 { background-color: #0C2461; } /* Dark Sapphire */
+.fuic-fr-19 { background-color: #0A3D62; } /* Forest Blues */
+.fuic-fr-20 { background-color: #079992; } /* Reef Encounter */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// German Palette
+// By: Martin David
+// From: DE
+// https://flatuicolors.com/palette/de
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-de-01 { background-color: #FC5C65; } /* Fusion Red */
+.fuic-de-02 { background-color: #FD9644; } /* Orange Hibiscus */
+.fuic-de-03 { background-color: #FED330; } /* Flirtatious */
+.fuic-de-04 { background-color: #26DE81; } /* Reptile Green */
+.fuic-de-05 { background-color: #2BCBBA; } /* Maximum Blue Green */
+
+.fuic-de-06 { background-color: #EB3B5A; } /* Desire */
+.fuic-de-07 { background-color: #FA8231; } /* Beniukon Bronze */
+.fuic-de-08 { background-color: #F7B731; } /* NYC Taxi */
+.fuic-de-09 { background-color: #20BF6B; } /* Algal Fuel */
+.fuic-de-10 { background-color: #0FB9B1; } /* Turquoise Topaz */
+
+.fuic-de-11 { background-color: #45AAF2; } /* High Blue */
+.fuic-de-12 { background-color: #4B7BEC; } /* C64 NTSC */
+.fuic-de-13 { background-color: #A55EEA; } /* Lighter Purple */
+.fuic-de-14 { background-color: #D1D8E0; } /* Twinkle Blue */
+.fuic-de-15 { background-color: #778CA3; } /* Blue Grey */
+
+.fuic-de-16 { background-color: #2D98DA; } /* Boyzone */
+.fuic-de-17 { background-color: #3867D6; } /* Royal Blue */
+.fuic-de-18 { background-color: #8854D0; } /* Gloomy Purple */
+.fuic-de-19 { background-color: #A5B1C2; } /* Innuendo */
+.fuic-de-20 { background-color: #4B6584; } /* Blue Horizon */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Indian Palette
+// By: Ranganath Krishnamani
+// From: IN
+// https://flatuicolors.com/palette/in
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-in-01 { background-color: #FEA47F; } /* Orchid Orange */
+.fuic-in-02 { background-color: #25CCF7; } /* Spiro Disco Ball */
+.fuic-in-03 { background-color: #EAB543; } /* Honey Glow */
+.fuic-in-04 { background-color: #55E6C1; } /* Sweet Garden */
+.fuic-in-05 { background-color: #CAD3C8; } /* Falling Star */
+
+.fuic-in-06 { background-color: #F97F51; } /* Rich Gardenia */
+.fuic-in-07 { background-color: #1B9CFC; } /* Clear Chill */
+.fuic-in-08 { background-color: #F8EFBA; } /* Sarawak White Pepper */
+.fuic-in-09 { background-color: #58B19F; } /* Keppel */
+.fuic-in-10 { background-color: #2C3A47; } /* Ship's Officer */
+
+.fuic-in-11 { background-color: #B33771; } /* Fiery Fuchsia */
+.fuic-in-12 { background-color: #3B3B98; } /* Bluebell */
+.fuic-in-13 { background-color: #FD7272; } /* Georgia Peach */
+.fuic-in-14 { background-color: #9AECDB; } /* Oasis Stream */
+.fuic-in-15 { background-color: #D6A2E8; } /* Bright Ube */
+
+.fuic-in-16 { background-color: #6D214F; } /* Magenta Purple */
+.fuic-in-17 { background-color: #182C61; } /* Ending Navy Blue */
+.fuic-in-18 { background-color: #FC427B; } /* Sasquatch Socks */
+.fuic-in-19 { background-color: #BDC581; } /* Pine Glade */
+.fuic-in-20 { background-color: #82589F; } /* Highlighter Lavender */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Russian Palette
+// By: Alexander Zaytsev
+// From: RU
+// https://flatuicolors.com/palette/ru
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-ru-01 { background-color: #F3A683; } /* Creamy Peach */
+.fuic-ru-02 { background-color: #F7D794; } /* Rosy Highlight */
+.fuic-ru-03 { background-color: #778BEB; } /* Soft Blue */
+.fuic-ru-04 { background-color: #E77F67; } /* Brewed Mustard */
+.fuic-ru-05 { background-color: #CF6A87; } /* Old Geranium */
+
+.fuic-ru-06 { background-color: #F19066; } /* Sawtooth Aak */
+.fuic-ru-07 { background-color: #F5CD79; } /* Summertime */
+.fuic-ru-08 { background-color: #546DE5; } /* Cornflower */
+.fuic-ru-09 { background-color: #E15F41; } /* Tigerlily */
+.fuic-ru-10 { background-color: #C44569; } /* Deep Rose */
+
+.fuic-ru-11 { background-color: #786FA6; } /* Purple Mountain Majesty */
+.fuic-ru-12 { background-color: #F8A5C2; } /* Rogue Pink */
+.fuic-ru-13 { background-color: #63CDDA; } /* Squeaky */
+.fuic-ru-14 { background-color: #EA8685; } /* Apple Valley */
+.fuic-ru-15 { background-color: #596275; } /* Pencil Lead */
+
+.fuic-ru-16 { background-color: #574B90; } /* Purple Corallite */
+.fuic-ru-17 { background-color: #F78FB3; } /* Flamingo Pink */
+.fuic-ru-18 { background-color: #3DC1D3; } /* Blue Curacao */
+.fuic-ru-19 { background-color: #E66767; } /* Porcelain Rose */
+.fuic-ru-20 { background-color: #303952; } /* Biscay */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Spanish Palette
+// By: Miguel Camacho
+// From: ES
+// https://flatuicolors.com/palette/es
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-es-01 { background-color: #40407A; } /* Jacksons Purple */
+.fuic-es-02 { background-color: #706FD3; } /* C64 Purple */
+.fuic-es-03 { background-color: #F7F1E3; } /* Swan White */
+.fuic-es-04 { background-color: #34ACE0; } /* Summer Sky */
+.fuic-es-05 { background-color: #33D9B2; } /* Celestial Green */
+
+.fuic-es-06 { background-color: #2C2C54; } /* Lucky Point */
+.fuic-es-07 { background-color: #474787; } /* Liberty */
+.fuic-es-08 { background-color: #AAA69D; } /* Hot Stone */
+.fuic-es-09 { background-color: #227093; } /* Devil Blue */
+.fuic-es-10 { background-color: #218C74; } /* Palm Springs Splash */
+
+.fuic-es-11 { background-color: #FF5252; } /* Fluorescent Red */
+.fuic-es-12 { background-color: #FF793F; } /* Synthetic Pumpkin */
+.fuic-es-13 { background-color: #D1CCC0; } /* Crocodile Tooth */
+.fuic-es-14 { background-color: #FFB142; } /* Mandarin Sorbet */
+.fuic-es-15 { background-color: #FFDA79; } /* Spiced Butternut */
+
+.fuic-es-16 { background-color: #B33939; } /* Eye Of Newt */
+.fuic-es-17 { background-color: #CD6133; } /* Chilean Fire */
+.fuic-es-18 { background-color: #84817A; } /* Grey Porcelain */
+.fuic-es-19 { background-color: #CC8E35; } /* Alameda Ochre */
+.fuic-es-20 { background-color: #CCAE62; } /* Desert */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Swedish Palette
+// By: Jesper Dahlqvist
+// From: SE
+// https://flatuicolors.com/palette/se
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-se-01 { background-color: #EF5777; } /* Highlighter Pink */
+.fuic-se-02 { background-color: #575FCF; } /* Dark Periwinkle */
+.fuic-se-03 { background-color: #4BCFFA; } /* Megaman */
+.fuic-se-04 { background-color: #34E7E4; } /* Fresh Turquoise */
+.fuic-se-05 { background-color: #0BE881; } /* Minty Green */
+
+.fuic-se-06 { background-color: #F53B57; } /* Sizzling Red */
+.fuic-se-07 { background-color: #3C40C6; } /* Free Speech Blue */
+.fuic-se-08 { background-color: #0FBCF9; } /* Spiro Disco Ball */
+.fuic-se-09 { background-color: #00D8D6; } /* Jade Dust */
+.fuic-se-10 { background-color: #05C46B; } /* Green Teal */
+
+.fuic-se-11 { background-color: #FFC048; } /* Nârenji Orange */
+.fuic-se-12 { background-color: #FFDD59; } /* Yriel Yellow */
+.fuic-se-13 { background-color: #FF5E57; } /* Sunset Orange */
+.fuic-se-14 { background-color: #D2DAE2; } /* Hint of Elusive Blue */
+.fuic-se-15 { background-color: #485460; } /* Good Night! */
+
+.fuic-se-16 { background-color: #FFA801; } /* Chrome Yellow */
+.fuic-se-17 { background-color: #FFD32A; } /* Vibrant Yellow */
+.fuic-se-18 { background-color: #FF3F34; } /* Red Orange */
+.fuic-se-19 { background-color: #808E9B; } /* London Square */
+.fuic-se-20 { background-color: #1E272E; } /* Black Pearl */
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+// Turkish Palette
+// By: Tamer Köseli
+// From: TR
+// https://flatuicolors.com/palette/tr
+// //////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.fuic-tr-01 { background-color: #CD84F1; } /* Bright Lilac */
+.fuic-tr-02 { background-color: #FFCCCC; } /* Pretty Please */
+.fuic-tr-03 { background-color: #FF4D4D; } /* Light Red */
+.fuic-tr-04 { background-color: #FFAF40; } /* Mandarin Sorbet */
+.fuic-tr-05 { background-color: #FFFA65; } /* Unmellow Yellow */
+
+.fuic-tr-06 { background-color: #C56CF0; } /* Light Purple */
+.fuic-tr-07 { background-color: #FFB8B8; } /* Young Salmon */
+.fuic-tr-08 { background-color: #FF3838; } /* Red Orange */
+.fuic-tr-09 { background-color: #FF9F1A; } /* Radiant Yellow */
+.fuic-tr-10 { background-color: #FFF200; } /* Dorn Yellow */
+
+.fuic-tr-11 { background-color: #32FF7E; } /* Wintergreen */
+.fuic-tr-12 { background-color: #7EFFF5; } /* Electric Blue */
+.fuic-tr-13 { background-color: #18DCFF; } /* Neon Blue */
+.fuic-tr-14 { background-color: #7D5FFF; } /* Light Slate Blue */
+.fuic-tr-15 { background-color: #4B4B4B; } /* Shadowed Steel */
+
+.fuic-tr-16 { background-color: #3AE374; } /* Weird Green */
+.fuic-tr-17 { background-color: #67E6DC; } /* Hammam Blue */
+.fuic-tr-18 { background-color: #17C0EB; } /* Spiro Disco Ball */
+.fuic-tr-19 { background-color: #7158E2; } /* Light Indigo */
+.fuic-tr-20 { background-color: #3D3D3D; } /* Baltic Sea */
