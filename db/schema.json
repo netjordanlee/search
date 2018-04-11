@@ -20,7 +20,7 @@
       "dataname" : "LocationCode",
       "visible" : true,
       "weight" : 1,
-      "title" : "Location Code",
+      "title" : "Code",
       "position": 2
     },
     {
