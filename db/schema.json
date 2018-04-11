@@ -40,7 +40,7 @@
       "dataname" : "PhoneNumber",
       "visible" : true,
       "weight" : 1,
-      "title" : "Phone Number"
+      "title" : "Contacts"
     },
     {
       "dataname" : "Sector",
