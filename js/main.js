@@ -360,7 +360,7 @@ ui.nav = {
 };
 
 ui.nav.update = function () {
-	if(ui.results.page == null || ui.results.last_page == null || db.query.results.length == 0) {
+	if(ui.results.page == null || ui.results.last_page == null || ui.results.last_page <= 1 || db.query.results.length == 0) {
 		ui.nav.pages.clear();
 		ui.nav.pages.disabled = true;
 		ui.nav.btn_prev.disabled = true;
