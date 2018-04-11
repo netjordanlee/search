@@ -497,6 +497,9 @@ ui.search.btn_clear.addEventListener("click", function(evt){
 	ui.results.clear();
 	ui.search.clear();
 	ui.search.focus();
+	
+	evt.preventDefault();
+	return false;
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
