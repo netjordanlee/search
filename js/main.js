@@ -769,6 +769,15 @@ db.query = function(query) {
 
 	db.query.results = [];
 	var keyword = [query.trim()];
+
+	var rx = new RegExp(/\"([^"]*)\"+/g);
+	var m;
+	while((m = rx.exec(query))) {
+		if(m[1].length > 0) {
+			keyword.push(m[1]);
+		}
+	}
+	query.replace(rx, "");
 	keyword = keyword.concat(query.trim().split(' '));
 
 	if(keyword.length == 2) {
@@ -779,7 +788,7 @@ db.query = function(query) {
 	}
 
 	for (var i = 0; i < keyword.length; i++) {
-		if(keyword[i].length==1) {
+		if(keyword[i].length < 2) {
 			keyword.splice(i, 1); // Remove single character keywords for performance
 		}
 	}
